@@ -12,7 +12,7 @@ type Props = {
     cafe: Movie,
 };
 
-export const MovieCard: React.FC<Props> = ({cafe}) => (
+export const CafeCard: React.FC<Props> = ({cafe}) => (
     <Card sx={{maxWidth: 345}}>
         <CardActionArea>
             <CardMedia
