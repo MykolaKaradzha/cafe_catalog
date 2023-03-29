@@ -10,14 +10,14 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import {styled} from '@mui/material';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
 import LocalCafeIcon from '@mui/icons-material/LocalCafe';
+import {useContext} from 'react';
+import {CafeContext} from '../CafeContext';
 
-const pages = ['Home', 'My List', 'Add new'];
-const settings = ['Logout'];
+const settings = ['Logout', 'Home', 'My List'];
 
 const StyledButton = styled(Button)`
   &:active {
@@ -26,11 +26,15 @@ const StyledButton = styled(Button)`
 `
 
 export const Header = () => {
+
+    // @ts-ignore
+    const {drawerWidth, isSidebarOpen, getSideBarStatus} = useContext(CafeContext);
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
-    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElNav(event.currentTarget);
+    const handleDrawerToggle = () => {
+        getSideBarStatus(!isSidebarOpen);
+        console.log('clicked')
     };
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
@@ -45,34 +49,22 @@ export const Header = () => {
     };
 
     return (
-        <AppBar position="sticky" color='secondary' sx={{mb: 2}}>
+        <AppBar
+            position="sticky"
+            color='secondary'
+            sx={{
+                mb: 2,
+                width: {md: `calc(100% - ${drawerWidth}px)`},
+                ml: {md: `${drawerWidth}px`},
+        }}>
             <Toolbar>
-                <LocalCafeIcon sx={{display: {xs: 'none', md: 'flex'}, mx: 2}}/>
-                <Typography
-                    variant="h6"
-                    noWrap
-                    component="a"
-                    href="/"
-                    sx={{
-                        mr: 'auto',
-                        display: {xs: 'none', md: 'flex'},
-                        fontFamily: 'monospace',
-                        fontWeight: 700,
-                        letterSpacing: '.3rem',
-                        color: 'inherit',
-                        textDecoration: 'none',
-                    }}
-                >
-                    MYCAFE
-                </Typography>
-
                 <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
                     <IconButton
                         size="large"
                         aria-label="account of current user"
                         aria-controls="menu-appbar"
                         aria-haspopup="true"
-                        onClick={handleOpenNavMenu}
+                        onClick={handleDrawerToggle}
                         color="inherit"
                     >
                         <MenuIcon/>
@@ -95,12 +87,6 @@ export const Header = () => {
                             display: {xs: 'block', md: 'none'},
                         }}
                     >
-                        {pages.map((page) => (
-                            <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                <Typography
-                                    textAlign="center">{page}</Typography>
-                            </MenuItem>
-                        ))}
                     </Menu>
                 </Box>
                 <LocalCafeIcon sx={{display: {xs: 'flex', md: 'none'}, mr: 1}}/>

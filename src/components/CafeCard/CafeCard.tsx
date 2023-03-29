@@ -13,7 +13,7 @@ type Props = {
 };
 
 export const CafeCard: React.FC<Props> = ({cafe}) => (
-    <Card sx={{maxWidth: 345}}>
+    <Card sx={{minHeight: '100%'}}>
         <CardActionArea>
             <CardMedia
                 component="img"
