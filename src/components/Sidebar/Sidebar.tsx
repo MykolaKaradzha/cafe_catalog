@@ -8,6 +8,7 @@ import LocalCafeIcon from '@mui/icons-material/LocalCafe';
 import {useContext} from 'react';
 import {CafeContext} from '../CafeContext';
 import CancelIcon from '@mui/icons-material/Cancel';
+import {FilterForm} from '../FilterForm/FilterForm';
 
 
 export const Sidebar = () => {
@@ -47,12 +48,12 @@ export const Sidebar = () => {
                 />
             </Toolbar>
             <Divider/>
+            <FilterForm />
         </>
     );
 
     return (
         <Box sx={{display: 'flex'}}>
-                {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
                 <Drawer
                     variant="temporary"
                     open={isSidebarOpen}
@@ -68,7 +69,6 @@ export const Sidebar = () => {
                         },
                     }}
                 >
-
                     {drawer}
                 </Drawer>
                 <Drawer

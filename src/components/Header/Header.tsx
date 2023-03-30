@@ -12,7 +12,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import {styled} from '@mui/material';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
+import FavoriteBorderRoundedIcon
+    from '@mui/icons-material/FavoriteBorderRounded';
 import LocalCafeIcon from '@mui/icons-material/LocalCafe';
 import {useContext} from 'react';
 import {CafeContext} from '../CafeContext';
@@ -56,7 +57,7 @@ export const Header = () => {
                 mb: 2,
                 width: {md: `calc(100% - ${drawerWidth}px)`},
                 ml: {md: `${drawerWidth}px`},
-        }}>
+            }}>
             <Toolbar>
                 <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
                     <IconButton
@@ -108,18 +109,18 @@ export const Header = () => {
                 >
                     MYCAFE
                 </Typography>
-                <Box sx={{display: {xs: 'none', md: 'flex'}}}>
-                        <StyledButton
-                            onClick={handleCloseNavMenu}
-                            sx={{my: 2, color: 'white',}}
-                            startIcon={<HomeRoundedIcon />}
-                        >
-                            Home
-                        </StyledButton>
+                <Box sx={{display: {xs: 'none', md: 'flex'}, ml: 'auto'}}>
                     <StyledButton
                         onClick={handleCloseNavMenu}
                         sx={{my: 2, color: 'white',}}
-                        startIcon={<FavoriteBorderRoundedIcon />}
+                        startIcon={<HomeRoundedIcon/>}
+                    >
+                        Home
+                    </StyledButton>
+                    <StyledButton
+                        onClick={handleCloseNavMenu}
+                        sx={{my: 2, color: 'white',}}
+                        startIcon={<FavoriteBorderRoundedIcon/>}
                     >
                         My List
                     </StyledButton>
@@ -152,7 +153,8 @@ export const Header = () => {
                             <MenuItem key={setting}
                                       onClick={handleCloseUserMenu}>
                                 <Typography
-                                    textAlign="center">{setting}</Typography>
+                                    textAlign="center">{setting}
+                                </Typography>
                             </MenuItem>
                         ))}
                     </Menu>

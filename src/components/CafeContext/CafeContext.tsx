@@ -16,7 +16,7 @@ export const CafeContextProvider = (
 ) => {
     const [cafes, setCafes] = useState<Movie[]>([]);
     const [isSidebarOpen, setSidebarOpen] = useState(false);
-    const drawerWidth = 240;
+    const drawerWidth = 300;
 
     const getSideBarStatus = (status: boolean) => setSidebarOpen(status);
 
