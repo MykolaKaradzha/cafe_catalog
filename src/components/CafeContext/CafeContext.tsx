@@ -1,26 +1,46 @@
 import React, {createContext, useEffect, useState} from 'react';
-import moviesFromServer from '../../api/movies.json'
-import {Movie} from '../../types/Movie';
+import cafesFromServer from '../../api/cafes.json'
+import {Cafe} from '../../types/Cafe';
 
 export type CafeContext = {
-    cafes: Movie[];
+    cafes: Cafe[];
     drawerWidth: number;
     isSidebarOpen: boolean;
+    currentCafe: Cafe | null;
     getSideBarStatus: (status: boolean) => void;
-} | null
+    selectCafe: (cafeID: number) => void;
 
-export const CafeContext = createContext<CafeContext>(null);
+}
+
+export const CafeContext = createContext<CafeContext>({
+    cafes: [],
+    drawerWidth: 0,
+    isSidebarOpen: false,
+    currentCafe: null,
+    getSideBarStatus: () => {},
+    selectCafe: () => {},
+});
 
 export const CafeContextProvider = (
     { children } : { children: React.ReactNode }
 ) => {
-    const [cafes, setCafes] = useState<Movie[]>([]);
+    const [cafes, setCafes] = useState<Cafe[]>([]);
+    const [currentCafe, setCurrentCafe] = useState<Cafe | null>(null);
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const drawerWidth = 300;
 
     const getSideBarStatus = (status: boolean) => setSidebarOpen(status);
+    const selectCafe = (cafeID: number) => {
+        const cafe = cafes.find(cafe => cafeID === cafe.id);
 
-    useEffect( () => setCafes(moviesFromServer), [])
+        if (!cafe) {
+            return
+        }
+
+        setCurrentCafe(cafe);
+    }
+
+    useEffect( () => setCafes(cafesFromServer), [])
 
     return (
         <CafeContext.Provider
@@ -28,7 +48,9 @@ export const CafeContextProvider = (
                 cafes,
                 drawerWidth,
                 isSidebarOpen,
+                currentCafe,
                 getSideBarStatus,
+                selectCafe,
             }}
         >
             { children }

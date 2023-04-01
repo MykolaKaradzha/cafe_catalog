@@ -18,7 +18,7 @@ export const FilterForm: React.FC = () => {
         'alcohol available',
         'coffee available']
     return (
-        <Box sx={{mt: 5}}>
+        <Box sx={{mt: 5, mb: 3}}>
             <Typography
                 textAlign="center"
                 variant="h6"
