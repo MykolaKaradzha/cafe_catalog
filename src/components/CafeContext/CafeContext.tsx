@@ -7,6 +7,7 @@ export type CafeContext = {
     drawerWidth: number;
     isSidebarOpen: boolean;
     currentCafe: Cafe | null;
+    isAuth: boolean;
     getSideBarStatus: (status: boolean) => void;
     selectCafe: (cafeID: number) => void;
 
@@ -17,6 +18,7 @@ export const CafeContext = createContext<CafeContext>({
     drawerWidth: 0,
     isSidebarOpen: false,
     currentCafe: null,
+    isAuth: true,
     getSideBarStatus: () => {},
     selectCafe: () => {},
 });
@@ -27,6 +29,7 @@ export const CafeContextProvider = (
     const [cafes, setCafes] = useState<Cafe[]>([]);
     const [currentCafe, setCurrentCafe] = useState<Cafe | null>(null);
     const [isSidebarOpen, setSidebarOpen] = useState(false);
+    const [isAuth, setAuth] = useState(true)
     const drawerWidth = 300;
 
     const getSideBarStatus = (status: boolean) => setSidebarOpen(status);
@@ -49,6 +52,7 @@ export const CafeContextProvider = (
                 drawerWidth,
                 isSidebarOpen,
                 currentCafe,
+                isAuth,
                 getSideBarStatus,
                 selectCafe,
             }}
