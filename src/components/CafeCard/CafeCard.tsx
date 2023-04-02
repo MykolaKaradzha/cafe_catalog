@@ -20,7 +20,7 @@ type Props = {
 };
 
 export const CafeCard: React.FC<Props> = ({ cafe }) => {
-    const {selectCafe} = useContext(CafeContext);
+    const {selectCafe, isAuth} = useContext(CafeContext);
     const navigate = useNavigate();
 
     const handleDetailButton = () => {
@@ -52,6 +52,7 @@ export const CafeCard: React.FC<Props> = ({ cafe }) => {
                     </Typography>
                     <IconButton
                         color="primary"
+                        disabled={!isAuth}
                     >
                         <FavoriteBorderRoundedIcon/>
                     </IconButton>

@@ -12,7 +12,7 @@ export const FilterForm: React.FC = () => {
         'price',
         'tables',
         'minimum order',
-        'working now',
+        'work now',
         'noise level',
         'vegan friendly',
         'alcohol available',

@@ -12,7 +12,7 @@ export const Catalog: React.FC = () => {
     const {cafes, drawerWidth} = useContext(CafeContext);
     return (
         <>
-            <Header />
+            <Header withSideBar={true}/>
             <Sidebar />
             <Container maxWidth="xl" sx={{pl: {md: 0}}}>
                 <Box sx={{flexGrow: 1}}>

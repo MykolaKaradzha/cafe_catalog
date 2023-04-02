@@ -6,10 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import FavoriteBorderRoundedIcon
     from '@mui/icons-material/FavoriteBorderRounded';
@@ -17,19 +14,21 @@ import LocalCafeIcon from '@mui/icons-material/LocalCafe';
 import {useContext} from 'react';
 import {CafeContext} from '../CafeContext';
 import {Link, useLocation} from "react-router-dom";
-import {HeaderAvatarMenu} from '../HeaderAvatarMenu';
+import {HeaderUserMenu} from '../HeaderUserMenu';
 
-const settings = ['Logout', 'Home', 'My List'];
+type Props = {
+    withSideBar: boolean
+}
 
-
-export const Header = () => {
+export const Header: React.FC<Props> = ({ withSideBar }) => {
     const params = useLocation();
     const currentPath = params.pathname;
 
     const {
         drawerWidth,
         isSidebarOpen,
-        getSideBarStatus
+        getSideBarStatus,
+        isAuth,
     } = useContext(CafeContext);
 
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -58,44 +57,49 @@ export const Header = () => {
             position="sticky"
             sx={{
                 mb: 2,
-                width: {md: `calc(100% - ${drawerWidth}px)`},
-                ml: {md: `${drawerWidth}px`},
+                width: withSideBar ? {md: `calc(100% - ${drawerWidth}px)`} : 'auto',
+                ml: withSideBar ? {md: `${drawerWidth}px`} : 0,
             }}
         >
             <Toolbar>
-                <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
-                    <IconButton
-                        size="large"
-                        aria-label="account of current user"
-                        aria-controls="menu-appbar"
-                        aria-haspopup="true"
-                        onClick={handleDrawerToggle}
-                        color="inherit"
-                    >
-                        <MenuIcon/>
-                    </IconButton>
-                    <Menu
-                        id="menu-appbar"
-                        anchorEl={anchorElNav}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
-                        }}
-                        open={Boolean(anchorElNav)}
-                        onClose={handleCloseNavMenu}
-                        sx={{
-                            display: {xs: 'block', md: 'none'},
-                        }}
-                    >
-                    </Menu>
-                </Box>
+                {withSideBar && (
+                    <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
+                        <IconButton
+                            size="large"
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleDrawerToggle}
+                            color="inherit"
+                        >
+                            <MenuIcon/>
+                        </IconButton>
+
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorElNav}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                            open={Boolean(anchorElNav)}
+                            onClose={handleCloseNavMenu}
+                            sx={{
+                                display: {xs: 'block', md: 'none'},
+                            }}
+                        >
+                        </Menu>
+                    </Box>
+                )}
                 <LocalCafeIcon
-                    sx={{display: {xs: 'flex', md: 'none'}, mr: 1}}
+                    sx={{
+                        display: withSideBar ? {xs: 'flex', md: 'none'} : 'flex',
+                        mr: 1}}
                 />
 
                 <Typography
@@ -104,8 +108,8 @@ export const Header = () => {
                     component={Link}
                     to={'/'}
                     sx={{
-                        flexGrow: 1,
-                        display: {xs: 'flex', md: 'none'},
+                        flexGrow: withSideBar ? 1 : 0,
+                        display: withSideBar ? {xs: 'flex', md: 'none'} : 'flex',
                         fontFamily: 'monospace',
                         fontWeight: 700,
                         letterSpacing: '.3rem',
@@ -116,8 +120,12 @@ export const Header = () => {
                     MYCAFE
                 </Typography>
 
-                <Box sx={{display: {xs: 'none', md: 'flex'}, ml: 'auto'}}>
-
+                <Box
+                    sx={{
+                        display: {xs: 'none', md: 'flex'},
+                        ml: 'auto'
+                }}
+                >
                         <Button
                             component={Link}
                             to={'/'}
@@ -125,8 +133,6 @@ export const Header = () => {
                             sx={{
                                 my: 2,
                                 color: currentPath === '/' ? "yellow" : "white",
-                                display: "flex",
-                                alignItems: "center",
                                 fontWeight: currentPath === '/' ? "bold" : "medium",
                             }}
                             startIcon={<HomeRoundedIcon/>}
@@ -140,11 +146,12 @@ export const Header = () => {
                             onClick={handleCloseNavMenu}
                             sx={{my: 2, color: 'white',}}
                             startIcon={<FavoriteBorderRoundedIcon/>}
+                            disabled={!isAuth}
                         >
                             My List
                         </Button>
                 </Box>
-                <HeaderAvatarMenu/>
+                <HeaderUserMenu />
             </Toolbar>
         </AppBar>
     );

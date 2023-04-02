@@ -10,10 +10,12 @@ import {CafeContext} from '../CafeContext';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {FilterForm} from '../FilterForm/FilterForm';
 
-
 export const Sidebar = () => {
-    // @ts-ignore
-    const {drawerWidth, isSidebarOpen, getSideBarStatus} = useContext(CafeContext);
+    const {
+        drawerWidth,
+        isSidebarOpen,
+        getSideBarStatus
+    } = useContext(CafeContext);
 
     const handleDrawerToggle = () => {
         getSideBarStatus(!isSidebarOpen);
@@ -23,6 +25,7 @@ export const Sidebar = () => {
         <>
             <Toolbar sx={{mt: 0.5}}>
                 <LocalCafeIcon sx={{mx: 2}}/>
+
                 <Typography
                     variant="h6"
                     noWrap
@@ -39,6 +42,7 @@ export const Sidebar = () => {
                 >
                     MYCAFE
                 </Typography>
+
                 <CancelIcon
                     onClick={handleDrawerToggle}
                     sx={{
@@ -47,43 +51,46 @@ export const Sidebar = () => {
                     }}
                 />
             </Toolbar>
+
             <Divider/>
-            <FilterForm />
+
+            <FilterForm/>
         </>
     );
 
     return (
         <Box sx={{display: 'flex'}}>
-                <Drawer
-                    variant="temporary"
-                    open={isSidebarOpen}
-                    onClose={handleDrawerToggle}
-                    ModalProps={{
-                        keepMounted: true, // Better open performance on mobile.
-                    }}
-                    sx={{
-                        display: {xs: 'block', md: 'none'},
-                        '& .MuiDrawer-paper': {
-                            boxSizing: 'border-box',
-                            width: '100%'
-                        },
-                    }}
-                >
-                    {drawer}
-                </Drawer>
-                <Drawer
-                    variant="permanent"
-                    sx={{
-                        display: {xs: 'none', md: 'block'},
-                        '& .MuiDrawer-paper': {
-                            boxSizing: 'border-box',
-                            width: drawerWidth
-                        },
-                    }}
-                    open
-                >
-                    {drawer}
-                </Drawer>
+            <Drawer
+                variant="temporary"
+                open={isSidebarOpen}
+                onClose={handleDrawerToggle}
+                ModalProps={{
+                    keepMounted: true, // Better open performance on mobile.
+                }}
+                sx={{
+                    display: {xs: 'block', md: 'none'},
+                    '& .MuiDrawer-paper': {
+                        boxSizing: 'border-box',
+                        width: '100%'
+                    },
+                }}
+            >
+                {drawer}
+            </Drawer>
+
+            <Drawer
+                variant="permanent"
+                sx={{
+                    display: {xs: 'none', md: 'block'},
+                    '& .MuiDrawer-paper': {
+                        boxSizing: 'border-box',
+                        width: drawerWidth,
+                    },
+                }}
+                open
+            >
+                {drawer}
+            </Drawer>
         </Box>
     );
 }

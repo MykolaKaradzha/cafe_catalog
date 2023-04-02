@@ -1,7 +1,13 @@
 import React from 'react'
 import Carousel from 'better-react-carousel'
 
+//poor visual with odd number of picture
+// to solve a problem with empty space, the check for picturesNumber % 2 = 0
+// can be added. If number is odd, first picture of array can be added as last one
+//(loop effect)
+
 export const ImageCarousel = () => {
+
     return (
         <Carousel
             responsiveLayout={
@@ -40,35 +46,11 @@ export const ImageCarousel = () => {
             <Carousel.Item>
                 <img width="100%" src="https://picsum.photos/800/600?random=5" />
             </Carousel.Item>
+            <Carousel.Item>
+                <img width="100%" src="https://picsum.photos/800/600?random=6" />
+            </Carousel.Item>
         </Carousel>
     )
 }
-// import React, { Component } from 'react';
-// import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-// import { Carousel } from 'react-responsive-carousel';
-//
-// export const ImageCarousel = () => (
-//             <Carousel>
-//                 <div>
-//                     <img src="https://picsum.photos/800/600?random=2" />
-//                     <p className="legend">Legend 1</p>
-//                 </div>
-//                 <div>
-//                     <img src="https://picsum.photos/800/600?random=9" />
-//                     <p className="legend">Legend 2</p>
-//                 </div>
-//                 <div>
-//                     <img src="https://picsum.photos/800/600?random=5" />
-//                     <p className="legend">Legend 3</p>
-//                 </div>
-//                 <div>
-//                     <img src="https://picsum.photos/800/600?random=4" />
-//                     <p className="legend">Legend 3</p>
-//                 </div>
-//                 <div>
-//                     <img src="https://picsum.photos/800/600?random=12" />
-//                     <p className="legend">Legend 3</p>
-//                 </div>
-//             </Carousel>
-// );
+
 

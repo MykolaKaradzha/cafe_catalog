@@ -2,28 +2,28 @@ import React, {useContext} from 'react';
 import Box from '@mui/material/Box';
 import {Chip, Container, IconButton, Stack} from '@mui/material';
 import {CafeContext} from '../../components/CafeContext';
-import {HeaderWithoutSideBar} from '../../components/HeaderWithoutSidebar';
+
 import Typography from '@mui/material/Typography';
 import {ImageCarousel} from '../../components/ImageCarousel';
 import {CustomRating} from '../../components/CustomRating';
 import FavoriteBorderRoundedIcon
     from '@mui/icons-material/FavoriteBorderRounded';
 import {CommentBox} from '../../components/CommentBox';
+import {Header} from '../../components/Header';
 
 
 
 
 export const CafeDetails: React.FC = () => {
-    const {currentCafe} = useContext(CafeContext);
+    const {currentCafe, isAuth} = useContext(CafeContext);
 
     if (!currentCafe) {
         return <div>No such cafe</div>
-    }
-    ;
+    };
 
     return (
         <>
-            <HeaderWithoutSideBar/>
+            <Header withSideBar={false}/>
             <Container maxWidth="lg">
                     <Box sx={{
                         display: 'flex',
@@ -38,6 +38,7 @@ export const CafeDetails: React.FC = () => {
                         </Typography>
                         <IconButton
                             color="primary"
+                            disabled={!isAuth}
                         >
                             <FavoriteBorderRoundedIcon/>
                         </IconButton>
@@ -56,6 +57,7 @@ export const CafeDetails: React.FC = () => {
                         <Box
                             sx={{
                                 display: 'flex',
+                                justifyContent: 'center',
                                 flexWrap: 'wrap',
                                 gap: 1,
                             }}>
@@ -65,7 +67,7 @@ export const CafeDetails: React.FC = () => {
                             <Chip label={currentCafe.alcohol ? 'Alcohol' : 'No alcohol'} />
                             <Chip label={`Noise level: ${currentCafe.noiseLevel}`} />
                         </Box>
-                        <CustomRating/>
+                        <CustomRating isAuth={isAuth}/>
                     </Box>
                     <Typography
                         variant="body2"
@@ -77,7 +79,7 @@ export const CafeDetails: React.FC = () => {
                     >
                         {currentCafe.description}
                     </Typography>
-                <CommentBox/>
+                {isAuth && <CommentBox/>}
             </Container>
         </>
     )

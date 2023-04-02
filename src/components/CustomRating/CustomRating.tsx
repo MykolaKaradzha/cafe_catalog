@@ -13,17 +13,22 @@ const StyledRating = styled(Rating)({
     },
 });
 
-export const CustomRating: React.FC = () => {
+type Props = {
+    isAuth: boolean
+}
+
+export const CustomRating: React.FC<Props> = ({ isAuth }) => {
     return (
         <StyledRating
-        defaultValue={2}
-        getLabelText={(value: number) => `${value} Heart${value !== 1 ? 's' : ''}`}
-        precision={0.5}
-        icon={<FavoriteIcon fontSize="inherit"/>}
-        emptyIcon={<FavoriteBorderIcon fontSize="inherit"/>}
-        sx={{
-            mt: {xs: 3, sm: 0},
-        }}
+            disabled={!isAuth}
+            defaultValue={2}
+            getLabelText={(value: number) => `${value} Heart${value !== 1 ? 's' : ''}`}
+            precision={0.5}
+            icon={<FavoriteIcon fontSize="inherit"/>}
+            emptyIcon={<FavoriteBorderIcon fontSize="inherit"/>}
+            sx={{
+                mt: {xs: 3, sm: 0},
+            }}
     />
     )
 };
