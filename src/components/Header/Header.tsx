@@ -13,7 +13,7 @@ import FavoriteBorderRoundedIcon
 import LocalCafeIcon from '@mui/icons-material/LocalCafe';
 import {useContext} from 'react';
 import {CafeContext} from '../CafeContext';
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {HeaderUserMenu} from '../HeaderUserMenu';
 
 type Props = {
@@ -23,9 +23,9 @@ type Props = {
 export const Header: React.FC<Props> = ({ withSideBar }) => {
     const params = useLocation();
     const currentPath = params.pathname;
+    const navigate = useNavigate();
 
     const {
-        drawerWidth,
         isSidebarOpen,
         getSideBarStatus,
         isAuth,
@@ -36,7 +36,6 @@ export const Header: React.FC<Props> = ({ withSideBar }) => {
 
     const handleDrawerToggle = () => {
         getSideBarStatus(!isSidebarOpen);
-        console.log('clicked')
     };
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
@@ -44,6 +43,7 @@ export const Header: React.FC<Props> = ({ withSideBar }) => {
 
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
+        navigate('/')
     };
 
     const handleCloseUserMenu = () => {
@@ -57,8 +57,6 @@ export const Header: React.FC<Props> = ({ withSideBar }) => {
             position="sticky"
             sx={{
                 mb: 2,
-                width: withSideBar ? {md: `calc(100% - ${drawerWidth}px)`} : 'auto',
-                ml: withSideBar ? {md: `${drawerWidth}px`} : 0,
             }}
         >
             <Toolbar>
@@ -127,8 +125,6 @@ export const Header: React.FC<Props> = ({ withSideBar }) => {
                 }}
                 >
                         <Button
-                            component={Link}
-                            to={'/'}
                             onClick={handleCloseNavMenu}
                             sx={{
                                 my: 2,
@@ -141,8 +137,6 @@ export const Header: React.FC<Props> = ({ withSideBar }) => {
                         </Button>
 
                         <Button
-                            component={Link}
-                            to={'/'}
                             onClick={handleCloseNavMenu}
                             sx={{my: 2, color: 'white',}}
                             startIcon={<FavoriteBorderRoundedIcon/>}

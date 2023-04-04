@@ -9,6 +9,8 @@ import {useContext} from 'react';
 import {CafeContext} from '../CafeContext';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {FilterForm} from '../FilterForm/FilterForm';
+import {Link} from "react-router-dom";
+
 
 export const Sidebar = () => {
     const {
@@ -29,8 +31,8 @@ export const Sidebar = () => {
                 <Typography
                     variant="h6"
                     noWrap
-                    component="a"
-                    href="/"
+                    component={Link}
+                    to="/"
                     sx={{
                         mr: 'auto',
                         fontFamily: 'monospace',

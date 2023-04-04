@@ -5,6 +5,7 @@ import {Cafe} from '../../types/Cafe';
 export type CafeContext = {
     cafes: Cafe[];
     drawerWidth: number;
+    footerHeight: number;
     isSidebarOpen: boolean;
     currentCafe: Cafe | null;
     isAuth: boolean;
@@ -17,6 +18,7 @@ export type CafeContext = {
 export const CafeContext = createContext<CafeContext>({
     cafes: [],
     drawerWidth: 0,
+    footerHeight: 0,
     isSidebarOpen: false,
     currentCafe: null,
     isAuth: false,
@@ -33,6 +35,7 @@ export const CafeContextProvider = (
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const [isAuth, setAuth] = useState(true)
     const drawerWidth = 300;
+    const footerHeight = 60;
 
     const getSideBarStatus = (status: boolean) => setSidebarOpen(status);
     const selectCafe = (cafeID: number) => {
@@ -54,6 +57,7 @@ export const CafeContextProvider = (
             value={{
                 cafes,
                 drawerWidth,
+                footerHeight,
                 isSidebarOpen,
                 currentCafe,
                 isAuth,

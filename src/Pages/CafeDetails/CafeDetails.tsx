@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import Box from '@mui/material/Box';
-import {Chip, Container, IconButton, Stack} from '@mui/material';
+import {Chip, Container, IconButton} from '@mui/material';
 import {CafeContext} from '../../components/CafeContext';
 
 import Typography from '@mui/material/Typography';
@@ -10,21 +10,32 @@ import FavoriteBorderRoundedIcon
     from '@mui/icons-material/FavoriteBorderRounded';
 import {CommentBox} from '../../components/CommentBox';
 import {Header} from '../../components/Header';
+import {Footer} from '../../components/Footer';
 
 
 
 
 export const CafeDetails: React.FC = () => {
-    const {currentCafe, isAuth} = useContext(CafeContext);
+    const {currentCafe, isAuth, footerHeight} = useContext(CafeContext);
 
     if (!currentCafe) {
         return <div>No such cafe</div>
     };
 
     return (
-        <>
+        <Box sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: '100%',
+        }}>
             <Header withSideBar={false}/>
-            <Container maxWidth="lg">
+            <Container
+                maxWidth="lg"
+                component="main"
+                sx={{
+                    flexGrow: 1
+                }}
+            >
                     <Box sx={{
                         display: 'flex',
                         justifyContent: 'space-between',
@@ -81,7 +92,8 @@ export const CafeDetails: React.FC = () => {
                     </Typography>
                 {isAuth && <CommentBox/>}
             </Container>
-        </>
+            <Footer />
+        </Box>
     )
 };
 

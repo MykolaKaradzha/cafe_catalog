@@ -11,7 +11,7 @@ import {
 import FavoriteBorderRoundedIcon
     from '@mui/icons-material/FavoriteBorderRounded';
 import {CafeContext} from '../CafeContext';
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {Cafe} from '../../types/Cafe';
 
 
@@ -59,26 +59,36 @@ export const CafeCard: React.FC<Props> = ({ cafe }) => {
                 </Box>
                 <CardMedia
                     component="img"
-                    image="https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg"
-                    alt="Film logo"
+                    image="https://images2.imgbox.com/91/b8/QabTzcPk_o.jpeg"
+                    alt="Cafe logo"
                 >
                 </CardMedia>
-                <Stack direction="row" spacing={1} sx={{mt: 2}}>
+                <Stack
+                    direction="row"
+                    spacing={1}
+                    sx={{
+                        my: 3,
+                        display: 'flex',
+                        justifyContent: 'center'
+                }}
+                >
                     <Chip label={cafe.priceLevel} />
                     {cafe.veganOption &&
                       <Chip label={`Vegan friendly`} />}
                     <Chip label={cafe.alcohol ? 'Alcohol' : 'No alcohol'} />
                 </Stack>
                 <CardContent>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        textAlign='center'
+                    >
                         {cafe.shortDescription}
                     </Typography>
                 </CardContent>
             </Box>
             <CardActions>
                 <Button
-                    component={Link}
-                    to={`/${cafe.id}`}
                     size='large'
                     variant='contained'
                     onClick={handleDetailButton}
