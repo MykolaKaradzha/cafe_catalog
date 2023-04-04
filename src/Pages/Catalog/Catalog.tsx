@@ -19,7 +19,7 @@ export const Catalog: React.FC = () => {
             minHeight: '100%',
         }}>
 
-            <Sidebar />
+            <Sidebar/>
             <Box
                 sx={{
                     maxWidth: {md: `calc(100% - ${drawerWidth}px)`},
@@ -32,13 +32,14 @@ export const Catalog: React.FC = () => {
                     component="main"
                     sx={{
                         flexGrow: 1
-                        }}
+                    }}
                 >
                     <Box>
-                        <Grid container
-                              spacing={{sm: 2, md: 3}}
-                              rowSpacing={2}
-                              columns={{xs: 4, sm: 8, md: 12, lg: 12, xl: 12}}
+                        <Grid
+                            container
+                            spacing={{sm: 2, md: 3}}
+                            rowSpacing={2}
+                            columns={{xs: 4, sm: 8, md: 12, lg: 12, xl: 12}}
                         >
                             {cafes.map((cafe: Cafe, index: number) => (
                                 <Grid item xs={4} sm={4} md={6} lg={4} xl={3}
@@ -58,7 +59,7 @@ export const Catalog: React.FC = () => {
                         }}
                     />
                 </Container>
-                <Footer />
+                <Footer/>
             </Box>
         </Box>
     )

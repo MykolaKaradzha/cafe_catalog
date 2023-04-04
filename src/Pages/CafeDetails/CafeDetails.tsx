@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import Box from '@mui/material/Box';
-import {Chip, Container, IconButton} from '@mui/material';
+import {Chip, Container, Divider, IconButton, Stack} from '@mui/material';
 import {CafeContext} from '../../components/CafeContext';
 
 import Typography from '@mui/material/Typography';
@@ -8,9 +8,10 @@ import {ImageCarousel} from '../../components/ImageCarousel';
 import {CustomRating} from '../../components/CustomRating';
 import FavoriteBorderRoundedIcon
     from '@mui/icons-material/FavoriteBorderRounded';
-import {CommentBox} from '../../components/CommentBox';
 import {Header} from '../../components/Header';
 import {Footer} from '../../components/Footer';
+import {CommentCard} from '../../components/Comments/CommentCard/CommentCard';
+import {CommentBox} from '../../components/Comments/CommentBox';
 
 
 
@@ -81,8 +82,7 @@ export const CafeDetails: React.FC = () => {
                         <CustomRating isAuth={isAuth}/>
                     </Box>
                     <Typography
-                        variant="body2"
-                        color="text.secondary"
+                        color="text.main"
                         sx={{
                             mx: 3,
                             mb: 5
@@ -90,7 +90,13 @@ export const CafeDetails: React.FC = () => {
                     >
                         {currentCafe.description}
                     </Typography>
-                {isAuth && <CommentBox/>}
+
+                <Stack spacing={3}>
+                    <CommentCard/>
+                    <CommentCard/>
+                    <CommentCard/>
+                </Stack>
+                {isAuth && <CommentBox />}
             </Container>
             <Footer />
         </Box>

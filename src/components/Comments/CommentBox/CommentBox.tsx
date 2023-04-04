@@ -18,8 +18,7 @@ export const CommentBox = () => {
     const [fontWeight, setFontWeight] = React.useState('normal');
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     return (
-        <FormControl>
-            <FormLabel>Your comment</FormLabel>
+        <FormControl sx={{mt: 3}}>
             <Textarea
                 placeholder="Type something here…"
                 minRows={3}

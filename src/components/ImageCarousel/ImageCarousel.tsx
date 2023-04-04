@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import Carousel from 'better-react-carousel'
 import styled from '@emotion/styled';
+import {CafeContext} from '../CafeContext';
 
 //poor visual with odd number of picture
 // to solve a problem with empty space, the check for picturesNumber % 2 = 0
@@ -13,6 +14,11 @@ const StyledImage = styled.img`
 `
 
 export const ImageCarousel = () => {
+    const {currentCafe} = useContext(CafeContext);
+    if (!currentCafe) {
+        return <div>Oops</div>;
+    }
+    const imageLinks = currentCafe.imageLink;
 
     return (
         <Carousel
@@ -37,24 +43,11 @@ export const ImageCarousel = () => {
                 ]}
             mobileBreakpoint={300}
         >
-            <Carousel.Item>
-                <StyledImage src="https://images2.imgbox.com/25/8b/cqsPJe0G_o.jpeg" />
-            </Carousel.Item>
-            <Carousel.Item>
-                <StyledImage src="https://images2.imgbox.com/4b/94/iEITILZ9_o.jpeg" />
-            </Carousel.Item>
-            <Carousel.Item>
-                <StyledImage src="https://images2.imgbox.com/25/59/THO6lykH_o.jpeg" />
-            </Carousel.Item>
-            <Carousel.Item>
-                <StyledImage src="https://images2.imgbox.com/49/60/kbB5kEJM_o.jpeg" />
-            </Carousel.Item>
-            <Carousel.Item>
-                <StyledImage src="https://images2.imgbox.com/24/4f/dytnG1BG_o.jpeg" />
-            </Carousel.Item>
-            <Carousel.Item>
-                <StyledImage src="https://picsum.photos/800/600?random=6" />
-            </Carousel.Item>
+            {imageLinks.map((link: string) => (
+                <Carousel.Item key={link}>
+                    <StyledImage src={link}/>
+                </Carousel.Item>
+            ))}
         </Carousel>
     )
 }

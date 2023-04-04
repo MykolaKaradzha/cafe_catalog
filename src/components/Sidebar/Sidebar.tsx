@@ -54,8 +54,6 @@ export const Sidebar = () => {
                 />
             </Toolbar>
 
-            <Divider/>
-
             <FilterForm/>
         </>
     );

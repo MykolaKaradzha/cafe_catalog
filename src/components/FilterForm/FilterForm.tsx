@@ -2,47 +2,172 @@ import React from 'react';
 import {
     Box,
     Button,
-    Stack
+    ButtonGroup,
+    Divider,
+    FormControl,
+    FormControlLabel,
+    Radio,
+    RadioGroup,
+    Stack,
+    Switch
 } from '@mui/material';
 import Typography from '@mui/material/Typography';
+import {DiscreteSlider, MinimumDistanceSlider} from '../Sliders';
+import {CustomRating} from '../CustomRating';
+import {RadioFilter} from '../RadioFilter';
 
 export const FilterForm: React.FC = () => {
-    const filters = [
-        'distance',
-        'price',
-        'tables',
-        'minimum order',
-        'work now',
-        'noise level',
-        'vegan friendly',
-        'alcohol available',
-        'coffee available']
+    const priceOptions = ['$', '$$', '$$$'];
+    const noiseOptions = ['Low', 'Middle', 'High'];
+
     return (
-        <Box sx={{mt: 5, mb: 3}}>
-            <Typography
-                textAlign="center"
-                variant="h6"
-                sx={{fontWeight: 'bold'}}
+        <FormControl sx={{display: 'flex', flexDirection: 'column', height: '100%'}}>
+            <Divider />
+            <Stack
+                direction='row'
+                alignItems='baseline'
+                justifyContent='space-between'
+                sx={{
+                    my: 1,
+                    px: 1,
+            }}
             >
-                Available Filters:
-            </Typography>
+                <Typography
+                    sx={{fontWeight: 'bold'}}
+                >
+                    Filter by:
+                </Typography>
+                <Typography
+                    variant="body2"
+                    component={Button}
+                    sx={{
+                        color: '#29cccc',
+                        fontSize: '0.75rem',
+                        fontWeight: 'bold'
+                }}
+                >
+                    Reset Filters:
+                </Typography>
+            </Stack>
+            <Divider />
 
             <Stack
                 spacing={3}
-                direction={'column'}
-                alignItems={'center'}
-                sx={{mt: 4}}
+                sx={{
+                    mt: 2,
+                    mx: 'auto',
+                    width: '80%',
+                    flexGrow: 1,
+                }}
             >
-                {filters.map(filter => (
-                    <Button
-                        key={filter}
-                        variant='contained'
-                        sx={{width: '70%', height: 50}}
+                <Stack direction={'column'} spacing={1}>
+                    <Typography
+                        color="text.secondary"
+                        textAlign={'left'}
+                        sx={{
+                            fontWeight: 'bold'
+                        }}
                     >
-                        {filter}
-                    </Button>
-                ))}
+                        Price
+                    </Typography>
+                    <RadioFilter options={priceOptions} />
+                </Stack>
+
+                <Stack direction={'column'} spacing={1}>
+                    <Typography
+                        color="text.secondary"
+                        textAlign={'left'}
+                        sx={{
+                            fontWeight: 'bold'
+                        }}
+                    >
+                        Noise
+                    </Typography>
+                    <RadioFilter options={noiseOptions} />
+                </Stack>
+
+                <Stack direction={'column'} spacing={1}>
+                    <Typography
+                        color="text.secondary"
+                        textAlign={'left'}
+                        sx={{
+                            fontWeight: 'bold'
+                        }}
+                    >
+                       Vegan Friendly
+                    </Typography>
+
+                    <Switch color="success" />
+                </Stack>
+
+                <Stack direction={'column'} spacing={1}>
+                    <Typography
+                        color="text.secondary"
+                        textAlign={'left'}
+                        sx={{
+                            fontWeight: 'bold'
+                        }}
+                    >
+                        Alcohol Available
+                    </Typography>
+
+                    <Switch defaultChecked color="secondary" />
+                </Stack>
+
+                <Stack direction={'column'} spacing={1}>
+                    <Typography
+                        color="text.secondary"
+                        textAlign={'left'}
+                        sx={{
+                            fontWeight: 'bold'
+                        }}
+                    >
+                        Minimum Order
+                    </Typography>
+
+                    <DiscreteSlider />
+                </Stack>
+
+                <Stack direction={'column'} spacing={1}>
+                    <Typography
+                        color="text.secondary"
+                        textAlign={'left'}
+                        sx={{
+                            fontWeight: 'bold'
+                        }}
+                    >
+                        Working Time
+                    </Typography>
+
+                    <MinimumDistanceSlider />
+                </Stack>
+
+                <Stack direction={'column'} spacing={1}>
+                    <Typography
+                        color="text.secondary"
+                        textAlign={'left'}
+                        sx={{
+                            fontWeight: 'bold'
+                        }}
+                    >
+                        Minimum Rating
+                    </Typography>
+
+                    <CustomRating isAuth={true} />
+                </Stack>
             </Stack>
-        </Box>
+
+            <Button
+                variant={'contained'}
+                color={'success'}
+                sx={{
+                    width: '80%',
+                    mx: 'auto',
+                    my: 3,
+                }}
+            >
+                Done
+            </Button>
+        </FormControl>
     )
 };

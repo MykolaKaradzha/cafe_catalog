@@ -20,7 +20,7 @@ type Props = {
 };
 
 export const CafeCard: React.FC<Props> = ({ cafe }) => {
-    const {selectCafe, isAuth} = useContext(CafeContext);
+    const {selectCafe, isAuth, cafes} = useContext(CafeContext);
     const navigate = useNavigate();
 
     const handleDetailButton = () => {
@@ -59,8 +59,9 @@ export const CafeCard: React.FC<Props> = ({ cafe }) => {
                 </Box>
                 <CardMedia
                     component="img"
-                    image="https://images2.imgbox.com/91/b8/QabTzcPk_o.jpeg"
+                    image={cafe.imageLink[cafe.imageLink.length - 1]}
                     alt="Cafe logo"
+                    sx={{border: 'solid'}}
                 >
                 </CardMedia>
                 <Stack
