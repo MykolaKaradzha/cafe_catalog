@@ -8,44 +8,44 @@ import {
     SelectChangeEvent
 } from '@mui/material';
 import {fetchData} from '../../utils/fetchClient';
-import {OPTIONS, ORDER, SORTED_BY} from '../../constants';
+import {SORT_OPTIONS, ORDER, SORTED_BY} from '../../constants';
 import {useContext, useEffect} from 'react';
 import {CafeContext} from '../../context/CafeContext';
 
 export const SortSelector = () => {
-    const {setCafes} = useContext(CafeContext);
+    const {setCafes, currentPage} = useContext(CafeContext);
     const [sortOption, setSortOption] = React.useState('');
     let sortingLink: string;
 
     switch (sortOption) {
         case 'priceDesc':
-            sortingLink = SORTED_BY(OPTIONS.PRICE_LEVEL, ORDER.DESC);
+            sortingLink = SORTED_BY(currentPage, SORT_OPTIONS.PRICE_LEVEL, ORDER.DESC);
             break;
         case 'priceAsc':
-            sortingLink = SORTED_BY(OPTIONS.PRICE_LEVEL, ORDER.ASC);
+            sortingLink = SORTED_BY(currentPage, SORT_OPTIONS.PRICE_LEVEL, ORDER.ASC);
             break;
         case 'noiseDesc':
-            sortingLink = SORTED_BY(OPTIONS.NOISE_LEVEL, ORDER.DESC);
+            sortingLink = SORTED_BY(currentPage, SORT_OPTIONS.NOISE_LEVEL, ORDER.DESC);
             break;
         case 'noiseAsc':
-            sortingLink = SORTED_BY(OPTIONS.NOISE_LEVEL, ORDER.ASC);
+            sortingLink = SORTED_BY(currentPage, SORT_OPTIONS.NOISE_LEVEL, ORDER.ASC);
             break;
         case 'ratingDesc':
-            sortingLink = SORTED_BY(OPTIONS.RATING, ORDER.DESC);
+            sortingLink = SORTED_BY(currentPage, SORT_OPTIONS.RATING, ORDER.DESC);
             break;
         case 'ratingAsc':
-            sortingLink = SORTED_BY(OPTIONS.RATING, ORDER.ASC);
+            sortingLink = SORTED_BY(currentPage, SORT_OPTIONS.RATING, ORDER.ASC);
             break;
         case 'none':
         default:
-            sortingLink = SORTED_BY(OPTIONS.ID, ORDER.ASC);
+            sortingLink = SORTED_BY(currentPage, SORT_OPTIONS.ID, ORDER.ASC);
             break;
     }
 
 
 
     const fetchSortedCafes = async () => {
-        const { data: sortedCafes } = await fetchData(sortingLink)
+        const { data: sortedCafes } = await fetchData(sortingLink);
         setCafes(sortedCafes);
     }
 
@@ -54,8 +54,8 @@ export const SortSelector = () => {
     };
 
     useEffect(() => {
-        fetchSortedCafes()
-    }, [sortOption])
+        fetchSortedCafes();
+    }, [sortOption, currentPage])
 
     return (
         <FormControl

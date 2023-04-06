@@ -26,7 +26,7 @@ import {CAFE} from '../../constants';
 
 
 export const CafeDetails: React.FC = () => {
-    const {isAuth, footerHeight} = useContext(CafeContext);
+    const {isAuth} = useContext(CafeContext);
     const { id } = useParams();
     const [currentCafe, setCurrentCafe] = useState<Cafe>();
 

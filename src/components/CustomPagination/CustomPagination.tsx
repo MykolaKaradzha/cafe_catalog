@@ -6,15 +6,15 @@ import {Pagination} from '@mui/material';
 
 
 export const CustomPagination = () => {
-    const {setCurrentPage} = useContext(CafeContext);
+    const {setCurrentPage, totalPages} = useContext(CafeContext);
     const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
-        setCurrentPage(page);
+        setCurrentPage(page - 1);
     }
 
 
     return (
         <Pagination
-            count={3}
+            count={totalPages}
             color="secondary"
             onChange={handlePageChange}
             sx={{

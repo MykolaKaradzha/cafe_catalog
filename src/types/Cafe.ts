@@ -22,6 +22,8 @@ export interface Cafe {
     imageLink: string[],
     optionNames: string[],
     logoLink: string,
-    commentIds: number[]
+    commentIds: number[],
+    totalPages?: number,
+    totalElements?: number
 }
 

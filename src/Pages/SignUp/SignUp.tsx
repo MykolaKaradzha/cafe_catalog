@@ -77,6 +77,14 @@ export const SignUp = () => {
                                     <TextField
                                         required
                                         fullWidth
+                                        id="username"
+                                        label="Username"
+                                        name="username"
+                                        autoComplete="username"
+                                    />
+                                    <TextField
+                                        required
+                                        fullWidth
                                         id="email"
                                         label="Email Address"
                                         name="email"

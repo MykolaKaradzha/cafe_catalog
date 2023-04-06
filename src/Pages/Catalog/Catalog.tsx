@@ -34,13 +34,13 @@ export const Catalog: React.FC = () => {
             >
                 <Header withSideBar={true}/>
                 <Container
-                    maxWidth='xl'
+                    maxWidth={cafes.length < 3 ? 'md' : 'lg'}
                     component="main"
                     sx={{
                         flexGrow: 1,
                         display: 'flex',
                         flexDirection: 'column',
-                        alignItems: 'center'
+                        alignItems: 'center',
                     }}
                 >
                     <SortSelector/>
@@ -49,6 +49,9 @@ export const Catalog: React.FC = () => {
                         spacing={{sm: 2, md: 3}}
                         rowSpacing={2}
                         columns={{xs: 4, sm: 8, md: 12, lg: 12, xl: 12}}
+                        sx={{
+
+                        }}
                     >
                         {cafes.map((cafe: Cafe, index: number) => (
                             <Grid
@@ -57,7 +60,6 @@ export const Catalog: React.FC = () => {
                                 sm={4}
                                 md={6}
                                 lg={cafes.length < 3 ? 6 : 4}
-                                xl={cafes.length < 3 ? 6 : 3}
                                 key={index}>
                                 <CafeCard cafe={cafe}/>
                             </Grid>
