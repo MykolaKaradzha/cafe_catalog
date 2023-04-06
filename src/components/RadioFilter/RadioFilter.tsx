@@ -1,38 +1,37 @@
-import {FormControlLabel, Radio, RadioGroup} from '@mui/material';
+import {FormControlLabel, Checkbox, RadioGroup, Stack} from '@mui/material';
 import React from 'react';
 
 type Props = {
     options: string[]
 }
 
-export const RadioFilter:React.FC<Props> = ({ options }) => {
+export const RadioFilter: React.FC<Props> = ({options}) => {
     return (
-        <RadioGroup
-        row
-        defaultValue={options[0]}
-    >
-        {options.map((option, index) => {
-            let control;
-            switch (index) {
-                case 0:
-                    control = <Radio color={'success'}/>
-                    break;
-                case 1:
-                    control = <Radio color={'warning'}/>
-                    break;
-                case 2:
-                    control = <Radio color={'error'}/>
-                    break;
-                default:
-                    return <Radio color={'primary'}/>
-            }
+        <Stack direction={'row'}>
+            {options.map((option, index) => {
+                let control;
+                switch (index) {
+                    case 0:
+                        control = <Checkbox color={'success'}/>
+                        break;
+                    case 1:
+                        control = <Checkbox color={'warning'}/>
+                        break;
+                    case 2:
+                        control = <Checkbox color={'error'}/>
+                        break;
+                    default:
+                        return <Checkbox color={'primary'}/>
+                }
                 return (
                     <FormControlLabel
+                        key={option}
                         value={option}
                         control={control}
                         label={option}
                         labelPlacement="top"
                     />
-                )})}
-    </RadioGroup>)
+                )
+            })}
+        </Stack>)
 }

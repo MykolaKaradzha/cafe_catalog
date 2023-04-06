@@ -12,9 +12,9 @@ import FavoriteBorderRoundedIcon
     from '@mui/icons-material/FavoriteBorderRounded';
 import LocalCafeIcon from '@mui/icons-material/LocalCafe';
 import {useContext} from 'react';
-import {CafeContext} from '../CafeContext';
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {HeaderUserMenu} from '../HeaderUserMenu';
+import { CafeContext } from '../../context/CafeContext';
 
 type Props = {
     withSideBar: boolean
@@ -27,7 +27,7 @@ export const Header: React.FC<Props> = ({ withSideBar }) => {
 
     const {
         isSidebarOpen,
-        getSideBarStatus,
+        setSidebarOpen,
         isAuth,
     } = useContext(CafeContext);
 
@@ -35,7 +35,7 @@ export const Header: React.FC<Props> = ({ withSideBar }) => {
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
     const handleDrawerToggle = () => {
-        getSideBarStatus(!isSidebarOpen);
+        setSidebarOpen(!isSidebarOpen);
     };
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);

@@ -1,16 +1,11 @@
 import React, {useContext} from "react";
 import {
-    Avatar,
-    Button,
     Card,
     Stack,
     Typography,
-    TextField,
-    Box,
 } from "@mui/material";
 import {CustomRating} from '../../CustomRating';
-import {CafeContext} from '../../CafeContext';
-
+import {CafeContext} from '../../../context/CafeContext';
 
 export const CommentCard: React.FC = () => {
     const {isAuth} = useContext(CafeContext);
@@ -18,7 +13,7 @@ export const CommentCard: React.FC = () => {
         <Card
             sx={{
                 p: 2,
-                backgroundColor: '#cfe2e6',
+                backgroundColor: 'ivory',
             }}
         >
             <Stack sx={{width: '100%'}} spacing={1} direction='row'>

@@ -8,8 +8,6 @@ import {
 import LocalCafeIcon from '@mui/icons-material/LocalCafe';
 import {useNavigate} from "react-router-dom";
 import * as React from 'react';
-import {useContext} from 'react';
-import {CafeContext} from '../CafeContext';
 
 export const Footer: React.FC = () => {
     const navigate = useNavigate();

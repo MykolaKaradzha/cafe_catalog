@@ -6,7 +6,7 @@ function valuetext(value: number) {
     return `${value}°C`;
 }
 
-const marksDiscrete = [
+const marks = [
     {
         value: 0,
         label: '0',
@@ -29,61 +29,11 @@ const marksDiscrete = [
     },
 ];
 
-export const DiscreteSlider = () => {
-    return (
-        <Box sx={{ width: '100%' }}>
-            <Slider
-                aria-label="Temperature"
-                defaultValue={0}
-                getAriaValueText={valuetext}
-                valueLabelDisplay="auto"
-                step={50}
-                marks={marksDiscrete}
-                min={0}
-                max={200}
-            />
-        </Box>
-    );
-}
-
-
-let marksRange = [
-    {
-        value: 0,
-        label: '0',
-    },
-    {
-        value: 4,
-        label: '4',
-    },
-    {
-        value: 8,
-        label: '8',
-    },
-    {
-        value: 12,
-        label: '12',
-    },
-    {
-        value: 16,
-        label: '16',
-    },
-    {
-        value: 20,
-        label: '20',
-    },
-    {
-        value: 24,
-        label: '24',
-    },
-]
-
-
-const minDistance = 2;
+const minDistance = 50;
 
 export const MinimumDistanceSlider = () => {
 
-    const [value2, setValue2] = React.useState<number[]>([0, 23]);
+    const [value2, setValue2] = React.useState<number[]>([0, 50]);
 
     const handleChange2 = (
         event: Event,
@@ -116,10 +66,10 @@ export const MinimumDistanceSlider = () => {
                 valueLabelDisplay="auto"
                 getAriaValueText={valuetext}
                 min={0}
-                max={24}
-                step={1}
+                max={200}
+                step={minDistance}
                 disableSwap
-                marks={marksRange}
+                marks={marks}
             />
         </Box>
     );

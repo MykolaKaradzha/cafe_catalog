@@ -5,14 +5,14 @@ import {
     Card,
     CardActions,
     CardContent,
-    CardMedia, Chip, IconButton, Stack,
+    CardMedia, Chip, Divider, IconButton, Stack,
     Typography
 } from '@mui/material';
 import FavoriteBorderRoundedIcon
     from '@mui/icons-material/FavoriteBorderRounded';
-import {CafeContext} from '../CafeContext';
 import {useNavigate} from "react-router-dom";
 import {Cafe} from '../../types/Cafe';
+import {CafeContext} from '../../context/CafeContext';
 
 
 type Props = {
@@ -20,11 +20,10 @@ type Props = {
 };
 
 export const CafeCard: React.FC<Props> = ({ cafe }) => {
-    const {selectCafe, isAuth, cafes} = useContext(CafeContext);
+    const {isAuth, cafes} = useContext(CafeContext);
     const navigate = useNavigate();
 
     const handleDetailButton = () => {
-        selectCafe(cafe.id)
         navigate(`/${cafe.id}`)
     };
 
@@ -59,7 +58,7 @@ export const CafeCard: React.FC<Props> = ({ cafe }) => {
                 </Box>
                 <CardMedia
                     component="img"
-                    image={cafe.imageLink[cafe.imageLink.length - 1]}
+                    image={cafe.logoLink}
                     alt="Cafe logo"
                     sx={{border: 'solid'}}
                 >
@@ -68,7 +67,7 @@ export const CafeCard: React.FC<Props> = ({ cafe }) => {
                     direction="row"
                     spacing={1}
                     sx={{
-                        my: 3,
+                        my: 2,
                         display: 'flex',
                         justifyContent: 'center'
                 }}
@@ -78,15 +77,37 @@ export const CafeCard: React.FC<Props> = ({ cafe }) => {
                       <Chip label={`Vegan friendly`} />}
                     <Chip label={cafe.alcohol ? 'Alcohol' : 'No alcohol'} />
                 </Stack>
-                <CardContent>
-                    <Typography
+
+                <Divider />
+
+                <CardContent sx={{my: 2}}>
+                    <Stack spacing={1}
+                           sx={{mb: 3}}
+                    >
+                        <Typography
                         variant="body2"
                         color="text.secondary"
+                        textAlign='left'
+                    >
+                        <b>Location:</b> {cafe.address}
+                    </Typography>
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            textAlign='left'
+                        >
+                            <b>Hours of Work:</b> {cafe.hours}
+                        </Typography></Stack>
+                    <Typography
+                        variant="body2"
+                        color="text.main"
                         textAlign='center'
                     >
                         {cafe.shortDescription}
                     </Typography>
                 </CardContent>
+
+                <Divider />
             </Box>
             <CardActions>
                 <Button

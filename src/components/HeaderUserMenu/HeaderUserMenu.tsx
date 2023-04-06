@@ -8,13 +8,13 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import {Link} from "react-router-dom";
 import {useContext} from 'react';
-import {CafeContext} from '../CafeContext';
 import {useWidth} from '../../utils/useWidth';
 import avatarNotAuth from '../../img/AvatarNotAuth.png';
 import avatarAuth from '../../img/AvatarAuth.png';
+import { CafeContext } from '../../context/CafeContext';
 
 export const HeaderUserMenu = () => {
-    const { isAuth, getAuth } = useContext(CafeContext);
+    const { isAuth, setAuth } = useContext(CafeContext);
     const width = useWidth();
     const responsiveLinks = width === 'xs' || width === 'sm'
         ? [
@@ -41,7 +41,7 @@ export const HeaderUserMenu = () => {
     };
 
     const handleLogOut = () => {
-        getAuth(false);
+        setAuth(false);
     }
 
     return (

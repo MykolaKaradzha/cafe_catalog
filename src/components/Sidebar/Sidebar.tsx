@@ -1,32 +1,31 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import LocalCafeIcon from '@mui/icons-material/LocalCafe';
 import {useContext} from 'react';
-import {CafeContext} from '../CafeContext';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {FilterForm} from '../FilterForm/FilterForm';
 import {Link} from "react-router-dom";
+import {CafeContext} from '../../context/CafeContext';
 
 
 export const Sidebar = () => {
     const {
         drawerWidth,
         isSidebarOpen,
-        getSideBarStatus
+        setSidebarOpen
     } = useContext(CafeContext);
 
     const handleDrawerToggle = () => {
-        getSideBarStatus(!isSidebarOpen);
+        setSidebarOpen(!isSidebarOpen);
     };
 
     const drawer = (
         <>
             <Toolbar sx={{mt: 0.5}}>
-                <LocalCafeIcon sx={{mx: 2}}/>
+                <LocalCafeIcon sx={{mx: 1}}/>
 
                 <Typography
                     variant="h6"

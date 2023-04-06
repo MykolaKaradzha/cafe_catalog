@@ -2,12 +2,12 @@ import React from 'react';
 import './App.css';
 import {CssBaseline} from '@mui/material';
 import {Routes, Route} from 'react-router-dom';
-import {CafeContextProvider} from './components/CafeContext';
 import {Catalog} from './Pages/Catalog';
 import {NotFound} from './Pages/NotFound';
 import {CafeDetails} from './Pages/CafeDetails';
 import {SignUp} from './Pages/SignUp';
 import {SignIn} from './Pages/SignIn';
+import {CafeContextProvider} from './context/CafeContext';
 
 function App() {
 

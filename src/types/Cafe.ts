@@ -19,5 +19,9 @@ export interface Cafe {
     instagramLink: string | null,
     facebookLink: string | null,
     websiteLink: string | null,
-    imageLink: string[]
+    imageLink: string[],
+    optionNames: string[],
+    logoLink: string,
+    commentIds: number[]
 }
+

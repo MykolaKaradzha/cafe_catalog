@@ -12,7 +12,7 @@ import {
     Switch
 } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import {DiscreteSlider, MinimumDistanceSlider} from '../Sliders';
+import {MinimumDistanceSlider} from '../Sliders';
 import {CustomRating} from '../CustomRating';
 import {RadioFilter} from '../RadioFilter';
 
@@ -29,6 +29,7 @@ export const FilterForm: React.FC = () => {
                 justifyContent='space-between'
                 sx={{
                     my: 1,
+                    mx: 4,
                     px: 1,
             }}
             >
@@ -122,10 +123,10 @@ export const FilterForm: React.FC = () => {
                             fontWeight: 'bold'
                         }}
                     >
-                        Minimum Order
+                        Event room available
                     </Typography>
 
-                    <DiscreteSlider />
+                    <Switch color="warning" />
                 </Stack>
 
                 <Stack direction={'column'} spacing={1}>
@@ -136,7 +137,7 @@ export const FilterForm: React.FC = () => {
                             fontWeight: 'bold'
                         }}
                     >
-                        Working Time
+                        Minimum Order
                     </Typography>
 
                     <MinimumDistanceSlider />

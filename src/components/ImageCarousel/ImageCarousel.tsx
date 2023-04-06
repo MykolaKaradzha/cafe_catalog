@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
 import Carousel from 'better-react-carousel'
 import styled from '@emotion/styled';
-import {CafeContext} from '../CafeContext';
+import {CafeContext} from '../../context/CafeContext';
 
 //poor visual with odd number of picture
 // to solve a problem with empty space, the check for picturesNumber % 2 = 0
@@ -10,15 +10,13 @@ import {CafeContext} from '../CafeContext';
 const StyledImage = styled.img`
   width: 100%;
   height: 100%;
-  
 `
 
-export const ImageCarousel = () => {
-    const {currentCafe} = useContext(CafeContext);
-    if (!currentCafe) {
-        return <div>Oops</div>;
-    }
-    const imageLinks = currentCafe.imageLink;
+type Props = {
+    images: string[]
+}
+
+export const ImageCarousel: React.FC<Props> = ({ images}) => {
 
     return (
         <Carousel
@@ -30,7 +28,7 @@ export const ImageCarousel = () => {
                         rows: 1,
                         gap: 30,
                         loop: true,
-                        autoplay: 5000
+                        autoplay: 10000
                     },
                     {
                         breakpoint: 5000,
@@ -38,14 +36,14 @@ export const ImageCarousel = () => {
                         rows: 1,
                         gap: 30,
                         loop: true,
-                        autoplay: 5000
+                        autoplay: 10000
                     },
                 ]}
             mobileBreakpoint={300}
         >
-            {imageLinks.map((link: string) => (
-                <Carousel.Item key={link}>
-                    <StyledImage src={link}/>
+            {images.map((img: string) => (
+                <Carousel.Item key={img}>
+                    <StyledImage src={img}/>
                 </Carousel.Item>
             ))}
         </Carousel>
