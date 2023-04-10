@@ -5,9 +5,9 @@ import React, {
 } from 'react';
 import {
     BASE_URL, FILTERED, SORTED_BY
-} from '../../constants';
+} from '../../api/constants';
 import {Cafe} from '../../types/Cafe';
-import {fetchData} from '../../utils/fetchClient';
+import {fetchData} from '../../api/fetchClient';
 import {defaultValues, FormValues} from '../../components/FilterForm';
 
 

@@ -1,4 +1,4 @@
-import {FormValues} from './components/FilterForm';
+import {FormValues} from '../components/FilterForm';
 
 export const BASE_URL = `https://cafe-catalog.site/api/cafe`;
 

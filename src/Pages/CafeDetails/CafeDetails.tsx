@@ -22,8 +22,18 @@ import {CommentBox} from '../../components/Comments/CommentBox';
 import {CafeContext} from '../../context/CafeContext';
 import {useParams} from 'react-router';
 import {Cafe} from '../../types/Cafe';
-import {fetchData} from '../../utils/fetchClient';
-import {CAFE} from '../../constants';
+import { CAFE } from '../../api/constants';
+import {fetchData} from '../../api/fetchClient';
+
+const StyledNote = (props: any) => (
+    <Typography
+        variant="body2"
+        color="text.secondary"
+        textAlign='left'
+    >
+        {props.children}
+    </Typography>
+)
 
 
 export const CafeDetails: React.FC = () => {
@@ -84,7 +94,8 @@ export const CafeDetails: React.FC = () => {
                     </IconButton>
                 </Box>
 
-                <ImageCarousel images={currentCafe.imageLink} logoLink={currentCafe.logoLink}/>
+                <ImageCarousel images={currentCafe.imageLink}
+                               logoLink={currentCafe.logoLink}/>
 
                 <Box sx={{
                     mx: 3,
@@ -107,7 +118,7 @@ export const CafeDetails: React.FC = () => {
                         <Chip
                             label={currentCafe.optionNames.includes('alcohol') ? 'Alcohol available' : 'No alcohol'}/>
                         <Chip label={`Noise level: ${currentCafe.noiseLevel}`}/>
-                        {currentCafe.optionNames.includes('event%20room') &&
+                        {currentCafe.optionNames.includes('event room') &&
                           <Chip label={`Event room available`}/>}
 
                     </Box>
@@ -119,61 +130,43 @@ export const CafeDetails: React.FC = () => {
                 <Stack spacing={1}
                        sx={{my: 2}}
                 >
-                    <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        textAlign='left'
-                    >
-                        <b>Location:</b> {currentCafe.address}
-                    </Typography>
+                    <StyledNote>
+                        <b>Location: </b>{currentCafe.address}
+                    </StyledNote>
 
-                    <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        textAlign='left'
-                    >
-                        <b>Hours of Work:</b> {currentCafe.hours}
-                    </Typography>
+                    <StyledNote>
+                        <b>Hours of Work: </b>{currentCafe.hours}
+                    </StyledNote>
 
-                    <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        textAlign='left'
-                    >
-                        <b>Minimum order:</b> {currentCafe.minOrder}
-                    </Typography>
+                    <StyledNote>
+                        <b>Minimum order: </b>{currentCafe.minOrder}
+                    </StyledNote>
 
-                    <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        textAlign='left'
-                    >
-                        <b>Tables number:</b> {currentCafe.tablesNumber}
-                    </Typography>
+                    <StyledNote>
+                        <b>Tables number: </b>{currentCafe.tablesNumber}
+                    </StyledNote>
 
-                    {currentCafe.websiteLink && <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        textAlign='left'
-                    >
-                        <b>Website:</b> <Link
-                        href={`${currentCafe.websiteLink}`}>{currentCafe.websiteLink}</Link>
-                    </Typography>}
+                    {currentCafe.websiteLink && <StyledNote>
+                      <b>Website: </b>
+                      <Link
+                        href={`${currentCafe.websiteLink}`}>{currentCafe.websiteLink}
+                      </Link>
+                    </StyledNote>}
 
                     <Stack direction={'row'} spacing={2} alignItems={'center'}>
-                        <Typography
-                            variant="body2"
-                            color="text.secondary"
-                            textAlign='left'
-                        >
+                        <StyledNote>
                             <b>Social media:</b>
-                        </Typography>
-                        {currentCafe.facebookLink && <Link href={`${currentCafe.facebookLink}`}>
-                            <FacebookIcon/>
-                        </Link>}
-                        {currentCafe.instagramLink && <Link href={`${currentCafe.instagramLink}`}>
-                            <InstagramIcon/>
-                        </Link>}
+                        </StyledNote>
+
+                        {currentCafe.facebookLink && (
+                            <Link href={`${currentCafe.facebookLink}`}>
+                                <FacebookIcon/>
+                            </Link>)}
+
+                        {currentCafe.instagramLink && (
+                            <Link href={`${currentCafe.instagramLink}`}>
+                                <InstagramIcon/>
+                            </Link>)}
                     </Stack>
 
                 </Stack>

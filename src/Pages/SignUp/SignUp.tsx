@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -11,13 +10,19 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {Header} from '../../components/Header';
 import {Footer} from '../../components/Footer';
+import {FC} from 'react';
+import {useForm, Controller} from 'react-hook-form';
+import * as yup from 'yup'
+import {yupResolver} from '@hookform/resolvers/yup';
+
 
 function Copyright(props: any) {
     return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
+        <Typography variant="body2" color="text.secondary"
+                    align="center" {...props}>
             {'Copyright © '}
             <Typography
                 color="inherit"
@@ -34,14 +39,33 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-export const SignUp = () => {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9_]{3, 23}$/;
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+
+type IFormInputs = {
+    email: string;
+    username: string;
+    password: string;
+    repeatedPassword: string;
+}
+
+const schema = yup.object().shape({
+    email: yup.string().email('must be a valid email').required(),
+    username: yup.string().required(),
+    password: yup.string().min(4).max(24).required(),
+    repeatedPassword: yup.string().oneOf([yup.ref('password')], 'passwords must match'),
+})
+
+export const SignUp: FC = () => {
+
+    const {
+        control,
+        handleSubmit,
+        formState: {errors}
+    } = useForm<IFormInputs>({resolver: yupResolver(schema)});
+
+    const handleOnSubmit = (data: IFormInputs) => {
+        console.log(data, errors)
     };
 
     return (
@@ -70,47 +94,84 @@ export const SignUp = () => {
                         <Typography component="h1" variant="h5">
                             Sign up
                         </Typography>
-                        <Box component="form" noValidate onSubmit={handleSubmit}
+                        <Box component="form"
+                             onSubmit={handleSubmit(handleOnSubmit)}
                              sx={{mt: 3}}>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
-                                    <TextField
-                                        required
-                                        fullWidth
-                                        id="username"
-                                        label="Username"
-                                        name="username"
-                                        autoComplete="username"
+                                    <Controller
+                                        render={
+                                            ({field}) =>
+                                                <TextField
+                                                    {...field}
+                                                    fullWidth
+                                                    id="username"
+                                                    label={"Username"}
+                                                    autoComplete="off"
+                                                    error={!!errors.username}
+                                                    helperText={errors.username ? errors.username?.message : ''}
+                                                />}
+                                        control={control}
+                                        name={'username'}
+                                        defaultValue={''}
                                     />
-                                    <TextField
-                                        required
-                                        fullWidth
-                                        id="email"
-                                        label="Email Address"
-                                        name="email"
-                                        autoComplete="email"
+                                </Grid>
+
+                                <Grid item xs={12}>
+                                    <Controller
+                                        render={
+                                            ({field}) =>
+                                                <TextField
+                                                    {...field}
+                                                    fullWidth
+                                                    id="email"
+                                                    label="Email Address"
+                                                    autoComplete="email"
+                                                    error={!!errors.email}
+                                                    helperText={errors.email ? errors.email?.message : ''}
+                                                />}
+                                        control={control}
+                                        name={'email'}
+                                        defaultValue={''}
+                                    />
+
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Controller
+                                        render={
+                                            ({field}) =>
+                                                <TextField
+                                                    {...field}
+                                                    fullWidth
+                                                    label="Password"
+                                                    type="password"
+                                                    id="password"
+                                                    autoComplete="off"
+                                                    error={!!errors.password}
+                                                    helperText={errors.password ? errors.password?.message : ''}
+                                                />}
+                                        control={control}
+                                        name={'password'}
+                                        defaultValue={''}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField
-                                        required
-                                        fullWidth
-                                        name="password"
-                                        label="Password"
-                                        type="password"
-                                        id="password"
-                                        autoComplete="new-password"
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        required
-                                        fullWidth
-                                        name="repeat-password"
-                                        label="Repeat Password"
-                                        type="password"
-                                        id="repeat-password"
-                                        autoComplete="new-password"
+                                    <Controller
+                                        render={
+                                            ({field}) =>
+                                                <TextField
+                                                    {...field}
+                                                    fullWidth
+                                                    label="Repeat Password"
+                                                    type="password"
+                                                    id="repeatedPassword"
+                                                    autoComplete="off"
+                                                    error={!!errors.repeatedPassword}
+                                                    helperText={errors.repeatedPassword ? errors.repeatedPassword?.message : ''}
+                                                />}
+                                        control={control}
+                                        name={'repeatedPassword'}
+                                        defaultValue={''}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
