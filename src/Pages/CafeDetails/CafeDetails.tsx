@@ -5,10 +5,11 @@ import {
     Chip,
     Container,
     Divider,
-    IconButton,
+    IconButton, Link,
     Stack
 } from '@mui/material';
-
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
 import Typography from '@mui/material/Typography';
 import {ImageCarousel} from '../../components/ImageCarousel';
 import {CustomRating} from '../../components/CustomRating';
@@ -27,7 +28,7 @@ import {CAFE} from '../../constants';
 
 export const CafeDetails: React.FC = () => {
     const {isAuth} = useContext(CafeContext);
-    const { id } = useParams();
+    const {id} = useParams();
     const [currentCafe, setCurrentCafe] = useState<Cafe>();
 
     const fetchCafe = async () => {
@@ -35,7 +36,7 @@ export const CafeDetails: React.FC = () => {
             return;
         }
 
-        const { data } = await fetchData(CAFE(id));
+        const {data} = await fetchData(CAFE(id));
 
         setCurrentCafe(data);
     }
@@ -47,7 +48,8 @@ export const CafeDetails: React.FC = () => {
 
     if (!currentCafe) {
         return <div>No such cafe</div>
-    };
+    }
+    ;
 
     return (
         <Box sx={{
@@ -82,7 +84,7 @@ export const CafeDetails: React.FC = () => {
                     </IconButton>
                 </Box>
 
-                <ImageCarousel images={currentCafe.imageLink}/>
+                <ImageCarousel images={currentCafe.imageLink} logoLink={currentCafe.logoLink}/>
 
                 <Box sx={{
                     mx: 3,
@@ -100,19 +102,19 @@ export const CafeDetails: React.FC = () => {
                             gap: 1,
                         }}>
                         <Chip label={currentCafe.priceLevel}/>
-                        {currentCafe.veganOption &&
+                        {currentCafe.optionNames.includes('vegan') &&
                           <Chip label={`Vegan friendly`}/>}
                         <Chip
-                            label={currentCafe.alcohol ? 'Alcohol available' : 'No alcohol'}/>
+                            label={currentCafe.optionNames.includes('alcohol') ? 'Alcohol available' : 'No alcohol'}/>
                         <Chip label={`Noise level: ${currentCafe.noiseLevel}`}/>
-                        {currentCafe.eventRoom &&
+                        {currentCafe.optionNames.includes('event%20room') &&
                           <Chip label={`Event room available`}/>}
 
                     </Box>
                     <CustomRating isAuth={isAuth}/>
                 </Box>
 
-                <Divider />
+                <Divider/>
 
                 <Stack spacing={1}
                        sx={{my: 2}}
@@ -138,11 +140,45 @@ export const CafeDetails: React.FC = () => {
                         color="text.secondary"
                         textAlign='left'
                     >
+                        <b>Minimum order:</b> {currentCafe.minOrder}
+                    </Typography>
+
+                    <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        textAlign='left'
+                    >
                         <b>Tables number:</b> {currentCafe.tablesNumber}
                     </Typography>
+
+                    {currentCafe.websiteLink && <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        textAlign='left'
+                    >
+                        <b>Website:</b> <Link
+                        href={`${currentCafe.websiteLink}`}>{currentCafe.websiteLink}</Link>
+                    </Typography>}
+
+                    <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            textAlign='left'
+                        >
+                            <b>Social media:</b>
+                        </Typography>
+                        {currentCafe.facebookLink && <Link href={`${currentCafe.facebookLink}`}>
+                            <FacebookIcon/>
+                        </Link>}
+                        {currentCafe.instagramLink && <Link href={`${currentCafe.instagramLink}`}>
+                            <InstagramIcon/>
+                        </Link>}
+                    </Stack>
+
                 </Stack>
 
-                <Divider />
+                <Divider/>
 
                 <Typography
                     color="text.main"
@@ -154,7 +190,7 @@ export const CafeDetails: React.FC = () => {
                     {currentCafe.description}
                 </Typography>
 
-                <Divider />
+                <Divider/>
 
                 <Stack spacing={3} sx={{mt: 2}}>
                     <CommentCard/>

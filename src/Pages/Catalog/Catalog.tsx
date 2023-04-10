@@ -5,10 +5,6 @@ import {CafeCard} from '../../components/CafeCard';
 import {Header} from '../../components/Header';
 import {
     Container,
-    FormControl, InputLabel, MenuItem,
-    Pagination, Select,
-    Stack,
-    Typography
 } from '@mui/material';
 import {Sidebar} from '../../components/Sidebar';
 import {Cafe} from '../../types/Cafe';

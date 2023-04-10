@@ -1,9 +1,11 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Slider, {SliderThumb} from '@mui/material/Slider';
+import {FormValues} from '../FilterForm';
+import {Control, Controller} from "react-hook-form";
 
 function valuetext(value: number) {
-    return `${value}°C`;
+    return `${value}`;
 }
 
 const marks = [
@@ -12,65 +14,53 @@ const marks = [
         label: '0',
     },
     {
-        value: 50,
-        label: '50',
-    },
-    {
         value: 100,
         label: '100',
-    },
-    {
-        value: 150,
-        label: '150',
     },
     {
         value: 200,
         label: '200',
     },
+    {
+        value: 300,
+        label: '300',
+    },
+    {
+        value: 400,
+        label: '400',
+    },
+    {
+        value: 500,
+        label: '500',
+    },
 ];
 
-const minDistance = 50;
+const minDistance = 0;
 
-export const MinimumDistanceSlider = () => {
+type Props = {
+    control: Control<FormValues>;
+}
 
-    const [value2, setValue2] = React.useState<number[]>([0, 50]);
-
-    const handleChange2 = (
-        event: Event,
-        newValue: number | number[],
-        activeThumb: number,
-    ) => {
-        if (!Array.isArray(newValue)) {
-            return;
-        }
-
-        if (newValue[1] - newValue[0] < minDistance) {
-            if (activeThumb === 0) {
-                const clamped = Math.min(newValue[0], 100 - minDistance);
-                setValue2([clamped, clamped + minDistance]);
-            } else {
-                const clamped = Math.max(newValue[1], minDistance);
-                setValue2([clamped - minDistance, clamped]);
-            }
-        } else {
-            setValue2(newValue as number[]);
-        }
-    };
+export const MinimumDistanceSlider: React.FC<Props> = ({control}) => {
 
     return (
-        <Box sx={{ width: '100%' }}>
-            <Slider
-                getAriaLabel={() => 'Minimum distance shift'}
-                value={value2}
-                onChange={handleChange2}
-                valueLabelDisplay="auto"
-                getAriaValueText={valuetext}
-                min={0}
-                max={200}
-                step={minDistance}
-                disableSwap
-                marks={marks}
-            />
-        </Box>
+        <Controller
+            name="minOrder"
+            control={control}
+            defaultValue={[0, 10]}
+            render={({ field }) => (
+                <Slider
+                    {...field}
+                    onChange={(_, value) => {
+                        field.onChange(value);
+                    }}
+                    valueLabelDisplay="auto"
+                    marks={marks}
+                    min={0}
+                    max={500}
+                    step={minDistance}
+                />
+            )}
+        />
     );
 }

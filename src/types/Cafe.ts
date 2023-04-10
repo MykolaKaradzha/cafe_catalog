@@ -12,10 +12,7 @@ export interface Cafe {
     tablesNumber: number,
     latitude: null,
     longitude: null,
-    veganOption: boolean,
-    alcohol: boolean,
-    eventRoom: boolean,
-    rating: null,
+    rating: null | number,
     instagramLink: string | null,
     facebookLink: string | null,
     websiteLink: string | null,
@@ -27,3 +24,27 @@ export interface Cafe {
     totalElements?: number
 }
 
+
+// {
+//     "id":2,
+//     "name":"City Zen Café",
+//     "shortDescription":"The menu includes the hits of modern urban cuisine: breakfasts, salads, burgers, smoothies, coffee, desserts and much more.",
+//     "description":"City-Zen is a place where you can forget about the hustle and bustle and find harmony within yourself. It is cozy here both alone and in the company of relatives and friends. The secret of the attractiveness of our institutions is their versatility combined with a friendly character and lack of pathos.",
+//     "city":"Kyiv",
+//     "address":"Rusanivska Embankment, 10, Kyiv, 02154",
+//     "hours":"09.00 - 20.00",
+//     "priceLevel":"$$",
+//     "minOrder":250,
+//     "noiseLevel":"Middle",
+//     "tablesNumber":25,
+//     "latitude":null,
+//     "longitude":null,
+//     "rating":null,
+//     "instagramLink":"https://www.facebook.com/cafe.cityzen/",
+//     "facebookLink":"https://www.facebook.com/cafe.cityzen/",
+//     "websiteLink":"www.cityzen.com.ua",
+//     "logoLink":"https://thumbs2.imgbox.com/3d/97/Do0PbS3F_t.png",
+//     "optionNames":["alcohol","vegan"],
+//     "imageLink":["https://thumbs2.imgbox.com/1c/01/yLuskgx6_t.png",
+//     "https://thumbs2.imgbox.com/a1/1a/MnxLksFa_t.jpeg"],
+//     "commentIds":[]}

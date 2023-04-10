@@ -13,10 +13,16 @@ const StyledImage = styled.img`
 `
 
 type Props = {
-    images: string[]
+    images: string[];
+    logoLink: string;
 }
 
-export const ImageCarousel: React.FC<Props> = ({ images}) => {
+export const ImageCarousel: React.FC<Props> = ({ images, logoLink}) => {
+    let displayedImages = [...images];
+
+    if (images.length % 2 !== 0) {
+        displayedImages.unshift(logoLink);
+    }
 
     return (
         <Carousel
@@ -41,7 +47,7 @@ export const ImageCarousel: React.FC<Props> = ({ images}) => {
                 ]}
             mobileBreakpoint={300}
         >
-            {images.map((img: string) => (
+            {displayedImages.map((img: string) => (
                 <Carousel.Item key={img}>
                     <StyledImage src={img}/>
                 </Carousel.Item>

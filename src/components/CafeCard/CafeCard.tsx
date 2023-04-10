@@ -73,9 +73,15 @@ export const CafeCard: React.FC<Props> = ({ cafe }) => {
                 }}
                 >
                     <Chip label={cafe.priceLevel} />
-                    {cafe.veganOption &&
+                    {cafe.optionNames.includes('vegan') &&
                       <Chip label={`Vegan friendly`} />}
-                    <Chip label={cafe.alcohol ? 'Alcohol' : 'No alcohol'} />
+                    <Chip
+                        label={
+                        cafe.optionNames.includes('alcohol')
+                            ? 'Alcohol'
+                            : 'No alcohol'
+                    }
+                    />
                 </Stack>
 
                 <Divider />
