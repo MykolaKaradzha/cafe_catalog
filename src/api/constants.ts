@@ -2,6 +2,10 @@ import {FormValues} from '../components/FilterForm';
 
 export const BASE_URL = `https://cafe-catalog.site/api/cafe`;
 
+export const REGISTER_URL = '/register';
+
+export const LOGIN_URL = '/auth';
+
 export const CAFE = (id: string) => `${BASE_URL}/${id}`;
 
 export const SORTED_BY = (

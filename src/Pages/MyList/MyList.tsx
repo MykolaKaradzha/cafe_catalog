@@ -14,7 +14,7 @@ import {SortSelector} from '../../components/SortSelector';
 import {CustomPagination} from '../../components/CustomPagination';
 import {useCafe} from '../../hooks/useCafe';
 
-export const Catalog: React.FC = () => {
+export const MyList: React.FC = () => {
     const {cafes, drawerWidth} = useCafe();
 
     return (
@@ -50,7 +50,7 @@ export const Catalog: React.FC = () => {
 
                         }}
                     >
-                        {cafes.map((cafe: Cafe, index: number) => (
+                        {[].map((cafe: Cafe, index: number) => (
                             <Grid
                                 item
                                 xs={4}

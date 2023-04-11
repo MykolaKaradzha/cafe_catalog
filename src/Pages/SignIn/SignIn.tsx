@@ -1,22 +1,31 @@
 import * as React from 'react';
+import {FC, useState} from 'react';
+import {useForm, Controller} from 'react-hook-form';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import {Link} from 'react-router-dom'
+import {Link, useLocation, useNavigate} from 'react-router-dom'
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {Header} from '../../components/Header';
 import {Footer} from '../../components/Footer';
+import * as yup from 'yup'
+import {yupResolver} from '@hookform/resolvers/yup';
+import {PopUp} from '../../components/PopUp';
+import {axiosInstance} from '../../api/fetchClient';
+import {LOGIN_URL} from '../../api/constants';
+import {Alert, AlertTitle} from '@mui/material';
+import {useCafe} from '../../hooks/useCafe';
 
 function Copyright(props: any) {
     return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
+        <Typography variant="body2" color="text.secondary"
+                    align="center" {...props}>
             {'Copyright © '}
             <Typography
                 color="inherit"
@@ -33,15 +42,63 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-export const SignIn = () => {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-    };
+type IFormInputs = {
+    username: string;
+    password: string;
+}
+
+const schema = yup.object().shape({
+    username: yup.string().required(),
+    password: yup.string().required(),
+})
+
+export const SignIn: FC = () => {
+    const {
+        control,
+        reset,
+        handleSubmit,
+        formState: {errors}
+    } = useForm<IFormInputs>({resolver: yupResolver(schema)});
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    // check previous path, if NA, than homepage
+    const from = location.state?.from?.pathname || '/';
+
+    const {setPopUpOpen, setAuth} = useCafe();
+    const [error, setError] = useState('');
+
+    const handleOnSubmit = async (data: IFormInputs) => {
+        try {
+            // const response = await axiosInstance.post(LOGIN_URL,
+            //     JSON.stringify({...data}),
+            //     {
+            //         headers: {'Content-Type': 'application/json'},
+            //         withCredentials: true
+            //     }
+            // );
+            // const accessToken = response?.data?.accessToken;
+            // const roles = response?.data?.roles;
+            setAuth(true);
+            reset();
+            setPopUpOpen(true);
+
+            setTimeout(() => navigate(from, { replace: true }), 3000);
+        } catch (err) {
+            // @ts-ignore
+            if (!err?.response) {
+                setError('No server response');
+                // @ts-ignore
+            } else if (err.response?.status === 400) {
+                setError('Missing Username or Password');
+                // @ts-ignore
+            } else if (err.response?.status === 400) {
+                setError('Unauthorized');
+            } else {
+                setError('Login failed');
+            }
+        }
+    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -50,7 +107,7 @@ export const SignIn = () => {
                     display: 'flex',
                     flexDirection: 'column',
                     height: '100%',
-            }}>
+                }}>
                 <Header withSideBar={false}/>
                 <Container
                     component="main"
@@ -71,28 +128,58 @@ export const SignIn = () => {
                         <Typography component="h1" variant="h5">
                             Sign in
                         </Typography>
-                        <Box component="form" onSubmit={handleSubmit} noValidate
+                        <Box component="form"
+                             onSubmit={handleSubmit(handleOnSubmit)}
                              sx={{mt: 1}}>
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                                autoFocus
+                            <Controller
+                                render={
+                                    ({field}) =>
+                                        <TextField
+                                            {...field}
+                                            margin="normal"
+                                            fullWidth
+                                            id="username"
+                                            label={"Username"}
+                                            autoComplete="off"
+                                            error={!!errors.username}
+                                            helperText={errors.username ? errors.username?.message : ''}
+                                            autoFocus
+                                        />}
+                                control={control}
+                                name={'username'}
+                                defaultValue={''}
                             />
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="password"
-                                label="Password"
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
+
+                            <Controller
+                                render={
+                                    ({field}) =>
+                                        <TextField
+                                            {...field}
+                                            fullWidth
+                                            margin="normal"
+                                            label="Password"
+                                            type="password"
+                                            id="password"
+                                            autoComplete="current-password"
+                                            error={!!errors.password}
+                                            helperText={errors.password ? errors.password?.message : ''}
+                                        />}
+                                control={control}
+                                name={'password'}
+                                defaultValue={''}
                             />
+
+                            {error &&
+                              <Alert
+                                severity="error"
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center'
+                                }}
+                              >
+                                <AlertTitle>{error}</AlertTitle>
+                              </Alert>}
+
                             <FormControlLabel
                                 control={<Checkbox value="remember"
                                                    color="primary"/>}
@@ -119,6 +206,7 @@ export const SignIn = () => {
                     </Box>
                     <Copyright sx={{mt: 8}}/>
                 </Container>
+                <PopUp variant={'signIn'}/>
                 <Footer/>
             </Box>
         </ThemeProvider>

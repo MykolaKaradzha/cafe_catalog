@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 
 import {
     Box, Button,
@@ -12,7 +12,7 @@ import FavoriteBorderRoundedIcon
     from '@mui/icons-material/FavoriteBorderRounded';
 import {useNavigate} from "react-router-dom";
 import {Cafe} from '../../types/Cafe';
-import {CafeContext} from '../../context/CafeContext';
+import { useCafe } from '../../hooks/useCafe';
 
 
 type Props = {
@@ -20,7 +20,7 @@ type Props = {
 };
 
 export const CafeCard: React.FC<Props> = ({ cafe }) => {
-    const {isAuth, cafes} = useContext(CafeContext);
+    const {isAuth, cafes} = useCafe();
     const navigate = useNavigate();
 
     const handleDetailButton = () => {

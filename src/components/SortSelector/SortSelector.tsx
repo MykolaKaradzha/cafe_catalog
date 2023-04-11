@@ -7,11 +7,10 @@ import {
     Select,
     SelectChangeEvent
 } from '@mui/material';
-import {useContext} from 'react';
-import {CafeContext} from '../../context/CafeContext';
+import {useCafe} from '../../hooks/useCafe';
 
 export const SortSelector = () => {
-    const {sortOption, setSortOption} = useContext(CafeContext);
+    const {sortOption, setSortOption} = useCafe();
 
     const handleChange = (event: SelectChangeEvent) => {
         setSortOption(event.target.value);

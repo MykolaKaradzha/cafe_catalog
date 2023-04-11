@@ -11,44 +11,41 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import FavoriteBorderRoundedIcon
     from '@mui/icons-material/FavoriteBorderRounded';
 import LocalCafeIcon from '@mui/icons-material/LocalCafe';
-import {useContext} from 'react';
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {HeaderUserMenu} from '../HeaderUserMenu';
-import { CafeContext } from '../../context/CafeContext';
+import {useCafe} from '../../hooks/useCafe';
 
 type Props = {
     withSideBar: boolean
 }
 
 export const Header: React.FC<Props> = ({ withSideBar }) => {
-    const params = useLocation();
-    const currentPath = params.pathname;
+    const location = useLocation();
+    console.log(location)
+    const currentPath = location.pathname;
     const navigate = useNavigate();
 
     const {
         isSidebarOpen,
         setSidebarOpen,
         isAuth,
-    } = useContext(CafeContext);
+    } = useCafe();
 
-    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
     const handleDrawerToggle = () => {
         setSidebarOpen(!isSidebarOpen);
     };
-    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElUser(event.currentTarget);
-    };
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
+    const handleOnHomeButtonClick = () => {
         navigate('/')
     };
 
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
+    const handleOnMyListButtonClick = () => {
+        navigate('/mylist')
     };
+
+
+
 
     return (
 
@@ -72,26 +69,6 @@ export const Header: React.FC<Props> = ({ withSideBar }) => {
                         >
                             <MenuIcon/>
                         </IconButton>
-
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                            open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
-                            sx={{
-                                display: {xs: 'block', md: 'none'},
-                            }}
-                        >
-                        </Menu>
                     </Box>
                 )}
                 <LocalCafeIcon
@@ -125,7 +102,7 @@ export const Header: React.FC<Props> = ({ withSideBar }) => {
                 }}
                 >
                         <Button
-                            onClick={handleCloseNavMenu}
+                            onClick={handleOnHomeButtonClick}
                             sx={{
                                 my: 2,
                                 color: currentPath === '/' ? "yellow" : "white",
@@ -137,10 +114,13 @@ export const Header: React.FC<Props> = ({ withSideBar }) => {
                         </Button>
 
                         <Button
-                            onClick={handleCloseNavMenu}
-                            sx={{my: 2, color: 'white',}}
+                            onClick={handleOnMyListButtonClick}
+                            sx={{
+                                my: 2,
+                                color: currentPath === '/mylist' ? "yellow" : "white",
+                                fontWeight: currentPath === '/mylist' ? "bold" : "medium",
+                            }}
                             startIcon={<FavoriteBorderRoundedIcon/>}
-                            disabled={!isAuth}
                         >
                             My List
                         </Button>

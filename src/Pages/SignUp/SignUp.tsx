@@ -2,9 +2,7 @@ import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -13,10 +11,15 @@ import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {Header} from '../../components/Header';
 import {Footer} from '../../components/Footer';
-import {FC} from 'react';
+import {FC, useState} from 'react';
 import {useForm, Controller} from 'react-hook-form';
 import * as yup from 'yup'
 import {yupResolver} from '@hookform/resolvers/yup';
+import {axiosInstance} from '../../api/fetchClient';
+import {REGISTER_URL} from '../../api/constants';
+import {PopUp} from '../../components/PopUp';
+import {Alert, AlertTitle} from '@mui/material';
+import {useCafe} from '../../hooks/useCafe';
 
 
 function Copyright(props: any) {
@@ -39,9 +42,6 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9_]{3, 23}$/;
-const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-
 type IFormInputs = {
     email: string;
     username: string;
@@ -57,15 +57,42 @@ const schema = yup.object().shape({
 })
 
 export const SignUp: FC = () => {
-
     const {
         control,
+        reset,
         handleSubmit,
         formState: {errors}
     } = useForm<IFormInputs>({resolver: yupResolver(schema)});
+    const navigate = useNavigate();
+    const {setPopUpOpen, setAuth} = useCafe();
+    const [error, setError] = useState('');
 
-    const handleOnSubmit = (data: IFormInputs) => {
+
+    const handleOnSubmit = async (data: IFormInputs) => {
         console.log(data, errors)
+        try {
+            // const response = await axiosInstance.post(REGISTER_URL,
+            //     JSON.stringify({...data}),
+            //     {
+            //         headers: {'Content-Type': 'application/json'},
+            //         withCredentials: true
+            //     }
+            // );
+            setAuth(true);
+            reset();
+            setPopUpOpen(true);
+            setTimeout(() => navigate('/'), 3000)
+        } catch (err) {
+            // @ts-ignore
+            if (!err?.response) {
+                setError('No server response')
+                // @ts-ignore
+            } else if (err.response?.status === 409) {
+                setError('Username is taken')
+            } else {
+                setError('Registration failed')
+            }
+        }
     };
 
     return (
@@ -146,7 +173,7 @@ export const SignUp: FC = () => {
                                                     label="Password"
                                                     type="password"
                                                     id="password"
-                                                    autoComplete="off"
+                                                    autoComplete="new-password"
                                                     error={!!errors.password}
                                                     helperText={errors.password ? errors.password?.message : ''}
                                                 />}
@@ -174,14 +201,17 @@ export const SignUp: FC = () => {
                                         defaultValue={''}
                                     />
                                 </Grid>
-                                <Grid item xs={12}>
-                                    <FormControlLabel
-                                        control={<Checkbox
-                                            value="allowExtraEmails"
-                                            color="primary"/>}
-                                        label="I want to receive inspiration, marketing promotions and updates via email."
-                                    />
-                                </Grid>
+                                {error && <Grid item xs={12}>
+                                  <Alert
+                                    severity="error"
+                                    sx={{
+                                        display: 'flex',
+                                        justifyContent: 'center'
+                                    }}
+                                  >
+                                    <AlertTitle>{error}</AlertTitle>
+                                  </Alert>
+                                </Grid>}
                             </Grid>
                             <Button
                                 type="submit"
@@ -206,6 +236,7 @@ export const SignUp: FC = () => {
                     </Box>
                     <Copyright sx={{mt: 5}}/>
                 </Container>
+                <PopUp variant={'signUp'}/>
                 <Footer/>
             </Box>
         </ThemeProvider>

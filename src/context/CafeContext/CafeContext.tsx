@@ -20,6 +20,8 @@ export type CafeContext = {
     totalPages: number;
     currentPage: number;
     sortOption: string;
+    isPopUpOpen: boolean;
+    setPopUpOpen: (status: boolean) => void;
     setFilterOptions: (filterOptions: FormValues) => void,
     setTotalPages: (pages: number) => void;
     setCafes: (cafes: Cafe[]) => void;
@@ -37,6 +39,9 @@ export const CafeContext = createContext<CafeContext>({
     totalPages: 0,
     currentPage: 0,
     sortOption: '',
+    isPopUpOpen: false,
+    setPopUpOpen:  () => {
+    },
     setFilterOptions: () => {
     },
     setTotalPages: () => {
@@ -66,22 +71,9 @@ export const CafeContextProvider = (
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [sortOption, setSortOption] = useState('');
-    const [filterOptions, setFilterOptions] = useState<FormValues>(defaultValues)
-    // const [fetchLink, setFetchLink] = useState(BASE_URL)
-    //
-    // const linkCheck = (linkPart: string) => {
-    //     if (fetchLink === BASE_URL) {
-    //         setFetchLink(state => state + '?' + linkPart)
-    //         return;
-    //     }
-    //
-    //     setFetchLink(state => state + '&' + linkPart)
-    // }
-    // console.log(fetchLink)
-
+    const [filterOptions, setFilterOptions] = useState<FormValues>(defaultValues);
+    const [isPopUpOpen, setPopUpOpen] = React.useState(false);
     let sortingLink = BASE_URL;
-
-
 
     const fetchSortedCafes = async () => {
         const {data: sortedCafes} = await fetchData(sortingLink);
@@ -106,6 +98,8 @@ export const CafeContextProvider = (
                 totalPages,
                 currentPage,
                 sortOption,
+                isPopUpOpen,
+                setPopUpOpen,
                 setFilterOptions,
                 setTotalPages,
                 setCafes,

@@ -19,11 +19,11 @@ import {Header} from '../../components/Header';
 import {Footer} from '../../components/Footer';
 import {CommentCard} from '../../components/Comments/CommentCard/CommentCard';
 import {CommentBox} from '../../components/Comments/CommentBox';
-import {CafeContext} from '../../context/CafeContext';
 import {useParams} from 'react-router';
 import {Cafe} from '../../types/Cafe';
 import { CAFE } from '../../api/constants';
 import {fetchData} from '../../api/fetchClient';
+import {useCafe} from '../../hooks/useCafe';
 
 const StyledNote = (props: any) => (
     <Typography
@@ -37,7 +37,7 @@ const StyledNote = (props: any) => (
 
 
 export const CafeDetails: React.FC = () => {
-    const {isAuth} = useContext(CafeContext);
+    const {isAuth} = useCafe();
     const {id} = useParams();
     const [currentCafe, setCurrentCafe] = useState<Cafe>();
 

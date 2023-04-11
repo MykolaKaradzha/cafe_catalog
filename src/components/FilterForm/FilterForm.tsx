@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {useForm, Controller} from "react-hook-form";
 import {
     Box,
@@ -11,9 +11,9 @@ import {
 import Typography from '@mui/material/Typography';
 import {MinimumDistanceSlider} from '../Sliders';
 import {CheckboxFilter} from '../CheckboxFilter';
-import {CafeContext} from '../../context/CafeContext';
 import Rating from '@mui/material/Rating';
 import {ThumbUp} from '@mui/icons-material';
+import {useCafe} from '../../hooks/useCafe';
 
 
 const FilterSubtitle = (props: any) => (
@@ -61,7 +61,7 @@ export type option = "$" | "$$" | "$$$" | "low" | "middle" | "high";
 
 export const FilterForm: React.FC = () => {
     const {handleSubmit, reset, control} = useForm<FormValues>({defaultValues})
-    const {setFilterOptions, setSidebarOpen} = useContext(CafeContext);
+    const {setFilterOptions, setSidebarOpen} = useCafe();
 
     const priceOptions: option[] = ['$', '$$', '$$$'];
     const noiseOptions: option[] = ['low', 'middle', 'high'];
