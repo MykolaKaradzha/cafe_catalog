@@ -1,20 +1,23 @@
-import React, {useContext} from 'react'
-
-import {CafeContext} from '../../context/CafeContext';
+import React, {FC} from 'react'
 import {Pagination} from '@mui/material';
 
 
+type Props = {
+    currentPage: number;
+    setPage: (page: number) => void;
+    totalPages: number;
+}
 
-export const CustomPagination = () => {
-    const {setCurrentPage, totalPages} = useContext(CafeContext);
+export const CustomPagination: FC<Props> = ({setPage, totalPages, currentPage}) => {
+
     const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
-        setCurrentPage(page - 1);
+        setPage(page - 1);
     }
-
 
     return (
         <Pagination
             count={totalPages}
+            page={currentPage + 1}
             color="secondary"
             onChange={handlePageChange}
             sx={{

@@ -1,25 +1,28 @@
 import {FormValues} from '../components/FilterForm';
 
-export const BASE_URL = `https://cafe-catalog.site/api/cafe`;
+export const BASE_URL = `https://cafe-catalog.site/api`;
 
-export const REGISTER_URL = '/register';
+export const CAFES_URL = `${BASE_URL}/cafe`;
 
-export const LOGIN_URL = '/auth';
+export const REGISTER_URL = '/auth/register';
 
-export const CAFE = (id: string) => `${BASE_URL}/${id}`;
+export const LOGIN_URL = '/auth/login';
+
+
+export const CAFE = (id: string) => `${CAFES_URL}/${id}`;
 
 export const SORTED_BY = (
-     pageNumber: number = 0, optionOrder: string,
+    optionOrder: string,
 ) => {
     if (!optionOrder || optionOrder === 'none' ) {
-        return `?sortBy=id:ASC&page=${pageNumber}`
+        return `?sortBy=id:ASC`
     }
     const [option, order] = optionOrder.split('_');
 
-    return `?sortBy=${option}:${order}&page=${pageNumber}`
+    return `?sortBy=${option}:${order}`
 }
 
-export const FILTERED = (filterData : FormValues) => {
+export const FILTERED = (filterData : FormValues,  pageNumber: number = 0, ) => {
     let options = ['alcohol','event%20room','vegan'];
     let noise = ['low','middle','high'];
     let price = ['$', '$$', '$$$'];
@@ -69,6 +72,6 @@ export const FILTERED = (filterData : FormValues) => {
         ? `priceLevel=${price.join(',')}`
         : '';
 
-    return `&${optionsBlock}&${noiseBlock}&${priceBlock}&${minOrderBlock}&${ratingBlock}`;
+    return `&${optionsBlock}&${noiseBlock}&${priceBlock}&${minOrderBlock}&${ratingBlock}&page=${pageNumber}`;
 
 }

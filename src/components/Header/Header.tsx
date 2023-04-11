@@ -21,15 +21,9 @@ type Props = {
 
 export const Header: React.FC<Props> = ({ withSideBar }) => {
     const location = useLocation();
-    console.log(location)
     const currentPath = location.pathname;
     const navigate = useNavigate();
-
-    const {
-        isSidebarOpen,
-        setSidebarOpen,
-        isAuth,
-    } = useCafe();
+    const {isSidebarOpen, setSidebarOpen} = useCafe();
 
 
     const handleDrawerToggle = () => {

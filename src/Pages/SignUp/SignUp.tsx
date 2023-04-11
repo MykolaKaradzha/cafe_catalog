@@ -52,7 +52,7 @@ type IFormInputs = {
 const schema = yup.object().shape({
     email: yup.string().email('must be a valid email').required(),
     username: yup.string().required(),
-    password: yup.string().min(4).max(24).required(),
+    password: yup.string().min(8).max(24).required(),
     repeatedPassword: yup.string().oneOf([yup.ref('password')], 'passwords must match'),
 })
 
@@ -71,13 +71,18 @@ export const SignUp: FC = () => {
     const handleOnSubmit = async (data: IFormInputs) => {
         console.log(data, errors)
         try {
-            // const response = await axiosInstance.post(REGISTER_URL,
-            //     JSON.stringify({...data}),
-            //     {
-            //         headers: {'Content-Type': 'application/json'},
-            //         withCredentials: true
-            //     }
-            // );
+            const response = await axiosInstance.post(REGISTER_URL,
+                JSON.stringify({...data}),
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    withCredentials: true
+                }
+            );
+            console.log(response?.data);
+            console.log(response?.data.id);
+            console.log(JSON.stringify(response));
             setAuth(true);
             reset();
             setPopUpOpen(true);

@@ -4,7 +4,7 @@ import React, {
     useState
 } from 'react';
 import {
-    BASE_URL, FILTERED, SORTED_BY
+    BASE_URL, CAFES_URL, FILTERED, SORTED_BY
 } from '../../api/constants';
 import {Cafe} from '../../types/Cafe';
 import {fetchData} from '../../api/fetchClient';
@@ -58,6 +58,15 @@ export const CafeContext = createContext<CafeContext>({
     },
 });
 
+// type AuthData = {
+//     "id": string,
+//     "email":
+//     "username"
+//     "favourites"
+//     "roles"
+//     "comments"
+// }
+
 
 export const CafeContextProvider = (
     {children}: { children: React.ReactNode }
@@ -67,13 +76,14 @@ export const CafeContextProvider = (
     const drawerWidth = 300;
     const [cafes, setCafes] = useState<Cafe[]>([]);
     const [isSidebarOpen, setSidebarOpen] = useState(false);
+    // const [isAuth, setAuth] = useState(true);
     const [isAuth, setAuth] = useState(true);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [sortOption, setSortOption] = useState('');
     const [filterOptions, setFilterOptions] = useState<FormValues>(defaultValues);
     const [isPopUpOpen, setPopUpOpen] = React.useState(false);
-    let sortingLink = BASE_URL;
+    let sortingLink = CAFES_URL;
 
     const fetchSortedCafes = async () => {
         const {data: sortedCafes} = await fetchData(sortingLink);
@@ -82,7 +92,7 @@ export const CafeContextProvider = (
     }
 
     useEffect(() => {
-        sortingLink += SORTED_BY(currentPage, sortOption) + FILTERED(filterOptions)
+        sortingLink += SORTED_BY(sortOption) + FILTERED(filterOptions, currentPage)
         fetchSortedCafes();
     }, [sortOption, currentPage, filterOptions])
 

@@ -70,15 +70,16 @@ export const SignIn: FC = () => {
 
     const handleOnSubmit = async (data: IFormInputs) => {
         try {
-            // const response = await axiosInstance.post(LOGIN_URL,
-            //     JSON.stringify({...data}),
-            //     {
-            //         headers: {'Content-Type': 'application/json'},
-            //         withCredentials: true
-            //     }
-            // );
-            // const accessToken = response?.data?.accessToken;
-            // const roles = response?.data?.roles;
+            const response = await axiosInstance.post(LOGIN_URL,
+                JSON.stringify({...data}),
+                {
+                    headers: {'Content-Type': 'application/json'},
+                    withCredentials: true
+                }
+            );
+            console.log(JSON.stringify(response?.data));
+            console.log(JSON.stringify(response));
+            const accessToken = response?.data?.token;
             setAuth(true);
             reset();
             setPopUpOpen(true);

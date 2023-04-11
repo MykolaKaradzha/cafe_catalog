@@ -61,7 +61,7 @@ export type option = "$" | "$$" | "$$$" | "low" | "middle" | "high";
 
 export const FilterForm: React.FC = () => {
     const {handleSubmit, reset, control} = useForm<FormValues>({defaultValues})
-    const {setFilterOptions, setSidebarOpen} = useCafe();
+    const {setFilterOptions, setSidebarOpen, setCurrentPage} = useCafe();
 
     const priceOptions: option[] = ['$', '$$', '$$$'];
     const noiseOptions: option[] = ['low', 'middle', 'high'];
@@ -69,6 +69,7 @@ export const FilterForm: React.FC = () => {
     const handleOnSubmit = (data: FormValues) => {
         setFilterOptions(data);
         setSidebarOpen(false);
+        setCurrentPage(0);
     }
 
     const resetOnClick = () => {

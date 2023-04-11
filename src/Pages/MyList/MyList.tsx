@@ -15,7 +15,7 @@ import {CustomPagination} from '../../components/CustomPagination';
 import {useCafe} from '../../hooks/useCafe';
 
 export const MyList: React.FC = () => {
-    const {cafes, drawerWidth} = useCafe();
+    const {cafes, drawerWidth, setCurrentPage, totalPages, currentPage} = useCafe();
 
     return (
         <>
@@ -63,7 +63,13 @@ export const MyList: React.FC = () => {
                         ))}
                     </Grid>
                 </Container>
-                <CustomPagination/>
+
+                <CustomPagination
+                    totalPages={totalPages}
+                    setPage={setCurrentPage}
+                    currentPage={currentPage}
+                />
+
                 <Footer/>
             </Box>
         </>
