@@ -17,7 +17,7 @@ import {Footer} from '../../components/Footer';
 import * as yup from 'yup'
 import {yupResolver} from '@hookform/resolvers/yup';
 import {PopUp} from '../../components/PopUp';
-import {axiosInstance} from '../../api/fetchClient';
+import {axiosPrivate} from '../../api/fetchClient';
 import {LOGIN_URL} from '../../api/constants';
 import {Alert, AlertTitle} from '@mui/material';
 import {useCafe} from '../../hooks/useCafe';
@@ -43,12 +43,12 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 type IFormInputs = {
-    username: string;
+    login: string;
     password: string;
 }
 
 const schema = yup.object().shape({
-    username: yup.string().required(),
+    login: yup.string().required(),
     password: yup.string().required(),
 })
 
@@ -70,12 +70,8 @@ export const SignIn: FC = () => {
 
     const handleOnSubmit = async (data: IFormInputs) => {
         try {
-            const response = await axiosInstance.post(LOGIN_URL,
+            const response = await axiosPrivate.post(LOGIN_URL,
                 JSON.stringify({...data}),
-                {
-                    headers: {'Content-Type': 'application/json'},
-                    withCredentials: true
-                }
             );
             console.log(JSON.stringify(response?.data));
             console.log(JSON.stringify(response));
@@ -84,7 +80,7 @@ export const SignIn: FC = () => {
             reset();
             setPopUpOpen(true);
 
-            setTimeout(() => navigate(from, { replace: true }), 3000);
+            setTimeout(() => navigate(from, {replace: true}), 3000);
         } catch (err) {
             // @ts-ignore
             if (!err?.response) {
@@ -142,8 +138,8 @@ export const SignIn: FC = () => {
                                             id="username"
                                             label={"Username"}
                                             autoComplete="off"
-                                            error={!!errors.username}
-                                            helperText={errors.username ? errors.username?.message : ''}
+                                            error={!!errors.login}
+                                            helperText={errors.login ? errors.login?.message : ''}
                                             autoFocus
                                         />}
                                 control={control}

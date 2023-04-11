@@ -76,7 +76,6 @@ export const CafeContextProvider = (
     const drawerWidth = 300;
     const [cafes, setCafes] = useState<Cafe[]>([]);
     const [isSidebarOpen, setSidebarOpen] = useState(false);
-    // const [isAuth, setAuth] = useState(true);
     const [isAuth, setAuth] = useState(true);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);

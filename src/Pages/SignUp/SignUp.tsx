@@ -15,7 +15,7 @@ import {FC, useState} from 'react';
 import {useForm, Controller} from 'react-hook-form';
 import * as yup from 'yup'
 import {yupResolver} from '@hookform/resolvers/yup';
-import {axiosInstance} from '../../api/fetchClient';
+import {axiosPrivate} from '../../api/fetchClient';
 import {REGISTER_URL} from '../../api/constants';
 import {PopUp} from '../../components/PopUp';
 import {Alert, AlertTitle} from '@mui/material';
@@ -44,16 +44,16 @@ const theme = createTheme();
 
 type IFormInputs = {
     email: string;
-    username: string;
     password: string;
-    repeatedPassword: string;
+    repeatPassword: string;
+    username: string;
 }
 
 const schema = yup.object().shape({
     email: yup.string().email('must be a valid email').required(),
-    username: yup.string().required(),
+    repeatPassword: yup.string().oneOf([yup.ref('password')], 'passwords must match'),
     password: yup.string().min(8).max(24).required(),
-    repeatedPassword: yup.string().oneOf([yup.ref('password')], 'passwords must match'),
+    username: yup.string().required(),
 })
 
 export const SignUp: FC = () => {
@@ -69,16 +69,9 @@ export const SignUp: FC = () => {
 
 
     const handleOnSubmit = async (data: IFormInputs) => {
-        console.log(data, errors)
         try {
-            const response = await axiosInstance.post(REGISTER_URL,
+            const response = await axiosPrivate.post(REGISTER_URL,
                 JSON.stringify({...data}),
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    withCredentials: true
-                }
             );
             console.log(response?.data);
             console.log(response?.data.id);
@@ -198,11 +191,11 @@ export const SignUp: FC = () => {
                                                     type="password"
                                                     id="repeatedPassword"
                                                     autoComplete="off"
-                                                    error={!!errors.repeatedPassword}
-                                                    helperText={errors.repeatedPassword ? errors.repeatedPassword?.message : ''}
+                                                    error={!!errors.repeatPassword}
+                                                    helperText={errors.repeatPassword ? errors.repeatPassword?.message : ''}
                                                 />}
                                         control={control}
-                                        name={'repeatedPassword'}
+                                        name={'repeatPassword'}
                                         defaultValue={''}
                                     />
                                 </Grid>
