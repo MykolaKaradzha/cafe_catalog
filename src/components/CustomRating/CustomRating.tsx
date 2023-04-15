@@ -2,18 +2,19 @@ import React from 'react';
 
 import Rating from '@mui/material/Rating';
 import {ThumbUp} from '@mui/icons-material';
+import {AuthData} from '../../context/CafeContext';
 
 
 type Props = {
-    isAuth: boolean
+    authData: AuthData | null
 }
 
-export const CustomRating: React.FC<Props> = ({isAuth,}) => {
+export const CustomRating: React.FC<Props> = ({ authData}) => {
 
     return (
         <Rating
             name={'rating='}
-            disabled={!isAuth}
+            disabled={!authData}
             getLabelText={(value: number) => `${value} Thumbs${value !== 1 ? 's' : ''}`}
             precision={1}
             sx={{

@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import {
     CardContent,
-    Chip,
+    Chip, CircularProgress,
     Container,
     Divider,
     IconButton, Link,
@@ -37,7 +37,7 @@ const StyledNote = (props: any) => (
 
 
 export const CafeDetails: React.FC = () => {
-    const {isAuth} = useCafe();
+    const {authData} = useCafe();
     const {id} = useParams();
     const [currentCafe, setCurrentCafe] = useState<Cafe>();
 
@@ -57,9 +57,18 @@ export const CafeDetails: React.FC = () => {
 
 
     if (!currentCafe) {
-        return <div>No such cafe</div>
-    }
-    ;
+        return <Box sx={{
+            display: 'flex',
+            height: '100%',
+            justifyContent: 'center',
+            alignItems: 'center',
+        }}>
+            <CircularProgress
+                size={'5rem'}
+                thickness={4}
+            />
+        </Box>
+    };
 
     return (
         <Box sx={{
@@ -88,7 +97,7 @@ export const CafeDetails: React.FC = () => {
                     </Typography>
                     <IconButton
                         color="primary"
-                        disabled={!isAuth}
+                        disabled={!authData}
                     >
                         <FavoriteBorderRoundedIcon/>
                     </IconButton>
@@ -122,7 +131,7 @@ export const CafeDetails: React.FC = () => {
                           <Chip label={`Event room available`}/>}
 
                     </Box>
-                    <CustomRating isAuth={isAuth}/>
+                    <CustomRating authData={authData}/>
                 </Box>
 
                 <Divider/>
@@ -190,7 +199,7 @@ export const CafeDetails: React.FC = () => {
                     <CommentCard/>
                     <CommentCard/>
                 </Stack>
-                {isAuth && <CommentBox/>}
+                {authData && <CommentBox/>}
             </Container>
             <Footer/>
         </Box>

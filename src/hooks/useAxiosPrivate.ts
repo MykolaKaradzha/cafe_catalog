@@ -4,7 +4,7 @@ import {useRefreshToken} from './useRefreshToken';
 import {useEffect} from "react";
 
 export const useAxiosPrivate = () => {
-    const {isAuth} = useCafe();
+    const { authData } = useCafe();
     const refresh = useRefreshToken();
 
     useEffect(() => {
@@ -13,7 +13,7 @@ export const useAxiosPrivate = () => {
                 // checking if it is first attempt
                 if (!config.headers['Authorization']) {
                     // if it is, then assigning accessToken to a header
-                    // config.headers['Authorization'] = `Bearer ${isAuth.accessToken}`
+                    config.headers['Authorization'] = `Bearer ${authData?.token}`
                 }
 
                 return config;
@@ -41,7 +41,7 @@ export const useAxiosPrivate = () => {
             axiosPrivate.interceptors.request.eject(requestIntercept);
             axiosPrivate.interceptors.response.eject(responseIntercept);
         }
-    }, [isAuth, refresh])
+    }, [authData, refresh])
 
     return axiosPrivate;
 }

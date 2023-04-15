@@ -8,7 +8,7 @@ import {CustomRating} from '../../CustomRating';
 import {CafeContext} from '../../../context/CafeContext';
 
 export const CommentCard: React.FC = () => {
-    const {isAuth} = useContext(CafeContext);
+    const { authData } = useContext(CafeContext);
     return (
         <Card
             sx={{
@@ -26,7 +26,7 @@ export const CommentCard: React.FC = () => {
                 >
                     UserName
                 </Typography>
-                <CustomRating isAuth={isAuth}/>
+                <CustomRating authData={authData}/>
             </Stack>
             <Typography variant='body2'>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

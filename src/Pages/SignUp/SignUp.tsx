@@ -20,38 +20,20 @@ import {REGISTER_URL} from '../../api/constants';
 import {PopUp} from '../../components/PopUp';
 import {Alert, AlertTitle} from '@mui/material';
 import {useCafe} from '../../hooks/useCafe';
-
-
-function Copyright(props: any) {
-    return (
-        <Typography variant="body2" color="text.secondary"
-                    align="center" {...props}>
-            {'Copyright © '}
-            <Typography
-                color="inherit"
-                component={Link}
-                to="/"
-            >
-                MyCafe
-            </Typography>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import {useWidth} from '../../utils/useWidth';
 
 const theme = createTheme();
 
 type IFormInputs = {
     email: string;
-    password: string;
-    repeatPassword: string;
     username: string;
+    password: string;
+    repeatedPassword: string;
 }
 
 const schema = yup.object().shape({
     email: yup.string().email('must be a valid email').required(),
-    repeatPassword: yup.string().oneOf([yup.ref('password')], 'passwords must match'),
+    repeatedPassword: yup.string().oneOf([yup.ref('password')], 'passwords must match'),
     password: yup.string().min(8).max(24).required(),
     username: yup.string().required(),
 })
@@ -64,11 +46,13 @@ export const SignUp: FC = () => {
         formState: {errors}
     } = useForm<IFormInputs>({resolver: yupResolver(schema)});
     const navigate = useNavigate();
-    const {setPopUpOpen, setAuth} = useCafe();
+    const {isPopUpOpen, setPopUpOpen} = useCafe();
     const [error, setError] = useState('');
+    const width = useWidth();
 
 
     const handleOnSubmit = async (data: IFormInputs) => {
+        console.log(data)
         try {
             const response = await axiosPrivate.post(REGISTER_URL,
                 JSON.stringify({...data}),
@@ -76,17 +60,20 @@ export const SignUp: FC = () => {
             console.log(response?.data);
             console.log(response?.data.id);
             console.log(JSON.stringify(response));
-            setAuth(true);
             reset();
             setPopUpOpen(true);
-            setTimeout(() => navigate('/'), 3000)
+            setTimeout(() => {
+                navigate('/signin');
+                setPopUpOpen(false);
+            }, 1000);
         } catch (err) {
             // @ts-ignore
             if (!err?.response) {
                 setError('No server response')
                 // @ts-ignore
-            } else if (err.response?.status === 409) {
-                setError('Username is taken')
+            } else if (err.response) {
+                // @ts-ignore
+                setError(err.response.data.errors)
             } else {
                 setError('Registration failed')
             }
@@ -191,11 +178,11 @@ export const SignUp: FC = () => {
                                                     type="password"
                                                     id="repeatedPassword"
                                                     autoComplete="off"
-                                                    error={!!errors.repeatPassword}
-                                                    helperText={errors.repeatPassword ? errors.repeatPassword?.message : ''}
+                                                    error={!!errors.repeatedPassword}
+                                                    helperText={errors.repeatedPassword ? errors.repeatedPassword?.message : ''}
                                                 />}
                                         control={control}
-                                        name={'repeatPassword'}
+                                        name={'repeatedPassword'}
                                         defaultValue={''}
                                     />
                                 </Grid>
@@ -210,6 +197,18 @@ export const SignUp: FC = () => {
                                     <AlertTitle>{error}</AlertTitle>
                                   </Alert>
                                 </Grid>}
+                                {(isPopUpOpen) && <Grid item xs={12}>
+                                  <Alert
+                                    severity="success"
+                                    sx={{
+                                        display: {xs: 'none', md: 'flex'},
+                                        justifyContent: 'center'
+                                    }}
+                                  >
+                                    <AlertTitle>Successfuly registered!</AlertTitle>
+                                  </Alert>
+                                </Grid>
+                                }
                             </Grid>
                             <Button
                                 type="submit"
@@ -219,7 +218,7 @@ export const SignUp: FC = () => {
                             >
                                 Sign Up
                             </Button>
-                            <Grid container justifyContent="flex-end">
+                            <Grid container justifyContent="flex-start">
                                 <Grid item>
                                     <Typography
                                         to='/signin'
@@ -232,7 +231,6 @@ export const SignUp: FC = () => {
                             </Grid>
                         </Box>
                     </Box>
-                    <Copyright sx={{mt: 5}}/>
                 </Container>
                 <PopUp variant={'signUp'}/>
                 <Footer/>

@@ -10,13 +10,11 @@ import {Cafe} from '../../types/Cafe';
 import {fetchData} from '../../api/fetchClient';
 import {defaultValues, FormValues} from '../../components/FilterForm';
 
-
-
 export type CafeContext = {
     cafes: Cafe[];
     drawerWidth: number;
     isSidebarOpen: boolean;
-    isAuth: boolean;
+    authData: AuthData | null;
     totalPages: number;
     currentPage: number;
     sortOption: string;
@@ -26,7 +24,7 @@ export type CafeContext = {
     setTotalPages: (pages: number) => void;
     setCafes: (cafes: Cafe[]) => void;
     setCurrentPage: (page: number) => void;
-    setAuth: (auth: boolean) => void;
+    setAuthData: (authData: AuthData | null) => void;
     setSidebarOpen: (status: boolean) => void;
     setSortOption: (option: string) => void;
 }
@@ -35,7 +33,7 @@ export const CafeContext = createContext<CafeContext>({
     cafes: [],
     drawerWidth: 0,
     isSidebarOpen: false,
-    isAuth: false,
+    authData: null,
     totalPages: 0,
     currentPage: 0,
     sortOption: '',
@@ -50,7 +48,7 @@ export const CafeContext = createContext<CafeContext>({
     },
     setCurrentPage: () => {
     },
-    setAuth: () => {
+    setAuthData: () => {
     },
     setSidebarOpen: () => {
     },
@@ -58,31 +56,27 @@ export const CafeContext = createContext<CafeContext>({
     },
 });
 
-// type AuthData = {
-//     "id": string,
-//     "email":
-//     "username"
-//     "favourites"
-//     "roles"
-//     "comments"
-// }
-
+export type AuthData = {
+    email: string;
+    username: string;
+    token: string;
+}
 
 export const CafeContextProvider = (
     {children}: { children: React.ReactNode }
 ) => {
 
-
     const drawerWidth = 300;
     const [cafes, setCafes] = useState<Cafe[]>([]);
     const [isSidebarOpen, setSidebarOpen] = useState(false);
-    const [isAuth, setAuth] = useState(true);
+    const [authData, setAuthData] = useState<AuthData | null>(null);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [sortOption, setSortOption] = useState('');
     const [filterOptions, setFilterOptions] = useState<FormValues>(defaultValues);
     const [isPopUpOpen, setPopUpOpen] = React.useState(false);
     let sortingLink = CAFES_URL;
+
 
     const fetchSortedCafes = async () => {
         const {data: sortedCafes} = await fetchData(sortingLink);
@@ -96,14 +90,13 @@ export const CafeContextProvider = (
     }, [sortOption, currentPage, filterOptions])
 
 
-
     return (
         <CafeContext.Provider
             value={{
                 cafes,
                 drawerWidth,
                 isSidebarOpen,
-                isAuth,
+                authData,
                 totalPages,
                 currentPage,
                 sortOption,
@@ -113,7 +106,7 @@ export const CafeContextProvider = (
                 setTotalPages,
                 setCafes,
                 setCurrentPage,
-                setAuth,
+                setAuthData,
                 setSidebarOpen,
                 setSortOption,
             }}

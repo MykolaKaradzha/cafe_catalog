@@ -49,7 +49,7 @@ export const FILTERED = (filterData : FormValues,  pageNumber: number = 0, ) => 
         }
 
         if (key === 'rating') {
-            ratingBlock= value ? `rating=${value}` : ''
+            ratingBlock=value ? `rating=${value}` : ''
         }
 
         if (key === 'minOrder' && Array.isArray(value)) {

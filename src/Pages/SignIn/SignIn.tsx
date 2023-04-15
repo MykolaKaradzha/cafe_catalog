@@ -4,8 +4,6 @@ import {useForm, Controller} from 'react-hook-form';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import {Link, useLocation, useNavigate} from 'react-router-dom'
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -21,34 +19,17 @@ import {axiosPrivate} from '../../api/fetchClient';
 import {LOGIN_URL} from '../../api/constants';
 import {Alert, AlertTitle} from '@mui/material';
 import {useCafe} from '../../hooks/useCafe';
-
-function Copyright(props: any) {
-    return (
-        <Typography variant="body2" color="text.secondary"
-                    align="center" {...props}>
-            {'Copyright © '}
-            <Typography
-                color="inherit"
-                component={Link}
-                to="/"
-            >
-                MyCafe
-            </Typography>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import {useWidth} from '../../utils/useWidth';
 
 const theme = createTheme();
 
 type IFormInputs = {
-    login: string;
+    username: string;
     password: string;
 }
 
 const schema = yup.object().shape({
-    login: yup.string().required(),
+    username: yup.string().required(),
     password: yup.string().required(),
 })
 
@@ -65,32 +46,32 @@ export const SignIn: FC = () => {
     // check previous path, if NA, than homepage
     const from = location.state?.from?.pathname || '/';
 
-    const {setPopUpOpen, setAuth} = useCafe();
+    const {isPopUpOpen, setPopUpOpen, setAuthData} = useCafe();
     const [error, setError] = useState('');
+    const width = useWidth();
 
     const handleOnSubmit = async (data: IFormInputs) => {
+        console.log(data)
         try {
             const response = await axiosPrivate.post(LOGIN_URL,
                 JSON.stringify({...data}),
             );
             console.log(JSON.stringify(response?.data));
-            console.log(JSON.stringify(response));
-            const accessToken = response?.data?.token;
-            setAuth(true);
+            setAuthData(response.data);
             reset();
             setPopUpOpen(true);
 
-            setTimeout(() => navigate(from, {replace: true}), 3000);
+            setTimeout(() => navigate(from, {replace: true}), 1000);
         } catch (err) {
             // @ts-ignore
             if (!err?.response) {
                 setError('No server response');
                 // @ts-ignore
-            } else if (err.response?.status === 400) {
-                setError('Missing Username or Password');
+            } else if (err.response) {
                 // @ts-ignore
-            } else if (err.response?.status === 400) {
-                setError('Unauthorized');
+                setError(err.response?.data.errors);
+                // @ts-ignore
+                console.log(err.response)
             } else {
                 setError('Login failed');
             }
@@ -138,12 +119,12 @@ export const SignIn: FC = () => {
                                             id="username"
                                             label={"Username"}
                                             autoComplete="off"
-                                            error={!!errors.login}
-                                            helperText={errors.login ? errors.login?.message : ''}
+                                            error={!!errors.username}
+                                            helperText={errors.username ? errors.username?.message : ''}
                                             autoFocus
                                         />}
                                 control={control}
-                                name={'login'}
+                                name={'username'}
                                 defaultValue={''}
                             />
 
@@ -176,12 +157,19 @@ export const SignIn: FC = () => {
                               >
                                 <AlertTitle>{error}</AlertTitle>
                               </Alert>}
+                            {(isPopUpOpen) && <Alert
+                              severity="success"
+                              sx={{
+                                  display: {xs: 'none', md: 'flex'},
+                                  justifyContent: 'center'
+                              }}
+                            >
+                              <AlertTitle>
+                                Successfuly logged in!
+                              </AlertTitle>
+                            </Alert>
+                            }
 
-                            <FormControlLabel
-                                control={<Checkbox value="remember"
-                                                   color="primary"/>}
-                                label="Remember me"
-                            />
                             <Button
                                 type="submit"
                                 fullWidth
@@ -201,7 +189,6 @@ export const SignIn: FC = () => {
 
                         </Box>
                     </Box>
-                    <Copyright sx={{mt: 8}}/>
                 </Container>
                 <PopUp variant={'signIn'}/>
                 <Footer/>

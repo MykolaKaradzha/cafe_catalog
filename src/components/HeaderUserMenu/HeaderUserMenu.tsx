@@ -8,27 +8,33 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import {Link} from "react-router-dom";
 import {useContext} from 'react';
-import {useWidth} from '../../utils/useWidth';
 import avatarNotAuth from '../../img/AvatarNotAuth.png';
 import avatarAuth from '../../img/AvatarAuth.png';
-import { CafeContext } from '../../context/CafeContext';
+import {CafeContext} from '../../context/CafeContext';
+import {useWidth} from '../../utils/useWidth';
+import {Stack} from '@mui/material';
 
 export const HeaderUserMenu = () => {
-    const { isAuth, setAuth } = useContext(CafeContext);
+    const {authData, setAuthData} = useContext(CafeContext);
     const width = useWidth();
-    const responsiveLinks = width === 'xs' || width === 'sm'
-        ? [
-            {text:'Home', path: '/'},
-            {text: 'My List', path: '/'}
-        ]
-        : []
-    const settings = isAuth
-        ? responsiveLinks
+    const authLinks = authData
+        ? []
         : [
-            {text: 'Sign in', path: '/signin'},
-            {text: 'Sign up', path: '/signup'},
-        ];
-    const avatarImg = isAuth ? avatarAuth : avatarNotAuth;
+            {text: 'Login', path: '/signin'},
+            {text: 'Register', path: '/signup'}
+        ]
+
+
+    const settings = (
+        width === 'xs' || width === 'sm'
+            ? [
+                {text: 'Home', path: '/'},
+                {text: 'My List', path: '/mylist'},
+                ...authLinks
+            ]
+            : [...authLinks]
+    );
+    const avatarImg = !!authData ? avatarAuth : avatarNotAuth;
 
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -41,18 +47,28 @@ export const HeaderUserMenu = () => {
     };
 
     const handleLogOut = () => {
-        setAuth(false);
+        setAuthData(null);
     }
 
     return (
         <Box sx={{mr: 2, ml: 'auto'}}>
             <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                    <Avatar alt="avatar img"
-                            src={avatarImg}
-                    />
+                    <Stack alignItems={'center'}>
+                        <Avatar alt="avatar img"
+                                src={avatarImg}
+                        />
+                        <Typography
+                            textAlign="center"
+                            fontWeight={'bold'}
+                            color={'white'}
+                        >
+                            {authData && authData.username}
+                        </Typography>
+                    </Stack>
                 </IconButton>
             </Tooltip>
+
             <Menu
                 sx={{mt: '45px'}}
                 id="menu-appbar"
@@ -69,16 +85,7 @@ export const HeaderUserMenu = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
             >
-                {isAuth && (
-                    <MenuItem onClick={handleCloseUserMenu}>
-                        <Typography
-                            onClick={handleLogOut}
-                            textAlign="center"
-                        >
-                            Log out
-                        </Typography>
-                    </MenuItem>
-                )}
+
 
                 {settings.map((setting) => (
                     <MenuItem key={setting.text}
@@ -97,6 +104,17 @@ export const HeaderUserMenu = () => {
                         </Typography>
                     </MenuItem>
                 ))}
+                {authData && (
+                    <MenuItem onClick={handleCloseUserMenu}>
+                        <Typography
+                            onClick={handleLogOut}
+                            textAlign="center"
+                            fontWeight={'bold'}
+                        >
+                            Log out
+                        </Typography>
+                    </MenuItem>
+                )}
             </Menu>
         </Box>
     );

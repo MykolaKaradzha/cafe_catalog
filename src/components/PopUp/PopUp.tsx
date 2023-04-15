@@ -28,19 +28,28 @@ export const PopUp: FC<Props> = ({variant}) => {
     };
 
     return (
-        <Snackbar open={isPopUpOpen} autoHideDuration={6000}
-                  onClose={handleClose}>
+        <Snackbar
+            open={isPopUpOpen}
+            autoHideDuration={6000}
+            onClose={handleClose}
+            sx={{display: {xs: 'flex', md: 'none'}}}
+        >
             {variant === 'signIn'
                 ? <Alert
                     severity="success"
                     onClose={handleClose}
                     sx={{width: '100%'}}
-                >Successfuly authorized!</Alert>
+                >
+                    Successfuly authorized!
+                </Alert>
                 : <Alert
                     severity="success"
                     onClose={handleClose}
                     sx={{width: '100%'}}
-                > Successfuly registered!</Alert>}
+                >
+                    Successfuly registered!
+                </Alert>
+            }
         </Snackbar>
     );
 }

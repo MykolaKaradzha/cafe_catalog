@@ -18,7 +18,7 @@ type Props = {
     withSideBar: boolean
 }
 
-export const Header: React.FC<Props> = ({ withSideBar }) => {
+export const Header: React.FC<Props> = ({withSideBar}) => {
     const location = useLocation();
     const currentPath = location.pathname;
     const navigate = useNavigate();
@@ -37,12 +37,7 @@ export const Header: React.FC<Props> = ({ withSideBar }) => {
         navigate('/mylist')
     };
 
-
-
-
     return (
-
-
         <AppBar
             position="sticky"
             sx={{
@@ -64,61 +59,67 @@ export const Header: React.FC<Props> = ({ withSideBar }) => {
                         </IconButton>
                     </Box>
                 )}
-                <LocalCafeIcon
-                    sx={{
-                        display: withSideBar ? {xs: 'flex', md: 'none'} : 'flex',
-                        mr: 1}}
-                />
 
-                <Typography
-                    variant="h5"
-                    noWrap
-                    component={Link}
-                    to={'/'}
+                <IconButton
+                    onClick={handleOnHomeButtonClick}
                     sx={{
                         flexGrow: withSideBar ? 1 : 0,
-                        display: withSideBar ? {xs: 'flex', md: 'none'} : 'flex',
-                        fontFamily: 'monospace',
-                        fontWeight: 700,
-                        letterSpacing: '.3rem',
-                        color: 'inherit',
-                        textDecoration: 'none',
+                        display: withSideBar ? {xs: 'flex', md: 'none'} : 'flex'
                     }}
                 >
-                    MYCAFE
-                </Typography>
+                    <LocalCafeIcon
+                        sx={{
+                            mx: 1,
+                            color: 'black',
+                            mr: 1
+                        }}
+                    />
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        sx={{
+                            fontFamily: 'monospace',
+                            fontWeight: 700,
+                            letterSpacing: '.3rem',
+                            color: 'inherit',
+                            textDecoration: 'none',
+                        }}
+                    >
+                        MYCAFE
+                    </Typography>
+                </IconButton>
 
                 <Box
                     sx={{
                         display: {xs: 'none', md: 'flex'},
                         ml: 'auto'
-                }}
+                    }}
                 >
-                        <Button
-                            onClick={handleOnHomeButtonClick}
-                            sx={{
-                                my: 2,
-                                color: currentPath === '/' ? "yellow" : "white",
-                                fontWeight: currentPath === '/' ? "bold" : "medium",
-                            }}
-                            startIcon={<HomeRoundedIcon/>}
-                        >
-                            Home
-                        </Button>
+                    <Button
+                        onClick={handleOnHomeButtonClick}
+                        sx={{
+                            my: 2,
+                            color: currentPath === '/' ? "yellow" : "white",
+                            fontWeight: currentPath === '/' ? "bold" : "medium",
+                        }}
+                        startIcon={<HomeRoundedIcon/>}
+                    >
+                        Home
+                    </Button>
 
-                        <Button
-                            onClick={handleOnMyListButtonClick}
-                            sx={{
-                                my: 2,
-                                color: currentPath === '/mylist' ? "yellow" : "white",
-                                fontWeight: currentPath === '/mylist' ? "bold" : "medium",
-                            }}
-                            startIcon={<FavoriteBorderRoundedIcon/>}
-                        >
-                            My List
-                        </Button>
+                    <Button
+                        onClick={handleOnMyListButtonClick}
+                        sx={{
+                            my: 2,
+                            color: currentPath === '/mylist' ? "yellow" : "white",
+                            fontWeight: currentPath === '/mylist' ? "bold" : "medium",
+                        }}
+                        startIcon={<FavoriteBorderRoundedIcon/>}
+                    >
+                        My List
+                    </Button>
                 </Box>
-                <HeaderUserMenu />
+                <HeaderUserMenu/>
             </Toolbar>
         </AppBar>
     );

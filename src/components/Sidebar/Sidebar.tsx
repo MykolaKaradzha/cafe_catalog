@@ -7,8 +7,9 @@ import LocalCafeIcon from '@mui/icons-material/LocalCafe';
 import {useContext} from 'react';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {FilterForm} from '../FilterForm/FilterForm';
-import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {CafeContext} from '../../context/CafeContext';
+import {IconButton} from '@mui/material';
 
 
 export const Sidebar = () => {
@@ -17,6 +18,12 @@ export const Sidebar = () => {
         isSidebarOpen,
         setSidebarOpen
     } = useContext(CafeContext);
+    const navigate = useNavigate();
+
+    const handleOnLogoClick = () => {
+        navigate('/')
+    }
+
 
     const handleDrawerToggle = () => {
         setSidebarOpen(!isSidebarOpen);
@@ -25,24 +32,24 @@ export const Sidebar = () => {
     const drawer = (
         <>
             <Toolbar sx={{mt: 0.5}}>
-                <LocalCafeIcon sx={{mx: 1}}/>
+                <IconButton onClick={handleOnLogoClick}>
+                    <LocalCafeIcon sx={{mx: 1, color: 'black'}} />
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        sx={{
+                            mr: 'auto',
+                            fontFamily: 'monospace',
+                            fontWeight: 700,
+                            letterSpacing: '.3rem',
+                            color: 'black',
+                            textDecoration: 'none',
+                        }}
+                    >
+                        MYCAFE
+                    </Typography>
+                </IconButton>
 
-                <Typography
-                    variant="h6"
-                    noWrap
-                    component={Link}
-                    to="/"
-                    sx={{
-                        mr: 'auto',
-                        fontFamily: 'monospace',
-                        fontWeight: 700,
-                        letterSpacing: '.3rem',
-                        color: 'inherit',
-                        textDecoration: 'none',
-                    }}
-                >
-                    MYCAFE
-                </Typography>
 
                 <CancelIcon
                     onClick={handleDrawerToggle}

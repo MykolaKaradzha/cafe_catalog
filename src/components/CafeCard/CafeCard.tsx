@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-    Box, Button,
+    Box, Button, ButtonBase,
     Card,
     CardActions,
     CardContent,
@@ -12,29 +12,31 @@ import FavoriteBorderRoundedIcon
     from '@mui/icons-material/FavoriteBorderRounded';
 import {useNavigate} from "react-router-dom";
 import {Cafe} from '../../types/Cafe';
-import { useCafe } from '../../hooks/useCafe';
+import {useCafe} from '../../hooks/useCafe';
 
 
 type Props = {
     cafe: Cafe,
 };
 
-export const CafeCard: React.FC<Props> = ({ cafe }) => {
-    const {isAuth, cafes} = useCafe();
+export const CafeCard: React.FC<Props> = ({cafe}) => {
+    const {authData} = useCafe();
     const navigate = useNavigate();
 
-    const handleDetailButton = () => {
+    const handleOpenCafe = () => {
         navigate(`/${cafe.id}`)
     };
 
-
     return (
-        <Card raised sx={{
-            minHeight: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between'
-        }}
+        <Card
+            raised
+            onClick={handleOpenCafe}
+            sx={{
+                minHeight: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between'
+            }}
         >
             <Box sx={{p: 2}}>
                 <Box sx={{
@@ -51,18 +53,22 @@ export const CafeCard: React.FC<Props> = ({ cafe }) => {
                     </Typography>
                     <IconButton
                         color="primary"
-                        disabled={!isAuth}
+                        disabled={!authData}
                     >
                         <FavoriteBorderRoundedIcon/>
                     </IconButton>
                 </Box>
-                <CardMedia
-                    component="img"
-                    image={cafe.logoLink}
-                    alt="Cafe logo"
-                    sx={{border: 'solid'}}
+                <ButtonBase
+                    onClick={handleOpenCafe}
                 >
-                </CardMedia>
+                    <CardMedia
+                        component="img"
+                        image={cafe.logoLink}
+                        alt="Cafe logo"
+                        sx={{border: 'solid'}}
+                    >
+                    </CardMedia>
+                </ButtonBase>
                 <Stack
                     direction="row"
                     spacing={1}
@@ -70,33 +76,33 @@ export const CafeCard: React.FC<Props> = ({ cafe }) => {
                         my: 2,
                         display: 'flex',
                         justifyContent: 'center'
-                }}
+                    }}
                 >
-                    <Chip label={cafe.priceLevel} />
+                    <Chip label={cafe.priceLevel}/>
                     {cafe.optionNames.includes('vegan') &&
-                      <Chip label={`Vegan friendly`} />}
+                      <Chip label={`Vegan friendly`}/>}
                     <Chip
                         label={
-                        cafe.optionNames.includes('alcohol')
-                            ? 'Alcohol'
-                            : 'No alcohol'
-                    }
+                            cafe.optionNames.includes('alcohol')
+                                ? 'Alcohol'
+                                : 'No alcohol'
+                        }
                     />
                 </Stack>
 
-                <Divider />
+                <Divider/>
 
                 <CardContent sx={{my: 2}}>
                     <Stack spacing={1}
                            sx={{mb: 3}}
                     >
                         <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        textAlign='left'
-                    >
-                        <b>Location:</b> {cafe.address}
-                    </Typography>
+                            variant="body2"
+                            color="text.secondary"
+                            textAlign='left'
+                        >
+                            <b>Location:</b> {cafe.address}
+                        </Typography>
                         <Typography
                             variant="body2"
                             color="text.secondary"
@@ -113,13 +119,13 @@ export const CafeCard: React.FC<Props> = ({ cafe }) => {
                     </Typography>
                 </CardContent>
 
-                <Divider />
+                <Divider/>
             </Box>
             <CardActions>
                 <Button
                     size='large'
                     variant='contained'
-                    onClick={handleDetailButton}
+                    onClick={handleOpenCafe}
                     sx={{m: '16px auto'}}
                 >
                     Details

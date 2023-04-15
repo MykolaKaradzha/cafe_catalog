@@ -94,8 +94,7 @@ export const FilterForm: React.FC = () => {
                         justifyContent='space-between'
                         sx={{
                             my: 1,
-                            mx: 4,
-                            px: 1,
+                            mx: 2,
                         }}
                     >
                         <Typography
@@ -103,18 +102,14 @@ export const FilterForm: React.FC = () => {
                         >
                             Filter by:
                         </Typography>
-                        <Typography
-                            variant="body2"
-                            component={Button}
+                        <Button
+                            color={'error'}
+                            variant={'contained'}
+                            size={'small'}
                             onClick={resetOnClick}
-                            sx={{
-                                color: '#29cccc',
-                                fontSize: '0.75rem',
-                                fontWeight: 'bold'
-                            }}
                         >
                             Reset Filters:
-                        </Typography>
+                        </Button>
                     </Stack>
                     <Divider/>
 
