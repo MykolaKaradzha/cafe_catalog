@@ -22,20 +22,21 @@ export const Footer: React.FC = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 mt: 5,
+                backgroundColor: 'black'
             }}
             component="footer"
-            square variant="outlined"
+            square
+            variant="outlined"
         >
                 <IconButton
-                    sx={{color: 'black'}}
+                    sx={{color: 'white'}}
                     onClick={handleOnIconClick}
                 >
-                    <LocalCafeIcon/>
+                    <LocalCafeIcon sx={{color: 'white', mr: 1}}/>
+                    <Typography variant="caption">
+                        Copyright ©2023 MYCAFE Limited
+                    </Typography>
                 </IconButton>
-
-                <Typography variant="caption" color="initial">
-                    Copyright ©2023 MYCAFE Limited
-                </Typography>
         </Paper>
     );
 

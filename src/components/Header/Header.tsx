@@ -42,6 +42,7 @@ export const Header: React.FC<Props> = ({withSideBar}) => {
             position="sticky"
             sx={{
                 mb: 2,
+                backgroundColor: 'black'
             }}
         >
             <Toolbar>

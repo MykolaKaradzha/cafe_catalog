@@ -104,7 +104,7 @@ export const SignUp: FC = () => {
                             <LockOutlinedIcon/>
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            Sign up
+                            Register
                         </Typography>
                         <Box component="form"
                              onSubmit={handleSubmit(handleOnSubmit)}
