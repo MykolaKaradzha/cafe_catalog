@@ -70,7 +70,7 @@ export const Header: React.FC<Props> = ({withSideBar}) => {
                     <LocalCafeIcon
                         sx={{
                             mx: 1,
-                            color: 'black',
+                            color: 'white',
                             mr: 1
                         }}
                     />
@@ -81,7 +81,7 @@ export const Header: React.FC<Props> = ({withSideBar}) => {
                             fontFamily: 'monospace',
                             fontWeight: 700,
                             letterSpacing: '.3rem',
-                            color: 'inherit',
+                            color: 'white',
                             textDecoration: 'none',
                         }}
                     >
