@@ -20,6 +20,7 @@ import {LOGIN_URL} from '../../api/constants';
 import {Alert, AlertTitle} from '@mui/material';
 import {useCafe} from '../../hooks/useCafe';
 import {useWidth} from '../../utils/useWidth';
+import {LoaderButton} from '../../components/Loaders/LoaderButton';
 
 const theme = createTheme();
 
@@ -49,19 +50,24 @@ export const SignIn: FC = () => {
     const {isPopUpOpen, setPopUpOpen, setAuthData} = useCafe();
     const [error, setError] = useState('');
     const width = useWidth();
+    const [loading, setLoading] = React.useState(false);
 
     const handleOnSubmit = async (data: IFormInputs) => {
         console.log(data)
         try {
+            setLoading(true);
             const response = await axiosPrivate.post(LOGIN_URL,
                 JSON.stringify({...data}),
             );
-            console.log(JSON.stringify(response?.data));
+            setLoading(false);
             setAuthData(response.data);
             reset();
             setPopUpOpen(true);
 
-            setTimeout(() => navigate(from, {replace: true}), 1000);
+            setTimeout(() => {
+                navigate(from, {replace: true})
+                setPopUpOpen(false);
+            }, 1000);
         } catch (err) {
             // @ts-ignore
             if (!err?.response) {
@@ -170,21 +176,26 @@ export const SignIn: FC = () => {
                             </Alert>
                             }
 
-                            <Button
+                            <LoaderButton
                                 type="submit"
                                 fullWidth
                                 variant="contained"
-                                sx={{mt: 3, mb: 2}}
+                                loading={loading}
+                                success={isPopUpOpen}
+                                sx={{
+                                    mt: 3,
+                                    mb: 2,
+                                }}
                             >
-                                Sign In
-                            </Button>
+                                Login
+                            </LoaderButton>
 
                             <Typography
                                 to='/signup'
                                 variant="body2"
                                 component={Link}
                             >
-                                {"Don't have an account? Sign Up"}
+                                {"Don't have an account? Register"}
                             </Typography>
 
                         </Box>

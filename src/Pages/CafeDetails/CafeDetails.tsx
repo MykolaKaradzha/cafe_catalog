@@ -1,8 +1,7 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import {
-    CardContent,
-    Chip, CircularProgress,
+    Chip,
     Container,
     Divider,
     IconButton, Link,
@@ -24,6 +23,7 @@ import {Cafe} from '../../types/Cafe';
 import { CAFE } from '../../api/constants';
 import {fetchData} from '../../api/fetchClient';
 import {useCafe} from '../../hooks/useCafe';
+import {Loader} from '../../components/Loaders/Loader';
 
 const StyledNote = (props: any) => (
     <Typography
@@ -57,17 +57,7 @@ export const CafeDetails: React.FC = () => {
 
 
     if (!currentCafe) {
-        return <Box sx={{
-            display: 'flex',
-            height: '100%',
-            justifyContent: 'center',
-            alignItems: 'center',
-        }}>
-            <CircularProgress
-                size={'5rem'}
-                thickness={4}
-            />
-        </Box>
+        return <Loader />
     };
 
     return (

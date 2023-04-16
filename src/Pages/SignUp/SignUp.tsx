@@ -18,9 +18,11 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {axiosPrivate} from '../../api/fetchClient';
 import {REGISTER_URL} from '../../api/constants';
 import {PopUp} from '../../components/PopUp';
-import {Alert, AlertTitle} from '@mui/material';
+import {Alert, AlertTitle, CircularProgress} from '@mui/material';
 import {useCafe} from '../../hooks/useCafe';
 import {useWidth} from '../../utils/useWidth';
+import {green} from '@mui/material/colors';
+import {LoaderButton} from '../../components/Loaders/LoaderButton';
 
 const theme = createTheme();
 
@@ -49,17 +51,17 @@ export const SignUp: FC = () => {
     const {isPopUpOpen, setPopUpOpen} = useCafe();
     const [error, setError] = useState('');
     const width = useWidth();
+    const [loading, setLoading] = React.useState(false);
 
 
     const handleOnSubmit = async (data: IFormInputs) => {
         console.log(data)
         try {
+            setLoading(true);
             const response = await axiosPrivate.post(REGISTER_URL,
                 JSON.stringify({...data}),
             );
-            console.log(response?.data);
-            console.log(response?.data.id);
-            console.log(JSON.stringify(response));
+            setLoading(false);
             reset();
             setPopUpOpen(true);
             setTimeout(() => {
@@ -210,14 +212,21 @@ export const SignUp: FC = () => {
                                 </Grid>
                                 }
                             </Grid>
-                            <Button
+
+                            <LoaderButton
                                 type="submit"
                                 fullWidth
                                 variant="contained"
-                                sx={{mt: 3, mb: 2}}
+                                loading={loading}
+                                success={isPopUpOpen}
+                                sx={{
+                                    mt: 3,
+                                    mb: 2,
+                                }}
                             >
-                                Sign Up
-                            </Button>
+                                Register
+                            </LoaderButton>
+
                             <Grid container justifyContent="flex-start">
                                 <Grid item>
                                     <Typography
@@ -225,7 +234,7 @@ export const SignUp: FC = () => {
                                         variant="body2"
                                         component={Link}
                                     >
-                                        Already have an account? Sign in
+                                        Already have an account? Login
                                     </Typography>
                                 </Grid>
                             </Grid>

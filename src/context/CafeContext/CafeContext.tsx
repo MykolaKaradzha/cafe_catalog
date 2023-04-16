@@ -1,13 +1,8 @@
 import React, {
     createContext,
-    useEffect,
     useState
 } from 'react';
-import {
-    BASE_URL, CAFES_URL, FILTERED, SORTED_BY
-} from '../../api/constants';
 import {Cafe} from '../../types/Cafe';
-import {fetchData} from '../../api/fetchClient';
 import {defaultValues, FormValues} from '../../components/FilterForm';
 
 export type CafeContext = {
@@ -18,6 +13,7 @@ export type CafeContext = {
     totalPages: number;
     currentPage: number;
     sortOption: string;
+    filterOptions: FormValues,
     isPopUpOpen: boolean;
     setPopUpOpen: (status: boolean) => void;
     setFilterOptions: (filterOptions: FormValues) => void,
@@ -37,6 +33,7 @@ export const CafeContext = createContext<CafeContext>({
     totalPages: 0,
     currentPage: 0,
     sortOption: '',
+    filterOptions: defaultValues,
     isPopUpOpen: false,
     setPopUpOpen:  () => {
     },
@@ -75,19 +72,6 @@ export const CafeContextProvider = (
     const [sortOption, setSortOption] = useState('');
     const [filterOptions, setFilterOptions] = useState<FormValues>(defaultValues);
     const [isPopUpOpen, setPopUpOpen] = React.useState(false);
-    let sortingLink = CAFES_URL;
-
-
-    const fetchSortedCafes = async () => {
-        const {data: sortedCafes} = await fetchData(sortingLink);
-        setCafes(sortedCafes);
-        setTotalPages(sortedCafes[0].totalPages);
-    }
-
-    useEffect(() => {
-        sortingLink += SORTED_BY(sortOption) + FILTERED(filterOptions, currentPage)
-        fetchSortedCafes();
-    }, [sortOption, currentPage, filterOptions])
 
 
     return (
@@ -100,6 +84,7 @@ export const CafeContextProvider = (
                 totalPages,
                 currentPage,
                 sortOption,
+                filterOptions,
                 isPopUpOpen,
                 setPopUpOpen,
                 setFilterOptions,
