@@ -23,6 +23,8 @@ export const CafeCard: React.FC<Props> = ({cafe}) => {
     const {authData} = useCafe();
     const navigate = useNavigate();
 
+
+
     const handleOpenCafe = () => {
         navigate(`/${cafe.id}`)
     };
@@ -30,7 +32,6 @@ export const CafeCard: React.FC<Props> = ({cafe}) => {
     return (
         <Card
             raised
-            onClick={handleOpenCafe}
             sx={{
                 minHeight: '100%',
                 display: 'flex',

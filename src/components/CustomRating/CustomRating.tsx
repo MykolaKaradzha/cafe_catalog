@@ -2,7 +2,7 @@ import React from 'react';
 
 import Rating from '@mui/material/Rating';
 import {ThumbUp} from '@mui/icons-material';
-import {AuthData} from '../../context/CafeContext';
+import {AuthData} from '../../types/AuthData';
 
 
 type Props = {

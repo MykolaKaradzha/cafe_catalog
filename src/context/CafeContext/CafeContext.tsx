@@ -4,6 +4,7 @@ import React, {
 } from 'react';
 import {Cafe} from '../../types/Cafe';
 import {defaultValues, FormValues} from '../../components/FilterForm';
+import {AuthData} from '../../types/AuthData';
 
 export type CafeContext = {
     cafes: Cafe[];
@@ -52,12 +53,6 @@ export const CafeContext = createContext<CafeContext>({
     setSortOption: () => {
     },
 });
-
-export type AuthData = {
-    email: string;
-    username: string;
-    token: string;
-}
 
 export const CafeContextProvider = (
     {children}: { children: React.ReactNode }

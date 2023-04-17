@@ -69,15 +69,14 @@ export const SignIn: FC = () => {
                 setPopUpOpen(false);
             }, 1000);
         } catch (err) {
+            setLoading(false);
             // @ts-ignore
             if (!err?.response) {
                 setError('No server response');
                 // @ts-ignore
-            } else if (err.response) {
+            } else if (err?.response) {
                 // @ts-ignore
-                setError(err.response?.data.errors);
-                // @ts-ignore
-                console.log(err.response)
+                setError(err?.response?.data.error);
             } else {
                 setError('Login failed');
             }
@@ -163,6 +162,7 @@ export const SignIn: FC = () => {
                               >
                                 <AlertTitle>{error}</AlertTitle>
                               </Alert>}
+
                             {(isPopUpOpen) && <Alert
                               severity="success"
                               sx={{

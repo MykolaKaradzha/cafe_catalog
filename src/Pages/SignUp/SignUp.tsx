@@ -55,7 +55,6 @@ export const SignUp: FC = () => {
 
 
     const handleOnSubmit = async (data: IFormInputs) => {
-        console.log(data)
         try {
             setLoading(true);
             const response = await axiosPrivate.post(REGISTER_URL,
@@ -69,6 +68,7 @@ export const SignUp: FC = () => {
                 setPopUpOpen(false);
             }, 1000);
         } catch (err) {
+            setLoading(false);
             // @ts-ignore
             if (!err?.response) {
                 setError('No server response')
