@@ -60,7 +60,6 @@ export const SignIn: FC = () => {
             setLoading(false);
             setError('');
             setAuthData(response.data);
-            console.log(response.data.token)
             reset();
             setPopUpOpen(true);
 

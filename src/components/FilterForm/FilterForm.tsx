@@ -217,7 +217,7 @@ export const FilterForm: React.FC = () => {
                                             onChange={(_, value) => {
                                                 field.onChange(value);
                                             }}
-                                            name={'rating='}
+                                            name={'rating'}
                                             precision={1}
                                             icon={<ThumbUp fontSize={"inherit"}/>}
                                             emptyIcon={<ThumbUp style={{opacity: 0.55}} fontSize="inherit"/>}

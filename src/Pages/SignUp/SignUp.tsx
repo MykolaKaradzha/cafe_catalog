@@ -67,7 +67,6 @@ export const SignUp: FC = () => {
                     password: data.password,
                 }),
             );
-            console.log(loginResponse)
             setAuthData(loginResponse.data);
 
             setTimeout(() => {

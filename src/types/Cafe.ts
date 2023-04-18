@@ -24,7 +24,7 @@ export interface Cafe {
     totalElements?: number
 }
 
-type Comment = {
+export type Comment = {
     "id": number,
     "text": string,
     "rating": number,

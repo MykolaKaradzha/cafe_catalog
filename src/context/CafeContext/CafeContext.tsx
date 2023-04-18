@@ -34,6 +34,8 @@ export type CafeContext = {
     setSidebarOpen: (status: boolean) => void;
     addedToFavourite: boolean,
     setAddedToFavourite: (option: boolean) => void;
+    addedComment: boolean,
+    setAddedComment: (option: boolean) => void;
 
 }
 
@@ -77,7 +79,9 @@ export const CafeContext = createContext<CafeContext>({
     },
     addedToFavourite: false,
     setAddedToFavourite: () => {
-
+    },
+    addedComment: false,
+    setAddedComment: () => {
     }
 });
 
@@ -102,6 +106,7 @@ export const CafeContextProvider = (
     const [filterOptionsMyList, setFilterOptionsMyList] = useState<FormValues>(defaultValues);
 
     const [addedToFavourite, setAddedToFavourite] = useState(false);
+    const [addedComment, setAddedComment] = useState(false);
 
 
     return (
@@ -133,7 +138,9 @@ export const CafeContextProvider = (
                 setSidebarOpen,
                 setSortOptionCatalog,
                 addedToFavourite,
-                setAddedToFavourite
+                setAddedToFavourite,
+                addedComment,
+                setAddedComment,
             }}
         >
             {children}

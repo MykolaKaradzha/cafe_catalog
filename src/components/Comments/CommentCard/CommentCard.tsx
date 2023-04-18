@@ -1,45 +1,60 @@
-import React, {useContext} from "react";
+import React from "react";
 import {
     Card,
     Stack,
     Typography,
 } from "@mui/material";
 import {CustomRating} from '../../CustomRating';
-import {CafeContext} from '../../../context/CafeContext';
+import {Comment} from '../../../types/Cafe';
 
-export const CommentCard: React.FC = () => {
-    const { authData } = useContext(CafeContext);
+type Props = {
+    comment: Comment;
+}
+
+
+export const CommentCard: React.FC<Props> = ({comment}) => {
+    const timeTransformed = new Date(comment.publicityDate).toLocaleString('en-IE');
     return (
         <Card
+            raised
             sx={{
                 p: 2,
-                backgroundColor: 'ivory',
+                backgroundColor: 'white',
             }}
         >
-            <Stack sx={{width: '100%'}} spacing={1} direction='row'>
+            <Stack
+                sx={{width: '100%'}}
+                spacing={2}
+                direction='row'
+                alignItems={'center'}
+                justifyContent={'space-between'}
+            >
                 <Typography
-                    fontWeight="bold"
+                    variant={'h6'}
+                    color={'blue'}
+                >
+                    {comment.username}
+                </Typography>
+                <Typography variant={'caption'}>
+                    {timeTransformed}
+                </Typography>
+            </Stack>
+            <Stack
+                sx={{width: '100%', mt: 1}}
+                spacing={1}
+                direction='row'
+                justifyContent={'space-between'}
+            >
+                <Typography
+                    variant={'body1'}
                     sx={{
-                        pb: 1,
-                        mr: 'auto',
+                        width: '80%',
+                        overflowWrap: 'break-word',
                     }}
                 >
-                    UserName
+                    {comment.text}
                 </Typography>
-                <CustomRating authData={authData} editable={false}/>
+                <CustomRating rating={comment.rating} editable={false}/>
             </Stack>
-            <Typography variant='body2'>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in
-                reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla
-                pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-                in
-                culpa qui officia deserunt mollit anim id est laborum.
-            </Typography>
         </Card>)
 }

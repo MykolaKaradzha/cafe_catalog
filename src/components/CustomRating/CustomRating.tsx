@@ -2,19 +2,27 @@ import React from 'react';
 
 import Rating from '@mui/material/Rating';
 import {ThumbUp} from '@mui/icons-material';
-import {AuthData} from '../../types/AuthData';
+import styled from '@emotion/styled';
 
 
 type Props = {
-    authData: AuthData | null;
-    ratingValue?: number | null;
+    rating: number | null;
     editable: boolean
 }
 
-export const CustomRating: React.FC<Props> = ({ authData, ratingValue, editable}) => {
+const StyledRating = styled(Rating)({
+    '& .MuiRating-iconFilled': {
+        color: '#ff9900',
+    },
+    '& .Mui-disabled': {
+        opacity: 1,
+    },
+});
+
+export const CustomRating: React.FC<Props> = ({rating, editable}) => {
 
     return (
-        <Rating
+        <StyledRating
             name={'rating'}
             disabled={!editable}
             getLabelText={(value: number) => `${value} Thumbs${value !== 1 ? 's' : ''}`}
@@ -23,8 +31,8 @@ export const CustomRating: React.FC<Props> = ({ authData, ratingValue, editable}
                 mt: {xs: 3, sm: 0},
             }}
             icon={<ThumbUp fontSize={"inherit"}/>}
-            emptyIcon={<ThumbUp style={{opacity: 0.55}} fontSize="inherit"/>}
-            value={ratingValue}
+            emptyIcon={<ThumbUp fontSize="inherit"/>}
+            value={rating}
         />
     )
 }

@@ -17,7 +17,7 @@ import FavoriteBorderRoundedIcon
 import {Header} from '../../components/Header';
 import {Footer} from '../../components/Footer';
 import {CommentCard} from '../../components/Comments/CommentCard/CommentCard';
-import {CommentBox} from '../../components/Comments/CommentBox';
+import {CommentAddBox} from '../../components/Comments/CommentAddBox';
 import {useParams} from 'react-router';
 import {Cafe} from '../../types/Cafe';
 import { CAFE } from '../../api/constants';
@@ -37,7 +37,7 @@ const StyledNote = (props: any) => (
 
 
 export const CafeDetails: React.FC = () => {
-    const {authData} = useCafe();
+    const {authData, addedComment} = useCafe();
     const {id} = useParams();
     const [currentCafe, setCurrentCafe] = useState<Cafe>();
 
@@ -53,7 +53,7 @@ export const CafeDetails: React.FC = () => {
 
     useEffect(() => {
         fetchCafe()
-    }, [])
+    }, [addedComment])
 
 
     if (!currentCafe) {
@@ -121,7 +121,7 @@ export const CafeDetails: React.FC = () => {
                           <Chip label={`Event room available`}/>}
 
                     </Box>
-                    <CustomRating editable={false} authData={authData} ratingValue={currentCafe.rating}/>
+                    <CustomRating editable={false} rating={currentCafe.rating}/>
                 </Box>
 
                 <Divider/>
@@ -185,11 +185,12 @@ export const CafeDetails: React.FC = () => {
                 <Divider/>
 
                 <Stack spacing={3} sx={{mt: 2}}>
-                    <CommentCard/>
-                    <CommentCard/>
-                    <CommentCard/>
+                    {!!currentCafe.comments.length && currentCafe.comments.map(comment => (
+                        <CommentCard comment={comment} key={comment.id}/>
+                    ))}
+
                 </Stack>
-                {authData && <CommentBox/>}
+                {authData && <CommentAddBox cafeId={currentCafe.id}/>}
             </Container>
             <Footer/>
         </Box>
