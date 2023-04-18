@@ -6,13 +6,12 @@ import {Header} from '../../components/Header';
 import {
     Container, Typography,
 } from '@mui/material';
-import {Sidebar} from '../../components/Sidebar';
 import {Cafe} from '../../types/Cafe';
 import {Footer} from '../../components/Footer';
 import {SortSelector} from '../../components/SortSelector';
 import {CustomPagination} from '../../components/CustomPagination';
 import {useCafe} from '../../hooks/useCafe';
-import {FILTERED, MY_LIST_URL, SORTED_BY} from '../../api/constants';
+import {MY_LIST_URL, SORTED_BY} from '../../api/constants';
 import {Loader} from '../../components/Loaders/Loader';
 import {useAxiosPrivate} from '../../hooks/useAxiosPrivate';
 import {useLocation, useNavigate} from 'react-router-dom';

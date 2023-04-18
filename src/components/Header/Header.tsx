@@ -10,7 +10,7 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import FavoriteBorderRoundedIcon
     from '@mui/icons-material/FavoriteBorderRounded';
 import LocalCafeIcon from '@mui/icons-material/LocalCafe';
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {HeaderUserMenu} from '../HeaderUserMenu';
 import {useCafe} from '../../hooks/useCafe';
 
