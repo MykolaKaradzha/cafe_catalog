@@ -21,9 +21,9 @@ import {CommentBox} from '../../components/Comments/CommentBox';
 import {useParams} from 'react-router';
 import {Cafe} from '../../types/Cafe';
 import { CAFE } from '../../api/constants';
-import {fetchData} from '../../api/fetchClient';
 import {useCafe} from '../../hooks/useCafe';
 import {Loader} from '../../components/Loaders/Loader';
+import axios from 'axios';
 
 const StyledNote = (props: any) => (
     <Typography
@@ -46,7 +46,7 @@ export const CafeDetails: React.FC = () => {
             return;
         }
 
-        const {data} = await fetchData(CAFE(id));
+        const {data} = await axios.get(CAFE(id));
 
         setCurrentCafe(data);
     }
@@ -121,7 +121,7 @@ export const CafeDetails: React.FC = () => {
                           <Chip label={`Event room available`}/>}
 
                     </Box>
-                    <CustomRating authData={authData}/>
+                    <CustomRating editable={false} authData={authData} ratingValue={currentCafe.rating}/>
                 </Box>
 
                 <Divider/>

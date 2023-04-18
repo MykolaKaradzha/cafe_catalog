@@ -7,10 +7,13 @@ import {
     Select,
     SelectChangeEvent
 } from '@mui/material';
-import {useCafe} from '../../hooks/useCafe';
 
-export const SortSelector = () => {
-    const {sortOption, setSortOption} = useCafe();
+type Props = {
+    sortOption: string;
+    setSortOption:(option: string) => void;
+}
+
+export const SortSelector: React.FC<Props> = ({ sortOption, setSortOption }) => {
 
     const handleChange = (event: SelectChangeEvent) => {
         setSortOption(event.target.value);

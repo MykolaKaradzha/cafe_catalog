@@ -26,7 +26,7 @@ export const CommentCard: React.FC = () => {
                 >
                     UserName
                 </Typography>
-                <CustomRating authData={authData}/>
+                <CustomRating authData={authData} editable={false}/>
             </Stack>
             <Typography variant='body2'>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

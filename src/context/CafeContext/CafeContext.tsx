@@ -2,56 +2,83 @@ import React, {
     createContext,
     useState
 } from 'react';
-import {Cafe} from '../../types/Cafe';
 import {defaultValues, FormValues} from '../../components/FilterForm';
 import {AuthData} from '../../types/AuthData';
+import {Cafe} from '../../types/Cafe';
 
 export type CafeContext = {
-    cafes: Cafe[];
+    favouriteCafes: Cafe[];
     drawerWidth: number;
     isSidebarOpen: boolean;
     authData: AuthData | null;
-    totalPages: number;
-    currentPage: number;
-    sortOption: string;
-    filterOptions: FormValues,
     isPopUpOpen: boolean;
+    setFavouriteCafes: (cafes: Cafe[]) => void;
+    totalPagesMyList: number;
+    currentPageMyList: number;
+    filterOptionsMyList: FormValues;
+    sortOptionMyList: string;
+    setFilterOptionsMyList: (filterOptions: FormValues) => void;
+    setTotalPagesMyList: (pages: number) => void;
+    setCurrentPageMyList: (page: number) => void;
+    setSortOptionMyList: (option: string) => void;
+    totalPagesCatalog: number;
+    currentPageCatalog: number;
+    filterOptionsCatalog: FormValues;
+    sortOptionCatalog: string;
+    setFilterOptionsCatalog: (filterOptions: FormValues) => void;
+    setTotalPagesCatalog: (pages: number) => void;
+    setCurrentPageCatalog: (page: number) => void;
+    setSortOptionCatalog: (option: string) => void;
     setPopUpOpen: (status: boolean) => void;
-    setFilterOptions: (filterOptions: FormValues) => void,
-    setTotalPages: (pages: number) => void;
-    setCafes: (cafes: Cafe[]) => void;
-    setCurrentPage: (page: number) => void;
     setAuthData: (authData: AuthData | null) => void;
     setSidebarOpen: (status: boolean) => void;
-    setSortOption: (option: string) => void;
+    addedToFavourite: boolean,
+    setAddedToFavourite: (option: boolean) => void;
+
 }
 
 export const CafeContext = createContext<CafeContext>({
-    cafes: [],
+    favouriteCafes: [],
     drawerWidth: 0,
     isSidebarOpen: false,
     authData: null,
-    totalPages: 0,
-    currentPage: 0,
-    sortOption: '',
-    filterOptions: defaultValues,
     isPopUpOpen: false,
+    totalPagesCatalog: 0,
+    currentPageCatalog: 0,
+    sortOptionCatalog: '',
+    filterOptionsCatalog: defaultValues,
+    totalPagesMyList: 0,
+    currentPageMyList: 0,
+    sortOptionMyList: '',
+    filterOptionsMyList: defaultValues,
+    setFavouriteCafes: () => {
+    },
     setPopUpOpen:  () => {
-    },
-    setFilterOptions: () => {
-    },
-    setTotalPages: () => {
-    },
-    setCafes: () => {
-    },
-    setCurrentPage: () => {
     },
     setAuthData: () => {
     },
     setSidebarOpen: () => {
     },
-    setSortOption: () => {
+    setFilterOptionsCatalog: () => {
     },
+    setTotalPagesCatalog: () => {
+    },
+    setCurrentPageCatalog: () => {
+    },
+    setSortOptionCatalog: () => {
+    },
+    setFilterOptionsMyList: () => {
+    },
+    setTotalPagesMyList: () => {
+    },
+    setCurrentPageMyList: () => {
+    },
+    setSortOptionMyList: () => {
+    },
+    addedToFavourite: false,
+    setAddedToFavourite: () => {
+
+    }
 });
 
 export const CafeContextProvider = (
@@ -59,36 +86,54 @@ export const CafeContextProvider = (
 ) => {
 
     const drawerWidth = 300;
-    const [cafes, setCafes] = useState<Cafe[]>([]);
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const [authData, setAuthData] = useState<AuthData | null>(null);
-    const [currentPage, setCurrentPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
-    const [sortOption, setSortOption] = useState('');
-    const [filterOptions, setFilterOptions] = useState<FormValues>(defaultValues);
     const [isPopUpOpen, setPopUpOpen] = React.useState(false);
+
+    const [currentPageCatalog, setCurrentPageCatalog] = useState(0);
+    const [totalPagesCatalog, setTotalPagesCatalog] = useState(0);
+    const [sortOptionCatalog, setSortOptionCatalog] = useState('');
+    const [filterOptionsCatalog, setFilterOptionsCatalog] = useState<FormValues>(defaultValues);
+
+    const [favouriteCafes, setFavouriteCafes] = useState<Cafe[]>([]);
+    const [currentPageMyList, setCurrentPageMyList] = useState(0);
+    const [totalPagesMyList, setTotalPagesMyList] = useState(0);
+    const [sortOptionMyList, setSortOptionMyList] = useState('');
+    const [filterOptionsMyList, setFilterOptionsMyList] = useState<FormValues>(defaultValues);
+
+    const [addedToFavourite, setAddedToFavourite] = useState(false);
 
 
     return (
         <CafeContext.Provider
             value={{
-                cafes,
+                favouriteCafes,
                 drawerWidth,
                 isSidebarOpen,
                 authData,
-                totalPages,
-                currentPage,
-                sortOption,
-                filterOptions,
+                totalPagesCatalog,
+                currentPageCatalog,
+                sortOptionCatalog,
+                filterOptionsCatalog,
                 isPopUpOpen,
+                currentPageMyList,
+                filterOptionsMyList,
+                setCurrentPageMyList,
+                totalPagesMyList,
+                setFilterOptionsMyList,
+                setSortOptionMyList,
+                setTotalPagesMyList,
+                sortOptionMyList,
+                setFavouriteCafes,
                 setPopUpOpen,
-                setFilterOptions,
-                setTotalPages,
-                setCafes,
-                setCurrentPage,
+                setFilterOptionsCatalog,
+                setTotalPagesCatalog,
+                setCurrentPageCatalog,
                 setAuthData,
                 setSidebarOpen,
-                setSortOption,
+                setSortOptionCatalog,
+                addedToFavourite,
+                setAddedToFavourite
             }}
         >
             {children}

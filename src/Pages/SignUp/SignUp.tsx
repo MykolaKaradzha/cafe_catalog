@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import {Link, useNavigate} from 'react-router-dom'
 import Grid from '@mui/material/Grid';
@@ -15,14 +14,13 @@ import {FC, useState} from 'react';
 import {useForm, Controller} from 'react-hook-form';
 import * as yup from 'yup'
 import {yupResolver} from '@hookform/resolvers/yup';
-import {axiosPrivate} from '../../api/fetchClient';
-import {REGISTER_URL} from '../../api/constants';
+import {axiosDefault} from '../../api/fetchClient';
+import {LOGIN_URL, REGISTER_URL} from '../../api/constants';
 import {PopUp} from '../../components/PopUp';
-import {Alert, AlertTitle, CircularProgress} from '@mui/material';
+import {Alert, AlertTitle} from '@mui/material';
 import {useCafe} from '../../hooks/useCafe';
-import {useWidth} from '../../utils/useWidth';
-import {green} from '@mui/material/colors';
 import {LoaderButton} from '../../components/Loaders/LoaderButton';
+import {AxiosError} from 'axios';
 
 const theme = createTheme();
 
@@ -48,34 +46,42 @@ export const SignUp: FC = () => {
         formState: {errors}
     } = useForm<IFormInputs>({resolver: yupResolver(schema)});
     const navigate = useNavigate();
-    const {isPopUpOpen, setPopUpOpen} = useCafe();
+    const {isPopUpOpen, setPopUpOpen, setAuthData} = useCafe();
     const [error, setError] = useState('');
-    const width = useWidth();
     const [loading, setLoading] = React.useState(false);
 
 
     const handleOnSubmit = async (data: IFormInputs) => {
         try {
             setLoading(true);
-            const response = await axiosPrivate.post(REGISTER_URL,
+            const response = await axiosDefault.post(REGISTER_URL,
                 JSON.stringify({...data}),
             );
             setLoading(false);
             reset();
             setPopUpOpen(true);
+
+            const loginResponse = await axiosDefault.post(LOGIN_URL,
+                JSON.stringify({
+                    username: data.username,
+                    password: data.password,
+                }),
+            );
+            console.log(loginResponse)
+            setAuthData(loginResponse.data);
+
             setTimeout(() => {
-                navigate('/signin');
+                navigate('/');
                 setPopUpOpen(false);
+                setError('')
             }, 1000);
         } catch (err) {
+            if (!(err instanceof AxiosError)) {return}
             setLoading(false);
-            // @ts-ignore
             if (!err?.response) {
                 setError('No server response')
-                // @ts-ignore
             } else if (err.response) {
-                // @ts-ignore
-                setError(err.response.data.errors)
+                setError(err.response.data.error)
             } else {
                 setError('Registration failed')
             }

@@ -2,7 +2,6 @@ import * as React from 'react';
 import {FC, useState} from 'react';
 import {useForm, Controller} from 'react-hook-form';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import {Link, useLocation, useNavigate} from 'react-router-dom'
 import Box from '@mui/material/Box';
@@ -15,12 +14,12 @@ import {Footer} from '../../components/Footer';
 import * as yup from 'yup'
 import {yupResolver} from '@hookform/resolvers/yup';
 import {PopUp} from '../../components/PopUp';
-import {axiosPrivate} from '../../api/fetchClient';
+import {axiosDefault} from '../../api/fetchClient';
 import {LOGIN_URL} from '../../api/constants';
 import {Alert, AlertTitle} from '@mui/material';
 import {useCafe} from '../../hooks/useCafe';
-import {useWidth} from '../../utils/useWidth';
 import {LoaderButton} from '../../components/Loaders/LoaderButton';
+import {AxiosError} from 'axios';
 
 const theme = createTheme();
 
@@ -49,18 +48,19 @@ export const SignIn: FC = () => {
 
     const {isPopUpOpen, setPopUpOpen, setAuthData} = useCafe();
     const [error, setError] = useState('');
-    const width = useWidth();
     const [loading, setLoading] = React.useState(false);
 
     const handleOnSubmit = async (data: IFormInputs) => {
         console.log(data)
         try {
             setLoading(true);
-            const response = await axiosPrivate.post(LOGIN_URL,
+            const response = await axiosDefault.post(LOGIN_URL,
                 JSON.stringify({...data}),
             );
             setLoading(false);
+            setError('');
             setAuthData(response.data);
+            console.log(response.data.token)
             reset();
             setPopUpOpen(true);
 
@@ -69,13 +69,11 @@ export const SignIn: FC = () => {
                 setPopUpOpen(false);
             }, 1000);
         } catch (err) {
+            if (!(err instanceof AxiosError)) {return}
             setLoading(false);
-            // @ts-ignore
             if (!err?.response) {
                 setError('No server response');
-                // @ts-ignore
             } else if (err?.response) {
-                // @ts-ignore
                 setError(err?.response?.data.error);
             } else {
                 setError('Login failed');
@@ -122,7 +120,7 @@ export const SignIn: FC = () => {
                                             margin="normal"
                                             fullWidth
                                             id="username"
-                                            label={"Username"}
+                                            label={"Username or Email"}
                                             autoComplete="off"
                                             error={!!errors.username}
                                             helperText={errors.username ? errors.username?.message : ''}

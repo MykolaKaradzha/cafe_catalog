@@ -4,6 +4,8 @@ export const BASE_URL = `https://cafe-catalog.site/api`;
 
 export const CAFES_URL = `${BASE_URL}/cafe`;
 
+export const MY_LIST_URL = `${BASE_URL}/cabinet`;
+
 export const REGISTER_URL = '/auth/register';
 
 export const LOGIN_URL = '/auth/login';
@@ -13,16 +15,17 @@ export const CAFE = (id: string) => `${CAFES_URL}/${id}`;
 
 export const SORTED_BY = (
     optionOrder: string,
+    pageNumber: number = 0,
 ) => {
     if (!optionOrder || optionOrder === 'none' ) {
-        return `?sortBy=id:ASC`
+        return `?sortBy=id:ASC&page=${pageNumber}`
     }
     const [option, order] = optionOrder.split('_');
 
-    return `?sortBy=${option}:${order}`
+    return `?sortBy=${option}:${order}&page=${pageNumber}`
 }
 
-export const FILTERED = (filterData : FormValues,  pageNumber: number = 0, ) => {
+export const FILTERED = (filterData : FormValues) => {
     let options = ['alcohol','event%20room','vegan'];
     let noise = ['low','middle','high'];
     let price = ['$', '$$', '$$$'];
@@ -43,8 +46,6 @@ export const FILTERED = (filterData : FormValues,  pageNumber: number = 0, ) => 
                 case price.includes(key):
                     price = price.filter(option => option !== key)
                     break;
-
-
             }
         }
 
@@ -72,6 +73,6 @@ export const FILTERED = (filterData : FormValues,  pageNumber: number = 0, ) => 
         ? `priceLevel=${price.join(',')}`
         : '';
 
-    return `&${optionsBlock}&${noiseBlock}&${priceBlock}&${minOrderBlock}&${ratingBlock}&page=${pageNumber}`;
+    return `&${optionsBlock}&${noiseBlock}&${priceBlock}&${minOrderBlock}&${ratingBlock}`;
 
 }

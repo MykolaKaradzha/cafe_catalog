@@ -10,5 +10,12 @@ export const axiosPrivate = axios.create({
     withCredentials: true
 });
 
+export const axiosDefault = axios.create({
+    baseURL: BASE_URL,
+    headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json'
+    },
+    withCredentials: true
+});
 
-export const fetchData=(api_link: string)=>axios.get(api_link);

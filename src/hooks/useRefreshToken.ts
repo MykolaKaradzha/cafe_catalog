@@ -5,12 +5,12 @@ export const useRefreshToken = () => {
     const { setAuthData } = useCafe();
 
     const refresh = async () => {
-        const response = await axiosPrivate.get('/refresh-token', )
+        const response = await axiosPrivate.post('auth/refresh-token' )
         // @ts-ignore
         setAuthData( prev => {
-            return {...prev, accessToken: response.data.token};
+            return {...prev, token: response.data.token};
         });
-        return response.data.accessToken;
+        return response.data.token;
     }
     return refresh;
 }

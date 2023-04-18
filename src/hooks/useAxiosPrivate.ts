@@ -25,6 +25,7 @@ export const useAxiosPrivate = () => {
             response => response,
             async (error) => {
                 const prevRequest = error?.config;
+
                 //403 - expired access token
                 if (error?.response?.status === 403 && !prevRequest?.sent) {
                     prevRequest.sent = true;

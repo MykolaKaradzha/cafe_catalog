@@ -9,46 +9,65 @@ import {
 import {Sidebar} from '../../components/Sidebar';
 import {Cafe} from '../../types/Cafe';
 import {Footer} from '../../components/Footer';
-
 import {SortSelector} from '../../components/SortSelector';
 import {CustomPagination} from '../../components/CustomPagination';
 import {useCafe} from '../../hooks/useCafe';
 import {CAFES_URL, FILTERED, SORTED_BY} from '../../api/constants';
-import {fetchData} from '../../api/fetchClient';
 import {Loader} from '../../components/Loaders/Loader';
+import {axiosDefault} from '../../api/fetchClient';
+
 
 export const Catalog: React.FC = () => {
     const {
-        cafes,
         drawerWidth,
-        setCurrentPage,
-        totalPages,
-        currentPage,
-        sortOption,
-        filterOptions,
-        setCafes,
-        setTotalPages
+        setCurrentPageCatalog,
+        totalPagesCatalog,
+        currentPageCatalog,
+        sortOptionCatalog,
+        filterOptionsCatalog,
+        setTotalPagesCatalog,
+        setSortOptionCatalog,
     } = useCafe();
     let sortingLink = CAFES_URL;
+
+    const [cafes, setCafes] = useState<Cafe[]>([]);
     const [loading, setLoading] = useState(false);
 
 
-    const fetchSortedCafes = async () => {
-        setLoading(true)
-        const {data: sortedCafes} = await fetchData(sortingLink);
-        setLoading(false)
-        setCafes(sortedCafes);
-        setTotalPages(sortedCafes[0].totalPages);
-    }
-
     useEffect(() => {
-        sortingLink += SORTED_BY(sortOption) + FILTERED(filterOptions, currentPage)
+        let isMounted = true
+        const controller = new AbortController();
+
+        const fetchSortedCafes = async () => {
+            setLoading(true)
+
+            try {
+                const {data: sortedCafes} = await axiosDefault.get(sortingLink, {
+                    signal: controller.signal
+                });
+                if (isMounted) {
+                    setLoading(false);
+                    setCafes(sortedCafes);
+                    setTotalPagesCatalog(sortedCafes[0].totalPages);
+                }
+
+            } catch (err) {
+                setLoading(false);
+            }
+        }
+
+        sortingLink += SORTED_BY(sortOptionCatalog, currentPageCatalog) + FILTERED(filterOptionsCatalog)
         fetchSortedCafes();
-    }, [sortOption, currentPage, filterOptions])
+
+        return () => {
+            isMounted = false;
+            controller.abort();
+        }
+    }, [sortOptionCatalog, currentPageCatalog, filterOptionsCatalog])
 
     return (
         <>
-            <Sidebar/>
+            <Sidebar />
             <Box
                 sx={{
                     maxWidth: {md: `calc(100% - ${drawerWidth}px)`},
@@ -73,7 +92,8 @@ export const Catalog: React.FC = () => {
                                 alignItems: 'center',
                             }}
                         >
-                            <SortSelector/>
+                            <SortSelector sortOption={sortOptionCatalog} setSortOption={setSortOptionCatalog} />
+
                             <Grid
                                 container
                                 spacing={{sm: 2, md: 3}}
@@ -96,9 +116,9 @@ export const Catalog: React.FC = () => {
                         </Container>
 
                         <CustomPagination
-                            totalPages={totalPages}
-                            setPage={setCurrentPage}
-                            currentPage={currentPage}
+                            totalPages={totalPagesCatalog}
+                            setPage={setCurrentPageCatalog}
+                            currentPage={currentPageCatalog}
                         />
                     </>)
                 }
