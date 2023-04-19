@@ -4,7 +4,7 @@ import {
     Chip,
     Container,
     Divider,
-    IconButton, Link,
+    Link,
     Stack
 } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -12,15 +12,14 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import Typography from '@mui/material/Typography';
 import {ImageCarousel} from '../../components/ImageCarousel';
 import {CustomRating} from '../../components/CustomRating';
-import FavoriteBorderRoundedIcon
-    from '@mui/icons-material/FavoriteBorderRounded';
+
 import {Header} from '../../components/Header';
 import {Footer} from '../../components/Footer';
 import {CommentCard} from '../../components/Comments/CommentCard/CommentCard';
 import {CommentAddBox} from '../../components/Comments/CommentAddBox';
 import {useParams} from 'react-router';
 import {Cafe} from '../../types/Cafe';
-import { CAFE } from '../../api/constants';
+import {CAFE} from '../../api/constants';
 import {useCafe} from '../../hooks/useCafe';
 import {Loader} from '../../components/Loaders/Loader';
 import axios from 'axios';
@@ -35,11 +34,11 @@ const StyledNote = (props: any) => (
     </Typography>
 )
 
-
 export const CafeDetails: React.FC = () => {
     const {authData, addedComment} = useCafe();
     const {id} = useParams();
     const [currentCafe, setCurrentCafe] = useState<Cafe>();
+
 
     const fetchCafe = async () => {
         if (!id) {
@@ -76,21 +75,20 @@ export const CafeDetails: React.FC = () => {
             >
                 <Box sx={{
                     display: 'flex',
-                    justifyContent: 'space-between',
+                    justifyContent: 'center',
                     alignItems: 'center',
                     minHeight: 70,
                 }}>
                     <Typography
                         variant="h6"
+                        sx={{
+                            fontFamily: 'monospace',
+                            fontWeight: 700,
+                            letterSpacing: '.3rem',
+                        }}
                     >
                         {currentCafe.name}
                     </Typography>
-                    <IconButton
-                        color="primary"
-                        disabled={!authData}
-                    >
-                        <FavoriteBorderRoundedIcon/>
-                    </IconButton>
                 </Box>
 
                 <ImageCarousel images={currentCafe.imageLink}

@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid';
 import {CafeCard} from '../../components/CafeCard';
 import {Header} from '../../components/Header';
 import {
-    Container,
+    Container, Typography,
 } from '@mui/material';
 import {Sidebar} from '../../components/Sidebar';
 import {Cafe} from '../../types/Cafe';
@@ -15,6 +15,7 @@ import {useCafe} from '../../hooks/useCafe';
 import {CAFES_URL, FILTERED, SORTED_BY} from '../../api/constants';
 import {Loader} from '../../components/Loaders/Loader';
 import {axiosDefault} from '../../api/fetchClient';
+import {Spacer} from '../../components/Spacer';
 
 
 export const Catalog: React.FC = () => {
@@ -81,7 +82,8 @@ export const Catalog: React.FC = () => {
 
                 {loading
                     ? <Loader/>
-                    : (<>
+                    : (cafes.length
+                        ? (<>
                         <Container
                             maxWidth={cafes.length < 3 ? 'md' : 'lg'}
                             component="main"
@@ -121,7 +123,8 @@ export const Catalog: React.FC = () => {
                             currentPage={currentPageCatalog}
                         />
                     </>)
-                }
+                            : <Spacer text={'No Such Cafes Found :('}/>
+                    )}
 
                 <Footer/>
             </Box>

@@ -25,6 +25,7 @@ export const Header: React.FC<Props> = ({withSideBar}) => {
     const {isSidebarOpen, setSidebarOpen} = useCafe();
 
 
+
     const handleDrawerToggle = () => {
         setSidebarOpen(!isSidebarOpen);
     };

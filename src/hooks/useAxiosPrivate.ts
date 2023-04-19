@@ -25,12 +25,8 @@ export const useAxiosPrivate = () => {
             response => response,
             async (error) => {
                 const prevRequest = error?.config;
-                console.log(prevRequest);
-                console.log(prevRequest?.sent);
                 //401 - expired access token
-                if (error?.response?.status === 401 && !prevRequest?.sent) {
-                    console.log(prevRequest);
-                    console.log(prevRequest?.sent);
+                if (error?.response?.status === 400 && !prevRequest?.sent) {
                     prevRequest.sent = true;
                     const newAccessToken = await refresh();
                     prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;

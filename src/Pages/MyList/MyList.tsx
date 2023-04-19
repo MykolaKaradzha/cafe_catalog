@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid';
 import {CafeCard} from '../../components/CafeCard';
 import {Header} from '../../components/Header';
 import {
-    Container, Typography,
+    Container,
 } from '@mui/material';
 import {Cafe} from '../../types/Cafe';
 import {Footer} from '../../components/Footer';
@@ -15,6 +15,7 @@ import {MY_LIST_URL, SORTED_BY} from '../../api/constants';
 import {Loader} from '../../components/Loaders/Loader';
 import {useAxiosPrivate} from '../../hooks/useAxiosPrivate';
 import {useLocation, useNavigate} from 'react-router-dom';
+import {Spacer} from '../../components/Spacer';
 
 
 export const MyList: React.FC = () => {
@@ -55,9 +56,8 @@ export const MyList: React.FC = () => {
                 }
 
             } catch (err) {
-                console.log(err)
                 setLoading(false);
-                // navigate('/signin', {state: {from: location}, replace: true})
+                navigate('/signin', {state: {from: location}, replace: true})
             }
         }
 
@@ -133,30 +133,8 @@ export const MyList: React.FC = () => {
                                     currentPage={currentPageMyList}
                                 />
                             </>)
-                            : (
-                                <Box
-                                    sx={{
-                                        height: '100%',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        flexGrow: 1,
-                                    }}
-                                >
-                                    <Typography
-                                        variant={'h3'}
-                                        sx={{
-                                            fontFamily: 'monospace',
-                                            fontWeight: 700,
-                                            letterSpacing: '.3rem',
-                                        }}
-                                    >
-                                        No Favourite Cafes Yet :(
-                                    </Typography>
-                                </Box>)
-                    )
-                }
-
+                            : <Spacer text={'No Favourite Cafes Yet :('}/>
+                    )}
                 <Footer/>
             </Box>
         </>

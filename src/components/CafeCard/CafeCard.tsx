@@ -31,19 +31,19 @@ export const CafeCard: React.FC<Props> = ({cafe}) => {
     useEffect(() => setFavourite(
         favouriteCafes.some((favCafe: Cafe) => favCafe.id === cafe.id)), []);
 
-        const toggleFavourite = async () => {
-            if (isFavourite) {
-                await axiosPrivate.post(
-                    `${MY_LIST_URL}/favourite/remove?cafeId=${cafe.id}`);
-                setFavourite(false);
-                setAddedToFavourite(!addedToFavourite)
-            } else {
-                await axiosPrivate.post(
-                    `${MY_LIST_URL}/favourite?cafeId=${cafe.id}`);
-                setFavourite(true);
-                setAddedToFavourite(!addedToFavourite)
-            }
+    const toggleFavourite = async () => {
+        if (isFavourite) {
+            await axiosPrivate.post(
+                `${MY_LIST_URL}/favourite/remove?cafeId=${cafe.id}`);
+            setFavourite(false);
+            setAddedToFavourite(!addedToFavourite)
+        } else {
+            await axiosPrivate.post(
+                `${MY_LIST_URL}/favourite?cafeId=${cafe.id}`);
+            setFavourite(true);
+            setAddedToFavourite(!addedToFavourite)
         }
+    }
 
         const handleOpenCafe = () => {
             navigate(`/${cafe.id}`)
@@ -67,11 +67,13 @@ export const CafeCard: React.FC<Props> = ({cafe}) => {
                         minHeight: 50,
                         textAlign: 'center',
                     }}>
+
                         <Typography
                             variant="h6"
                         >
                             {cafe.name}
                         </Typography>
+
                         <IconButton
                             onClick={toggleFavourite}
                             color="primary"
