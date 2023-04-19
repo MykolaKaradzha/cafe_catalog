@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useForm, Controller} from "react-hook-form";
 import {
     Box,
@@ -6,7 +6,6 @@ import {
     Divider,
     FormControl,
     Stack,
-    Switch,
 } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import {MinimumDistanceSlider} from '../Sliders';
@@ -14,6 +13,7 @@ import {CheckboxFilter} from '../CheckboxFilter';
 import Rating from '@mui/material/Rating';
 import {ThumbUp} from '@mui/icons-material';
 import {useCafe} from '../../hooks/useCafe';
+import {RadioButtonsGroup} from '../RadioButtonsGroup';
 
 
 const FilterSubtitle = (props: any) => (
@@ -35,9 +35,9 @@ export type FormValues = {
     'low': boolean;
     'middle': boolean;
     'high': boolean;
-    'vegan': boolean,
-    'event%20room': boolean;
-    'alcohol': boolean;
+    'vegan': string,
+    'event%20room': string;
+    'alcohol': string;
     'rating': number;
     'minOrder': number[];
 }
@@ -49,9 +49,9 @@ export const defaultValues = {
     'low': false,
     'middle': false,
     'high': false,
-    'vegan': false,
-    'event%20room': false,
-    'alcohol': false,
+    'vegan': '',
+    'event%20room': '',
+    'alcohol': '',
     'rating': 0,
     'minOrder': [0, 0],
 };
@@ -60,13 +60,14 @@ export type option = "$" | "$$" | "$$$" | "low" | "middle" | "high";
 
 
 export const FilterForm: React.FC = () => {
-    const {handleSubmit, reset, control} = useForm<FormValues>({defaultValues})
-    const {setFilterOptionsCatalog, setSidebarOpen, setCurrentPageCatalog} = useCafe();
+    const {handleSubmit, reset, control, setValue} = useForm<FormValues>({defaultValues})
+    const {setFilterOptionsCatalog, setSidebarOpen, setCurrentPageCatalog, filterOptionsCatalog} = useCafe();
 
     const priceOptions: option[] = ['$', '$$', '$$$'];
     const noiseOptions: option[] = ['low', 'middle', 'high'];
 
     const handleOnSubmit = (data: FormValues) => {
+        console.log(data)
         setFilterOptionsCatalog(data);
         setSidebarOpen(false);
         setCurrentPageCatalog(0);
@@ -76,6 +77,13 @@ export const FilterForm: React.FC = () => {
         reset();
         handleSubmit(handleOnSubmit)()
     }
+
+    useEffect(() => {
+        if (filterOptionsCatalog) {
+            Object.entries(filterOptionsCatalog).forEach(
+                ([name, value]: any) => setValue(name, value));
+        }
+    }, []);
 
     return (
         <form
@@ -108,7 +116,7 @@ export const FilterForm: React.FC = () => {
                             size={'small'}
                             onClick={resetOnClick}
                         >
-                            Reset Filters:
+                            Reset Filters
                         </Button>
                     </Stack>
                     <Divider/>
@@ -144,17 +152,8 @@ export const FilterForm: React.FC = () => {
                             >
                                 Vegan Friendly
                             </FilterSubtitle>
-                            <Controller
-                                render={({field}) => (
-                                    <Switch
-                                        color={'success'}
-                                        onChange={(e) => field.onChange(e.target.checked)}
-                                        checked={field.value}
-                                    />
-                                )}
-                                name={'vegan'}
-                                control={control}
-                            />
+
+                        <RadioButtonsGroup control={control} name={'vegan'}/>
                         </Stack>
 
                         <Stack direction={'column'} spacing={1}>
@@ -163,17 +162,7 @@ export const FilterForm: React.FC = () => {
                                 Alcohol Available
                             </FilterSubtitle>
 
-                            <Controller
-                                render={({field}) => (
-                                    <Switch
-                                        color={'secondary'}
-                                        onChange={(e) => field.onChange(e.target.checked)}
-                                        checked={field.value}
-                                    />
-                                )}
-                                name={'alcohol'}
-                                control={control}
-                            />
+                            <RadioButtonsGroup control={control} name={'alcohol'}/>
                         </Stack>
 
                         <Stack direction={'column'} spacing={1}>
@@ -181,17 +170,8 @@ export const FilterForm: React.FC = () => {
                             >
                                 Event room available
                             </FilterSubtitle>
-                            <Controller
-                                render={({field}) => (
-                                    <Switch
-                                        color={'warning'}
-                                        onChange={(e) => field.onChange(e.target.checked)}
-                                        checked={field.value}
-                                    />
-                                )}
-                                name={'event%20room'}
-                                control={control}
-                            />
+
+                            <RadioButtonsGroup control={control} name={'event%20room'}/>
                         </Stack>
 
                         <Stack direction={'column'} spacing={1}>

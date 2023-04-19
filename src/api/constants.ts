@@ -59,7 +59,11 @@ export const FILTERED = (filterData : FormValues) => {
             } else {
                 minOrderBlock = value[1] ? `minOrder=${value[0]}-${value[1]}` : '';
             }
+        }
 
+        if (value === 'no') {
+            const index = options.indexOf(key);
+            options[index] += ':no';
         }
     }
 

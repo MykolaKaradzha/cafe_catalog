@@ -15,9 +15,7 @@ export type CafeContext = {
     setFavouriteCafes: (cafes: Cafe[]) => void;
     totalPagesMyList: number;
     currentPageMyList: number;
-    filterOptionsMyList: FormValues;
     sortOptionMyList: string;
-    setFilterOptionsMyList: (filterOptions: FormValues) => void;
     setTotalPagesMyList: (pages: number) => void;
     setCurrentPageMyList: (page: number) => void;
     setSortOptionMyList: (option: string) => void;
@@ -52,7 +50,6 @@ export const CafeContext = createContext<CafeContext>({
     totalPagesMyList: 0,
     currentPageMyList: 0,
     sortOptionMyList: '',
-    filterOptionsMyList: defaultValues,
     setFavouriteCafes: () => {
     },
     setPopUpOpen:  () => {
@@ -68,8 +65,6 @@ export const CafeContext = createContext<CafeContext>({
     setCurrentPageCatalog: () => {
     },
     setSortOptionCatalog: () => {
-    },
-    setFilterOptionsMyList: () => {
     },
     setTotalPagesMyList: () => {
     },
@@ -103,7 +98,6 @@ export const CafeContextProvider = (
     const [currentPageMyList, setCurrentPageMyList] = useState(0);
     const [totalPagesMyList, setTotalPagesMyList] = useState(0);
     const [sortOptionMyList, setSortOptionMyList] = useState('');
-    const [filterOptionsMyList, setFilterOptionsMyList] = useState<FormValues>(defaultValues);
 
     const [addedToFavourite, setAddedToFavourite] = useState(false);
     const [addedComment, setAddedComment] = useState(false);
@@ -122,10 +116,8 @@ export const CafeContextProvider = (
                 filterOptionsCatalog,
                 isPopUpOpen,
                 currentPageMyList,
-                filterOptionsMyList,
                 setCurrentPageMyList,
                 totalPagesMyList,
-                setFilterOptionsMyList,
                 setSortOptionMyList,
                 setTotalPagesMyList,
                 sortOptionMyList,

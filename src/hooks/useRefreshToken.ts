@@ -1,11 +1,11 @@
 import {useCafe} from "./useCafe"
-import {axiosPrivate} from '../api/fetchClient';
+import {axiosDefault} from '../api/fetchClient';
 
 export const useRefreshToken = () => {
     const { setAuthData } = useCafe();
 
     const refresh = async () => {
-        const response = await axiosPrivate.post('auth/refresh-token' )
+        const response = await axiosDefault.post('auth/refresh-token' );
         // @ts-ignore
         setAuthData( prev => {
             return {...prev, token: response.data.token};

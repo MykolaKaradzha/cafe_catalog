@@ -32,13 +32,12 @@ export const Sidebar = () => {
     const drawer = (
         <>
             <Toolbar sx={{mt: 0.5}}>
-                <IconButton onClick={handleOnLogoClick}>
+                <IconButton onClick={handleOnLogoClick} sx={{mr: 'auto'}}>
                     <LocalCafeIcon sx={{mx: 1, color: 'black'}} />
                     <Typography
                         variant="h6"
                         noWrap
                         sx={{
-                            mr: 'auto',
                             fontFamily: 'monospace',
                             fontWeight: 700,
                             letterSpacing: '.3rem',
@@ -60,7 +59,7 @@ export const Sidebar = () => {
                 />
             </Toolbar>
 
-            <FilterForm/>
+            <FilterForm />
         </>
     );
 
