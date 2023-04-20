@@ -80,7 +80,7 @@ export const MyList: React.FC = () => {
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    minHeight: '100%',
+                    height: '100%',
                 }}
             >
                 <Header withSideBar={false}/>

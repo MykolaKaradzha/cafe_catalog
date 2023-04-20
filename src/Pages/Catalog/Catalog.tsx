@@ -48,9 +48,9 @@ export const Catalog: React.FC = () => {
                     signal: controller.signal
                 });
                 if (isMounted) {
-                    setLoading(false);
                     setCafes(sortedCafes);
                     setTotalPagesCatalog(sortedCafes[0].totalPages);
+                    setLoading(false);
                 }
 
             } catch (err) {
