@@ -19,6 +19,7 @@ import {Spacer} from '../../components/Spacer';
 
 
 export const MyList: React.FC = () => {
+    console.log('fav list rendered')
     const {
         favouriteCafes,
         setCurrentPageMyList,
@@ -48,10 +49,11 @@ export const MyList: React.FC = () => {
                 const {data: favouriteCafes} = await axiosPrivate.get(sortingLink, {
                     signal: controller.signal
                 });
+                console.log('fav cafes fetched')
+                setFavouriteCafes(favouriteCafes);
+                console.log(favouriteCafes);
                 if (isMounted) {
-                    console.log(favouriteCafes);
                     setLoading(false);
-                    setFavouriteCafes(favouriteCafes);
                     setTotalPagesMyList(favouriteCafes[0].totalPages);
                 }
 

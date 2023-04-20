@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import {
     Chip,
     Container,
-    Divider,
+    Divider, IconButton,
     Link,
     Stack
 } from '@mui/material';
@@ -19,10 +19,14 @@ import {CommentCard} from '../../components/Comments/CommentCard/CommentCard';
 import {CommentAddBox} from '../../components/Comments/CommentAddBox';
 import {useParams} from 'react-router';
 import {Cafe} from '../../types/Cafe';
-import {CAFE} from '../../api/constants';
+import {CAFE, MY_LIST_URL} from '../../api/constants';
 import {useCafe} from '../../hooks/useCafe';
 import {Loader} from '../../components/Loaders/Loader';
 import axios from 'axios';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderRoundedIcon
+    from '@mui/icons-material/FavoriteBorderRounded';
+import {useAxiosPrivate} from '../../hooks/useAxiosPrivate';
 
 const StyledNote = (props: any) => (
     <Typography
@@ -35,29 +39,60 @@ const StyledNote = (props: any) => (
 )
 
 export const CafeDetails: React.FC = () => {
-    const {authData, addedComment} = useCafe();
+    const {
+        authData,
+        addedComment,
+        favouriteCafes,
+        setFavouriteCafes,
+        setAddedToFavourite,
+        addedToFavourite
+    } = useCafe();
     const {id} = useParams();
     const [currentCafe, setCurrentCafe] = useState<Cafe>();
-
-
-    const fetchCafe = async () => {
-        if (!id) {
-            return;
-        }
-
-        const {data} = await axios.get(CAFE(id));
-
-        setCurrentCafe(data);
-    }
+    const [isFavourite, setFavourite] = useState(false);
+    const axiosPrivate = useAxiosPrivate();
 
     useEffect(() => {
+        const fetchCafe = async () => {
+            if (!id) {
+                return;
+            }
+
+            const {data} = await axios.get(CAFE(id));
+
+            setCurrentCafe(data);
+        }
+
         fetchCafe()
     }, [addedComment])
 
+    useEffect(() => setFavourite(
+        favouriteCafes.some((favCafe: Cafe) => favCafe.id === currentCafe?.id)), [currentCafe]);
 
     if (!currentCafe) {
-        return <Loader />
-    };
+        return <Loader/>
+    }
+
+    const toggleFavourite = async () => {
+        if (isFavourite) {
+            await axiosPrivate.post(
+                `${MY_LIST_URL}/favourite/remove?cafeId=${currentCafe.id}`);
+            console.log('removed to favourites')
+            setFavourite(false);
+            setAddedToFavourite(!addedToFavourite)
+            // @ts-ignore
+            setFavouriteCafes((prevState: Cafe[]) => prevState.filter(
+                item => item.id !== currentCafe.id));
+        } else {
+            await axiosPrivate.post(
+                `${MY_LIST_URL}/favourite?cafeId=${currentCafe.id}`);
+            console.log('added to favourites')
+            setFavourite(true);
+            setAddedToFavourite(!addedToFavourite)
+            // @ts-ignore
+            setFavouriteCafes((prevState: Cafe[]) => prevState.concat(currentCafe));
+        }
+    }
 
     return (
         <Box sx={{
@@ -75,7 +110,7 @@ export const CafeDetails: React.FC = () => {
             >
                 <Box sx={{
                     display: 'flex',
-                    justifyContent: 'center',
+                    justifyContent: 'space-between',
                     alignItems: 'center',
                     minHeight: 70,
                 }}>
@@ -89,6 +124,18 @@ export const CafeDetails: React.FC = () => {
                     >
                         {currentCafe.name}
                     </Typography>
+
+                    <IconButton
+                        onClick={toggleFavourite}
+                        color="primary"
+                        disabled={!authData}
+                    >
+                        {
+                            isFavourite
+                                ? <FavoriteIcon/>
+                                : <FavoriteBorderRoundedIcon/>
+                        }
+                    </IconButton>
                 </Box>
 
                 <ImageCarousel images={currentCafe.imageLink}

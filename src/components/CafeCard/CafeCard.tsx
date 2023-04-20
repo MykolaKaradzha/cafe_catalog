@@ -23,10 +23,11 @@ type Props = {
 };
 
 export const CafeCard: React.FC<Props> = ({cafe}) => {
-        const {authData, favouriteCafes, setAddedToFavourite, addedToFavourite} = useCafe();
+        const {authData, favouriteCafes, setFavouriteCafes, setAddedToFavourite, addedToFavourite} = useCafe();
         const navigate = useNavigate();
         const axiosPrivate = useAxiosPrivate();
         const [isFavourite, setFavourite] = useState(false);
+    console.log(favouriteCafes)
 
     useEffect(() => setFavourite(
         favouriteCafes.some((favCafe: Cafe) => favCafe.id === cafe.id)), []);
@@ -35,13 +36,20 @@ export const CafeCard: React.FC<Props> = ({cafe}) => {
         if (isFavourite) {
             await axiosPrivate.post(
                 `${MY_LIST_URL}/favourite/remove?cafeId=${cafe.id}`);
+            console.log('removed to favourites')
             setFavourite(false);
             setAddedToFavourite(!addedToFavourite)
+            // @ts-ignore
+            setFavouriteCafes((prevState: Cafe[]) => prevState.filter(
+                item => item.id !== cafe.id));
         } else {
             await axiosPrivate.post(
                 `${MY_LIST_URL}/favourite?cafeId=${cafe.id}`);
+            console.log('added to favourites')
             setFavourite(true);
             setAddedToFavourite(!addedToFavourite)
+            // @ts-ignore
+            setFavouriteCafes((prevState: Cafe[]) => prevState.concat(cafe));
         }
     }
 

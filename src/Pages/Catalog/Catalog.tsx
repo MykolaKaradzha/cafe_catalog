@@ -19,6 +19,7 @@ import {Spacer} from '../../components/Spacer';
 
 
 export const Catalog: React.FC = () => {
+    console.log('rerendred');
     const {
         drawerWidth,
         setCurrentPageCatalog,
@@ -28,8 +29,8 @@ export const Catalog: React.FC = () => {
         filterOptionsCatalog,
         setTotalPagesCatalog,
         setSortOptionCatalog,
-        addedToFavourite,
     } = useCafe();
+
     let sortingLink = CAFES_URL;
 
     const [cafes, setCafes] = useState<Cafe[]>([]);
@@ -51,6 +52,7 @@ export const Catalog: React.FC = () => {
                     setCafes(sortedCafes);
                     setTotalPagesCatalog(sortedCafes[0].totalPages);
                     setLoading(false);
+                    console.log('cafe fectched')
                 }
 
             } catch (err) {

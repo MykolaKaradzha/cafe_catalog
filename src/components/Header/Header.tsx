@@ -48,7 +48,7 @@ export const Header: React.FC<Props> = ({withSideBar}) => {
         >
             <Toolbar>
                 {withSideBar && (
-                    <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
+                    <Box sx={{mr: 'auto', display: {xs: 'flex', md: 'none'}}}>
                         <IconButton
                             size="large"
                             aria-label="account of current user"
