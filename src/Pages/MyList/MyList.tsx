@@ -34,8 +34,8 @@ export const MyList: React.FC = () => {
 
     const [loading, setLoading] = useState(false);
     const axiosPrivate = useAxiosPrivate();
-    const navigate = useNavigate();
-    const location = useLocation();
+    // const navigate = useNavigate();
+    // const location = useLocation();
 
     useEffect(() => {
         let isMounted = true;
@@ -57,7 +57,7 @@ export const MyList: React.FC = () => {
 
             } catch (err) {
                 setLoading(false);
-                navigate('/signin', {state: {from: location}, replace: true})
+                // navigate('/signin', {state: {from: location}, replace: true})
             }
         }
 

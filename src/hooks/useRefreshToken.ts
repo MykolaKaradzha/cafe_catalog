@@ -1,16 +1,31 @@
 import {useCafe} from "./useCafe"
-import {axiosDefault} from '../api/fetchClient';
+import axios from 'axios';
+import {BASE_URL} from '../api/constants';
 
 export const useRefreshToken = () => {
-    const { setAuthData } = useCafe();
+    const { setAuthData, authData } = useCafe();
+    const axiosRefresh = axios.create({
+        baseURL: BASE_URL,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authData?.token}`,
+        },
+        withCredentials: true
+    });
 
     const refresh = async () => {
-        const response = await axiosDefault.post('auth/refresh-token' );
-        // @ts-ignore
-        setAuthData( prev => {
-            return {...prev, token: response.data.token};
-        });
-        return response.data.token;
+        try {
+            const response = await axiosRefresh.post('auth/refresh-token' );
+            // @ts-ignore
+            setAuthData( prev => {
+                return {...prev, token: response.data.token};
+            });
+            return response.data.token;
+        } catch (err) {
+            console.log(err);
+        }
+
     }
     return refresh;
 }

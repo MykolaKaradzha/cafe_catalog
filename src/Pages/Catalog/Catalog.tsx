@@ -28,6 +28,7 @@ export const Catalog: React.FC = () => {
         filterOptionsCatalog,
         setTotalPagesCatalog,
         setSortOptionCatalog,
+        addedToFavourite,
     } = useCafe();
     let sortingLink = CAFES_URL;
 
