@@ -43,14 +43,17 @@ export const CafeDetails: React.FC = () => {
         authData,
         addedComment,
         favouriteCafes,
+        addedToFavourite,
         setFavouriteCafes,
         setAddedToFavourite,
-        addedToFavourite
     } = useCafe();
     const {id} = useParams();
     const [currentCafe, setCurrentCafe] = useState<Cafe>();
     const [isFavourite, setFavourite] = useState(false);
     const axiosPrivate = useAxiosPrivate();
+    const isFavouriteCheck = favouriteCafes
+        ? favouriteCafes.some((favCafe:Cafe) => favCafe.id === currentCafe?.id)
+        : currentCafe && authData?.favouritesId.includes(currentCafe.id);
 
     useEffect(() => {
         const fetchCafe = async () => {
@@ -66,8 +69,9 @@ export const CafeDetails: React.FC = () => {
         fetchCafe()
     }, [addedComment])
 
-    useEffect(() => setFavourite(
-        favouriteCafes.some((favCafe: Cafe) => favCafe.id === currentCafe?.id)), [currentCafe]);
+    useEffect(() => {
+        isFavouriteCheck && setFavourite(isFavouriteCheck);
+    }, [currentCafe]);
 
     if (!currentCafe) {
         return <Loader/>

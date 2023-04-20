@@ -17,41 +17,49 @@ import {useCafe} from '../../hooks/useCafe';
 import {MY_LIST_URL} from '../../api/constants';
 import {useAxiosPrivate} from '../../hooks/useAxiosPrivate';
 
-
 type Props = {
     cafe: Cafe,
 };
 
 export const CafeCard: React.FC<Props> = ({cafe}) => {
-        const {authData, favouriteCafes, setFavouriteCafes, setAddedToFavourite, addedToFavourite} = useCafe();
+        const {
+            authData,
+            setFavouriteCafes,
+            favouriteCafes,
+            setAddedToFavourite,
+            addedToFavourite
+        } = useCafe();
         const navigate = useNavigate();
         const axiosPrivate = useAxiosPrivate();
         const [isFavourite, setFavourite] = useState(false);
-    console.log(favouriteCafes)
+        const isFavouriteCheck = favouriteCafes
+            ? favouriteCafes.some((favCafe: Cafe) => favCafe.id === cafe.id)
+            : authData?.favouritesId.includes(cafe.id);
 
-    useEffect(() => setFavourite(
-        favouriteCafes.some((favCafe: Cafe) => favCafe.id === cafe.id)), []);
+        useEffect(() => {
+            isFavouriteCheck && setFavourite(isFavouriteCheck);
+        }, []);
 
-    const toggleFavourite = async () => {
-        if (isFavourite) {
-            await axiosPrivate.post(
-                `${MY_LIST_URL}/favourite/remove?cafeId=${cafe.id}`);
-            console.log('removed to favourites')
-            setFavourite(false);
-            setAddedToFavourite(!addedToFavourite)
-            // @ts-ignore
-            setFavouriteCafes((prevState: Cafe[]) => prevState.filter(
-                item => item.id !== cafe.id));
-        } else {
-            await axiosPrivate.post(
-                `${MY_LIST_URL}/favourite?cafeId=${cafe.id}`);
-            console.log('added to favourites')
-            setFavourite(true);
-            setAddedToFavourite(!addedToFavourite)
-            // @ts-ignore
-            setFavouriteCafes((prevState: Cafe[]) => prevState.concat(cafe));
+        const toggleFavourite = async () => {
+            if (isFavourite) {
+                await axiosPrivate.post(
+                    `${MY_LIST_URL}/favourite/remove?cafeId=${cafe.id}`);
+                console.log('removed to favourites')
+                setFavourite(false);
+                setAddedToFavourite(!addedToFavourite)
+                // @ts-ignore
+                setFavouriteCafes((prevState: Cafe[]) => prevState.filter(
+                    item => item.id !== cafe.id));
+            } else {
+                await axiosPrivate.post(
+                    `${MY_LIST_URL}/favourite?cafeId=${cafe.id}`);
+                console.log('added to favourites')
+                setFavourite(true);
+                setAddedToFavourite(!addedToFavourite)
+                // @ts-ignore
+                setFavouriteCafes((prevState: Cafe[]) => prevState.concat(cafe));
+            }
         }
-    }
 
         const handleOpenCafe = () => {
             navigate(`/${cafe.id}`)
@@ -64,10 +72,15 @@ export const CafeCard: React.FC<Props> = ({cafe}) => {
                     minHeight: '100%',
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'space-between'
+                    justifyContent: 'space-between',
+                    transition: 'transform 1s',
+                    borderRadius: '1.5rem',
+                    "&:hover": {
+                        transform: 'scale(1.05)',
+                    }
                 }}
             >
-                <Box sx={{p: 2}}>
+                <Box sx={{p: 2}} flexGrow={1}>
                     <Box sx={{
                         display: 'flex',
                         justifyContent: 'space-between',
@@ -126,9 +139,7 @@ export const CafeCard: React.FC<Props> = ({cafe}) => {
                         />
                     </Stack>
 
-                    <Divider/>
-
-                    <CardContent sx={{my: 2}}>
+                    <CardContent sx={{mt: 2, mb: 'auto'}}>
                         <Stack spacing={1}
                                sx={{mb: 3}}
                         >
@@ -145,7 +156,8 @@ export const CafeCard: React.FC<Props> = ({cafe}) => {
                                 textAlign='left'
                             >
                                 <b>Hours of Work:</b> {cafe.hours}
-                            </Typography></Stack>
+                            </Typography>
+                        </Stack>
                         <Typography
                             variant="body2"
                             color="text.main"
@@ -154,9 +166,10 @@ export const CafeCard: React.FC<Props> = ({cafe}) => {
                             {cafe.shortDescription}
                         </Typography>
                     </CardContent>
-
-                    <Divider/>
                 </Box>
+
+                <Divider />
+
                 <CardActions>
                     <Button
                         size='large'

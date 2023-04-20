@@ -18,8 +18,8 @@ export const CustomPagination: FC<Props> = ({setPage, totalPages, currentPage}) 
         <Pagination
             count={totalPages}
             page={currentPage + 1}
-            color="secondary"
             onChange={handlePageChange}
+
             sx={{
                 display: 'flex',
                 justifyContent: 'center',

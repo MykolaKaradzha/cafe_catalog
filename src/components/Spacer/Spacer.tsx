@@ -22,6 +22,7 @@ export const Spacer: React.FC<Props> = ({ text }) => (
                 fontFamily: 'monospace',
                 fontWeight: 700,
                 letterSpacing: '.3rem',
+                textAlign:'center',
             }}
         >
             {text}

@@ -3,4 +3,5 @@ export interface AuthData {
     username: string;
     token: string;
     refreshToken: string;
+    favouritesId: number[];
 }

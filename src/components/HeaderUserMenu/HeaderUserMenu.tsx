@@ -48,6 +48,7 @@ export const HeaderUserMenu = () => {
 
     const handleLogOut = () => {
         setAuthData(null);
+        localStorage.clear()
     }
 
     return (

@@ -10,6 +10,7 @@ import {CafeContextProvider} from './context/CafeContext';
 import {SignUp} from './Pages/SignUp';
 import {RequireAuth} from './components/RequireAuth';
 import {MyList} from './Pages/MyList';
+import {PersistLogin} from './components/PersistLogin';
 
 function App() {
 
@@ -18,14 +19,16 @@ function App() {
             <CssBaseline/>
             <CafeContextProvider>
                 <Routes>
-                    <Route path='/' element={<Catalog/>}/>
-                    <Route path='/:id' element={<CafeDetails/>}/>
-                    <Route path='/signup' element={<SignUp/>}/>
-                    <Route path='/signin' element={<SignIn/>}/>
-                    <Route path='*' element={<NotFound/>}/>
-                    <Route element={<RequireAuth />}>
-                        {/*    routes can not be accessed if not authorized*/}
-                        <Route path='/mylist' element={<MyList />}/>
+                    <Route element={<PersistLogin />}>
+                        <Route path='/' element={<Catalog/>}/>
+                        <Route path='/:id' element={<CafeDetails/>}/>
+                        <Route path='/signup' element={<SignUp/>}/>
+                        <Route path='/signin' element={<SignIn/>}/>
+                        <Route path='*' element={<NotFound/>}/>
+                        <Route element={<RequireAuth/>}>
+                            {/*    routes can not be accessed if not authorized*/}
+                            <Route path='/mylist' element={<MyList/>}/>
+                        </Route>
                     </Route>
                 </Routes>
             </CafeContextProvider>

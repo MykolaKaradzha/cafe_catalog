@@ -24,8 +24,6 @@ export const Header: React.FC<Props> = ({withSideBar}) => {
     const navigate = useNavigate();
     const {isSidebarOpen, setSidebarOpen} = useCafe();
 
-
-
     const handleDrawerToggle = () => {
         setSidebarOpen(!isSidebarOpen);
     };
@@ -103,6 +101,9 @@ export const Header: React.FC<Props> = ({withSideBar}) => {
                             my: 2,
                             color: currentPath === '/' ? "yellow" : "white",
                             fontWeight: currentPath === '/' ? "bold" : "medium",
+                            '&:hover': {
+                                opacity: '0.5'
+                            }
                         }}
                         startIcon={<HomeRoundedIcon/>}
                     >
@@ -115,6 +116,9 @@ export const Header: React.FC<Props> = ({withSideBar}) => {
                             my: 2,
                             color: currentPath === '/mylist' ? "yellow" : "white",
                             fontWeight: currentPath === '/mylist' ? "bold" : "medium",
+                            '&:hover': {
+                                opacity: '0.5'
+                            }
                         }}
                         startIcon={<FavoriteBorderRoundedIcon/>}
                     >
