@@ -67,7 +67,6 @@ export const FilterForm: React.FC = () => {
     const noiseOptions: option[] = ['low', 'middle', 'high'];
 
     const handleOnSubmit = (data: FormValues) => {
-        console.log(data)
         setFilterOptionsCatalog(data);
         setSidebarOpen(false);
         setCurrentPageCatalog(0);

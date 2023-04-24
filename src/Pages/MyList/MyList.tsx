@@ -49,9 +49,7 @@ export const MyList: React.FC = () => {
                 const {data: favouriteCafes} = await axiosPrivate.get(sortingLink, {
                     signal: controller.signal
                 });
-                console.log('fav cafes fetched')
                 setFavouriteCafes(favouriteCafes);
-                console.log(favouriteCafes);
                 if (isMounted) {
                     setLoading(false);
                     setTotalPagesMyList(favouriteCafes[0].totalPages);

@@ -11,7 +11,7 @@ import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {Header} from '../../components/Header';
 import {Footer} from '../../components/Footer';
 import {FC, useState} from 'react';
-import {useForm, Controller} from 'react-hook-form';
+import {useForm, Controller, Control} from 'react-hook-form';
 import * as yup from 'yup'
 import {yupResolver} from '@hookform/resolvers/yup';
 import {axiosDefault} from '../../api/fetchClient';
@@ -21,10 +21,12 @@ import {Alert, AlertTitle} from '@mui/material';
 import {useCafe} from '../../hooks/useCafe';
 import {LoaderButton} from '../../components/Loaders/LoaderButton';
 import {AxiosError} from 'axios';
+import {PasswordInput} from '../../components/PasswordInput';
+import {IFormInputsLogin} from '../SignIn';
 
 const theme = createTheme();
 
-type IFormInputs = {
+export type IFormInputsRegister = {
     email: string;
     username: string;
     password: string;
@@ -44,14 +46,14 @@ export const SignUp: FC = () => {
         reset,
         handleSubmit,
         formState: {errors}
-    } = useForm<IFormInputs>({resolver: yupResolver(schema)});
+    } = useForm<IFormInputsRegister>({resolver: yupResolver(schema)});
     const navigate = useNavigate();
     const {isPopUpOpen, setPopUpOpen, setAuthData} = useCafe();
     const [error, setError] = useState('');
     const [loading, setLoading] = React.useState(false);
 
 
-    const handleOnSubmit = async (data: IFormInputs) => {
+    const handleOnSubmit = async (data: IFormInputsRegister) => {
         try {
             setLoading(true);
             const response = await axiosDefault.post(REGISTER_URL,
@@ -156,41 +158,18 @@ export const SignUp: FC = () => {
 
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Controller
-                                        render={
-                                            ({field}) =>
-                                                <TextField
-                                                    {...field}
-                                                    fullWidth
-                                                    label="Password"
-                                                    type="password"
-                                                    id="password"
-                                                    autoComplete="new-password"
-                                                    error={!!errors.password}
-                                                    helperText={errors.password ? errors.password?.message : ''}
-                                                />}
-                                        control={control}
-                                        name={'password'}
-                                        defaultValue={''}
+                                    <PasswordInput
+                                        control={control as Control<IFormInputsRegister | IFormInputsLogin, any>}
+                                        error={errors.password}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Controller
-                                        render={
-                                            ({field}) =>
-                                                <TextField
-                                                    {...field}
-                                                    fullWidth
-                                                    label="Repeat Password"
-                                                    type="password"
-                                                    id="repeatedPassword"
-                                                    autoComplete="off"
-                                                    error={!!errors.repeatedPassword}
-                                                    helperText={errors.repeatedPassword ? errors.repeatedPassword?.message : ''}
-                                                />}
-                                        control={control}
+                                    <PasswordInput
+                                        control={control as Control<IFormInputsRegister | IFormInputsLogin, any>}
+                                        error={errors.repeatedPassword}
+                                        label={'Repeat Password'}
+                                        id={'repeatedPassword'}
                                         name={'repeatedPassword'}
-                                        defaultValue={''}
                                     />
                                 </Grid>
                                 {error && <Grid item xs={12}>

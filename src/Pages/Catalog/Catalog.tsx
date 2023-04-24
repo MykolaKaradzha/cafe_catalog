@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid';
 import {CafeCard} from '../../components/CafeCard';
 import {Header} from '../../components/Header';
 import {
-    Container, Typography,
+    Container,
 } from '@mui/material';
 import {Sidebar} from '../../components/Sidebar';
 import {Cafe} from '../../types/Cafe';
@@ -19,7 +19,6 @@ import {Spacer} from '../../components/Spacer';
 
 
 export const Catalog: React.FC = () => {
-    console.log('rerendred');
     const {
         drawerWidth,
         setCurrentPageCatalog,
@@ -52,7 +51,6 @@ export const Catalog: React.FC = () => {
                     setCafes(sortedCafes);
                     setTotalPagesCatalog(sortedCafes[0].totalPages);
                     setLoading(false);
-                    console.log('cafe fectched')
                 }
 
             } catch (err) {

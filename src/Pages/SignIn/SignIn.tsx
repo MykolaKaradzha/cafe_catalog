@@ -20,10 +20,11 @@ import {Alert, AlertTitle} from '@mui/material';
 import {useCafe} from '../../hooks/useCafe';
 import {LoaderButton} from '../../components/Loaders/LoaderButton';
 import {AxiosError} from 'axios';
+import {PasswordInput} from '../../components/PasswordInput';
 
 const theme = createTheme();
 
-type IFormInputs = {
+export type IFormInputsLogin = {
     username: string;
     password: string;
 }
@@ -39,7 +40,7 @@ export const SignIn: FC = () => {
         reset,
         handleSubmit,
         formState: {errors}
-    } = useForm<IFormInputs>({resolver: yupResolver(schema)});
+    } = useForm<IFormInputsLogin>({resolver: yupResolver(schema)});
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -50,7 +51,7 @@ export const SignIn: FC = () => {
     const [error, setError] = useState('');
     const [loading, setLoading] = React.useState(false);
 
-    const handleOnSubmit = async (data: IFormInputs) => {
+    const handleOnSubmit = async (data: IFormInputsLogin) => {
         console.log(data)
         try {
             setLoading(true);
@@ -132,24 +133,7 @@ export const SignIn: FC = () => {
                                 defaultValue={''}
                             />
 
-                            <Controller
-                                render={
-                                    ({field}) =>
-                                        <TextField
-                                            {...field}
-                                            fullWidth
-                                            margin="normal"
-                                            label="Password"
-                                            type="password"
-                                            id="password"
-                                            autoComplete="current-password"
-                                            error={!!errors.password}
-                                            helperText={errors.password ? errors.password?.message : ''}
-                                        />}
-                                control={control}
-                                name={'password'}
-                                defaultValue={''}
-                            />
+                           <PasswordInput control={control} error={errors.password}/>
 
                             {error &&
                               <Alert

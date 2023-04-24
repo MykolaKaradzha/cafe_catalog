@@ -15,19 +15,16 @@ export const useRefreshToken = () => {
     });
 
     const refresh = async () => {
-        console.log(authData?.token)
         try {
             const response = await axiosRefresh.post('auth/refresh-token' );
             // @ts-ignore
             setAuthData( prev => {
                 return {...prev, token: response.data.token};
             });
-            console.log(authData?.token)
             return response.data.token;
         } catch (err) {
             console.log(err);
         }
-
     }
     return refresh;
 }
