@@ -1,3 +1,8 @@
+Video demo about this project: https://www.youtube.com/watch?v=csLsD6teNaY
+
+Link to preview on github pages:
+- [DEMO LINK](https://mykolakaradzha.github.io/cafe_catalog/)
+
 Front-end part was implemented using: 
 1. React.js
 2. useContext hook for state management.
