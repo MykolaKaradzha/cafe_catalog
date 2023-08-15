@@ -7,6 +7,7 @@ import {
     Select,
     SelectChangeEvent
 } from '@mui/material';
+import {useSearchParams} from 'react-router-dom';
 
 type Props = {
     sortOption: string;
@@ -14,6 +15,8 @@ type Props = {
 }
 
 export const SortSelector: React.FC<Props> = ({ sortOption, setSortOption }) => {
+    const [searchParams] = useSearchParams();
+
 
     const handleChange = (event: SelectChangeEvent) => {
         setSortOption(event.target.value);

@@ -35,7 +35,6 @@ export const Catalog: React.FC = () => {
     const [cafes, setCafes] = useState<Cafe[]>([]);
     const [loading, setLoading] = useState(false);
 
-
     useEffect(() => {
         let isMounted = true
         const controller = new AbortController();

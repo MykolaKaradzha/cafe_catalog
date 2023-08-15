@@ -1,9 +1,9 @@
 import {
     FormControlLabel,
     Checkbox,
-    FormGroup, IconButton
+    FormGroup,
 } from '@mui/material';
-import React, {MutableRefObject, RefObject} from 'react';
+import React from 'react';
 import {FormValues, option} from '../FilterForm';
 import {Control, Controller} from "react-hook-form";
 

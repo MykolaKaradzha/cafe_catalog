@@ -48,7 +48,7 @@ export const MyList: React.FC = () => {
             try {
                 const {data: favouriteCafes} = await axiosPrivate.get(sortingLink, {
                     signal: controller.signal
-                });
+                }); 
                 setFavouriteCafes(favouriteCafes);
                 if (isMounted) {
                     setLoading(false);

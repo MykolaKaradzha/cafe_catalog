@@ -1,5 +1,5 @@
 import React, {
-    createContext,
+    createContext, useMemo,
     useState
 } from 'react';
 import {defaultValues, FormValues} from '../../components/FilterForm';
@@ -34,7 +34,6 @@ export type CafeContext = {
     setAddedToFavourite: (option: boolean) => void;
     addedComment: boolean,
     setAddedComment: (option: boolean) => void;
-
 }
 
 export const CafeContext = createContext<CafeContext>({
@@ -101,7 +100,6 @@ export const CafeContextProvider = (
 
     const [addedToFavourite, setAddedToFavourite] = useState(false);
     const [addedComment, setAddedComment] = useState(false);
-
 
     return (
         <CafeContext.Provider

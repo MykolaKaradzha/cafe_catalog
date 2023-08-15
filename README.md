@@ -5,5 +5,6 @@ Front-end part was implemented using:
 4. Material UI as UI component library.
 5. TypeScript for strict typization.
 6. React Hook Form with Yup for form state management and validation.
-7. Axios to perform HTTP requests.
+7. Axios to perform HTTP requests and handle HTTP responses.
+8. Responsive design(for mobile, tablets, desktops up to 4k)
 

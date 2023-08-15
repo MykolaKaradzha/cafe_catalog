@@ -81,7 +81,6 @@ export const CafeDetails: React.FC = () => {
         if (isFavourite) {
             await axiosPrivate.post(
                 `${MY_LIST_URL}/favourite/remove?cafeId=${currentCafe.id}`);
-            console.log('removed to favourites')
             setFavourite(false);
             setAddedToFavourite(!addedToFavourite)
             // @ts-ignore

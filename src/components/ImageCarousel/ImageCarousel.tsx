@@ -1,12 +1,7 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import Carousel from 'better-react-carousel'
 import styled from '@emotion/styled';
-import {CafeContext} from '../../context/CafeContext';
 
-//poor visual with odd number of picture
-// to solve a problem with empty space, the check for picturesNumber % 2 = 0
-// can be added. If number is odd, first picture of array can be added as last one
-//(loop effect)
 const StyledImage = styled.img`
   width: 100%;
   height: 100%;
