@@ -1,5 +1,5 @@
 Video demo about this project:
-https://www.youtube.com/watch?v=csLsD6teNaY
+- [Youtube](https://www.youtube.com/watch?v=csLsD6teNaY)
 
 Link to preview on github pages:
 - [DEMO LINK](https://mykolakaradzha.github.io/cafe_catalog/)
